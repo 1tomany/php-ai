@@ -6,6 +6,7 @@ use OneToMany\AI\Contract\Action\Prompt\CompilePromptActionInterface;
 use OneToMany\AI\Contract\Request\Prompt\CompilePromptRequestInterface;
 use OneToMany\AI\Contract\Response\Prompt\CompiledPromptResponseInterface;
 use OneToMany\AI\Exception\RuntimeException;
+use OneToMany\AI\Response\Prompt\CompiledPromptResponse;
 use Symfony\Component\Serializer\Exception\ExceptionInterface as SerializerExceptionInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
