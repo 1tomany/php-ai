@@ -23,12 +23,12 @@ final readonly class CacheFileRequest implements CacheFileRequestInterface
      * @throws InvalidArgumentException the file does not exist or is not readable
      */
     public function __construct(
-        public string $vendor,
-        public string $path,
-        public string $name,
-        public int $size,
-        public string $format,
-        public ?string $purpose = null,
+        private string $vendor,
+        private string $path,
+        private string $name,
+        private int $size,
+        private string $format,
+        private ?string $purpose = null,
     ) {
         if (!is_file($this->path) || !is_readable($this->path)) {
             throw new InvalidArgumentException(sprintf('The file "%s" does not exist or is not readable.', $path));
@@ -85,8 +85,6 @@ final readonly class CacheFileRequest implements CacheFileRequestInterface
 
     /**
      * @see OneToMany\AI\Contract\Request\File\CacheFileRequestInterface
-     *
-     * @throws RuntimeException opening the file fails
      */
     public function open(): mixed
     {

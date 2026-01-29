@@ -2,6 +2,8 @@
 
 namespace OneToMany\AI\Contract\Request\File;
 
+use OneToMany\AI\Exception\RuntimeException;
+
 interface CacheFileRequestInterface
 {
     /**
@@ -33,6 +35,8 @@ interface CacheFileRequestInterface
 
     /**
      * @return resource
+     *
+     * @throws RuntimeException opening the file fails
      */
     public function open(): mixed;
 }
