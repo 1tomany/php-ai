@@ -21,7 +21,7 @@ final readonly class PromptClient implements PromptClientInterface
         $this->faker = \Faker\Factory::create();
     }
 
-    public function send(DispatchPromptRequestInterface $request): DispatchedPromptResponseInterface
+    public function dispatch(DispatchPromptRequestInterface $request): DispatchedPromptResponseInterface
     {
         $uri = $this->generateUri('resp');
 

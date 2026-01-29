@@ -32,9 +32,9 @@ final readonly class PromptClient implements PromptClientInterface
     /**
      * @see OneToMany\AI\Contract\Client\PromptClientInterface
      */
-    public function send(DispatchPromptRequestInterface $request): DispatchedPromptResponseInterface
+    public function dispatch(DispatchPromptRequestInterface $request): DispatchedPromptResponseInterface
     {
-        $timer = new Stopwatch(true)->start('send');
+        $timer = new Stopwatch(true)->start('dispatch');
 
         try {
             $url = $this->generateUrl($request->getModel());
@@ -59,7 +59,7 @@ final readonly class PromptClient implements PromptClientInterface
         } catch (HttpClientTransportExceptionInterface $e) {
             throw new ConnectingToHostFailedException($url, $e);
         } catch (HttpClientDecodingExceptionInterface|SerializerExceptionInterface $e) {
-            throw new DecodingResponseContentFailedException('Sending the prompt', $e);
+            throw new DecodingResponseContentFailedException('Dispatching the prompt', $e);
         }
 
         return new DispatchedPromptResponse($request->getVendor(), $request->getModel(), $generateContentResponse->responseId, $generateContentResponse->getOutput(), $responseContent, $timer->stop()->getDuration());

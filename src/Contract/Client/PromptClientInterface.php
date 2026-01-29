@@ -7,5 +7,5 @@ use OneToMany\AI\Contract\Response\Prompt\DispatchedPromptResponseInterface;
 
 interface PromptClientInterface
 {
-    public function send(DispatchPromptRequestInterface $request): DispatchedPromptResponseInterface;
+    public function dispatch(DispatchPromptRequestInterface $request): DispatchedPromptResponseInterface;
 }

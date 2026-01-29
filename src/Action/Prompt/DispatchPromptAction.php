@@ -18,6 +18,6 @@ final readonly class DispatchPromptAction implements DispatchPromptActionInterfa
      */
     public function act(DispatchPromptRequestInterface $request): DispatchedPromptResponseInterface
     {
-        return $this->promptClientFactory->create($request->getVendor())->send($request);
+        return $this->promptClientFactory->create($request->getVendor())->dispatch($request);
     }
 }
