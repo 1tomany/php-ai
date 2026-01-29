@@ -39,7 +39,7 @@ final readonly class PromptClient implements PromptClientInterface
         try {
             $url = $this->generateUrl($request->getModel());
 
-            // Generate a signed URL to upload the file to
+            // Send the prompt request to the large language model
             $response = $this->httpClient->request('POST', $url, [
                 'json' => $request->getRequest(),
             ]);
