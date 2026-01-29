@@ -2,6 +2,8 @@
 
 namespace OneToMany\AI\Factory\Trait;
 
+use OneToMany\AI\Contract\Client\FileClientInterface;
+use OneToMany\AI\Contract\Client\PromptClientInterface;
 use OneToMany\AI\Exception\InvalidArgumentException;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;

@@ -2,6 +2,7 @@
 
 namespace OneToMany\AI\Factory;
 
+use OneToMany\AI\Contract\Client\PromptClientInterface;
 use OneToMany\AI\Factory\Trait\GetClientTrait;
 use Psr\Container\ContainerInterface;
 
