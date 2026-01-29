@@ -8,12 +8,12 @@ $finder = new Finder();
 
 $finder->in([
     './',
+    './examples/',
     './src/',
     './tests/',
 ]);
 
 $finder->exclude([
-    // 'config',
     'vendor',
 ]);
 
