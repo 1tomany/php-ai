@@ -28,12 +28,12 @@ final readonly class PromptNormalizer implements PromptNormalizerInterface
      * @return array{
      *   systemInstruction?: array{
      *     parts: non-empty-list<GeminiPromptInputText>,
-     *     role: non-empty-lowercase-string
+     *     role: 'system',
      *   },
      *   contents: list<
      *     array{
      *       parts: non-empty-list<GeminiPromptInputText|GeminiPromptFileUri>,
-     *       role: non-empty-lowercase-string,
+     *       role: 'user'|'system',
      *     },
      *   >,
      *   generationConfig?: array{
