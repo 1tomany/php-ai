@@ -7,10 +7,10 @@ use OneToMany\AI\Client\Exception\DecodingResponseContentFailedException;
 use OneToMany\AI\Client\Gemini\Type\Content\GenerateContentResponse;
 use OneToMany\AI\Client\Gemini\Type\Error\Status;
 use OneToMany\AI\Contract\Client\PromptClientInterface;
-use OneToMany\AI\Contract\Request\Prompt\SendPromptRequestInterface;
-use OneToMany\AI\Contract\Response\Prompt\SentPromptResponseInterface;
+use OneToMany\AI\Contract\Request\Prompt\DispatchPromptRequestInterface;
+use OneToMany\AI\Contract\Response\Prompt\DispatchedPromptResponseInterface;
 use OneToMany\AI\Exception\RuntimeException;
-use OneToMany\AI\Response\Prompt\SentPromptResponse;
+use OneToMany\AI\Response\Prompt\DispatchedPromptResponse;
 use Symfony\Component\Serializer\Exception\ExceptionInterface as SerializerExceptionInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\UnwrappingDenormalizer;
@@ -32,14 +32,14 @@ final readonly class PromptClient implements PromptClientInterface
     /**
      * @see OneToMany\AI\Contract\Client\PromptClientInterface
      */
-    public function send(SendPromptRequestInterface $request): SentPromptResponseInterface
+    public function dispatch(DispatchPromptRequestInterface $request): DispatchedPromptResponseInterface
     {
-        $timer = new Stopwatch(true)->start('send');
+        $timer = new Stopwatch(true)->start('dispatch');
 
         try {
             $url = $this->generateUrl($request->getModel());
 
-            // Generate a signed URL to upload the file to
+            // Send the prompt request to the large language model
             $response = $this->httpClient->request('POST', $url, [
                 'json' => $request->getRequest(),
             ]);
@@ -59,10 +59,10 @@ final readonly class PromptClient implements PromptClientInterface
         } catch (HttpClientTransportExceptionInterface $e) {
             throw new ConnectingToHostFailedException($url, $e);
         } catch (HttpClientDecodingExceptionInterface|SerializerExceptionInterface $e) {
-            throw new DecodingResponseContentFailedException('Sending the prompt', $e);
+            throw new DecodingResponseContentFailedException('Dispatching the prompt', $e);
         }
 
-        return new SentPromptResponse($request->getVendor(), $request->getModel(), $generateContentResponse->responseId, $generateContentResponse->getOutput(), $responseContent, $timer->stop()->getDuration());
+        return new DispatchedPromptResponse($request->getVendor(), $request->getModel(), $generateContentResponse->responseId, $generateContentResponse->getOutput(), $responseContent, $timer->stop()->getDuration());
     }
 
     /**

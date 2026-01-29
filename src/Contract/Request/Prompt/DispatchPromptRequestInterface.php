@@ -2,7 +2,7 @@
 
 namespace OneToMany\AI\Contract\Request\Prompt;
 
-interface SendPromptRequestInterface
+interface DispatchPromptRequestInterface
 {
     /**
      * @return non-empty-lowercase-string

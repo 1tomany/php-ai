@@ -2,10 +2,10 @@
 
 namespace OneToMany\AI\Request\Prompt;
 
-use OneToMany\AI\Contract\Request\Prompt\SendPromptRequestInterface;
+use OneToMany\AI\Contract\Request\Prompt\DispatchPromptRequestInterface;
 use OneToMany\AI\Exception\InvalidArgumentException;
 
-final readonly class SendPromptRequest implements SendPromptRequestInterface
+final readonly class DispatchPromptRequest implements DispatchPromptRequestInterface
 {
     /**
      * @param non-empty-lowercase-string $vendor
@@ -25,7 +25,7 @@ final readonly class SendPromptRequest implements SendPromptRequestInterface
     }
 
     /**
-     * @see OneToMany\AI\Contract\Request\Prompt\SendPromptRequestInterface
+     * @see OneToMany\AI\Contract\Request\Prompt\DispatchPromptRequestInterface
      */
     public function getVendor(): string
     {
@@ -33,7 +33,7 @@ final readonly class SendPromptRequest implements SendPromptRequestInterface
     }
 
     /**
-     * @see OneToMany\AI\Contract\Request\Prompt\SendPromptRequestInterface
+     * @see OneToMany\AI\Contract\Request\Prompt\DispatchPromptRequestInterface
      */
     public function getModel(): string
     {
@@ -41,7 +41,7 @@ final readonly class SendPromptRequest implements SendPromptRequestInterface
     }
 
     /**
-     * @see OneToMany\AI\Contract\Request\Prompt\SendPromptRequestInterface
+     * @see OneToMany\AI\Contract\Request\Prompt\DispatchPromptRequestInterface
      */
     public function getRequest(): array
     {

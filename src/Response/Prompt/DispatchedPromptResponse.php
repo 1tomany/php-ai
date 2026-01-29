@@ -2,9 +2,9 @@
 
 namespace OneToMany\AI\Response\Prompt;
 
-use OneToMany\AI\Contract\Response\Prompt\SentPromptResponseInterface;
+use OneToMany\AI\Contract\Response\Prompt\DispatchedPromptResponseInterface;
 
-final readonly class SentPromptResponse implements SentPromptResponseInterface
+final readonly class DispatchedPromptResponse implements DispatchedPromptResponseInterface
 {
     /**
      * @param non-empty-lowercase-string $vendor
@@ -25,7 +25,7 @@ final readonly class SentPromptResponse implements SentPromptResponseInterface
     }
 
     /**
-     * @see OneToMany\AI\Contract\Response\Prompt\SentPromptResponseInterface
+     * @see OneToMany\AI\Contract\Response\Prompt\DispatchedPromptResponseInterface
      */
     public function __invoke(): array
     {
@@ -33,7 +33,7 @@ final readonly class SentPromptResponse implements SentPromptResponseInterface
     }
 
     /**
-     * @see OneToMany\AI\Contract\Response\Prompt\SentPromptResponseInterface
+     * @see OneToMany\AI\Contract\Response\Prompt\DispatchedPromptResponseInterface
      */
     public function getVendor(): string
     {
@@ -41,7 +41,7 @@ final readonly class SentPromptResponse implements SentPromptResponseInterface
     }
 
     /**
-     * @see OneToMany\AI\Contract\Response\Prompt\SentPromptResponseInterface
+     * @see OneToMany\AI\Contract\Response\Prompt\DispatchedPromptResponseInterface
      */
     public function getModel(): string
     {
@@ -49,7 +49,7 @@ final readonly class SentPromptResponse implements SentPromptResponseInterface
     }
 
     /**
-     * @see OneToMany\AI\Contract\Response\Prompt\SentPromptResponseInterface
+     * @see OneToMany\AI\Contract\Response\Prompt\DispatchedPromptResponseInterface
      */
     public function getUri(): string
     {
@@ -57,7 +57,7 @@ final readonly class SentPromptResponse implements SentPromptResponseInterface
     }
 
     /**
-     * @see OneToMany\AI\Contract\Response\Prompt\SentPromptResponseInterface
+     * @see OneToMany\AI\Contract\Response\Prompt\DispatchedPromptResponseInterface
      */
     public function getOutput(): ?string
     {
@@ -65,7 +65,7 @@ final readonly class SentPromptResponse implements SentPromptResponseInterface
     }
 
     /**
-     * @see OneToMany\AI\Contract\Response\Prompt\SentPromptResponseInterface
+     * @see OneToMany\AI\Contract\Response\Prompt\DispatchedPromptResponseInterface
      */
     public function getResponse(): array
     {
@@ -73,7 +73,7 @@ final readonly class SentPromptResponse implements SentPromptResponseInterface
     }
 
     /**
-     * @see OneToMany\AI\Contract\Response\Prompt\SentPromptResponseInterface
+     * @see OneToMany\AI\Contract\Response\Prompt\DispatchedPromptResponseInterface
      */
     public function getRuntime(): int|float
     {

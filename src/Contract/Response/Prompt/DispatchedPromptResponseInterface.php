@@ -2,7 +2,7 @@
 
 namespace OneToMany\AI\Contract\Response\Prompt;
 
-interface SentPromptResponseInterface
+interface DispatchedPromptResponseInterface
 {
     /**
      * @return array<string, mixed>
