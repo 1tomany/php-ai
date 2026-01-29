@@ -12,9 +12,9 @@ This library provides a single, unified, framework-independent library for integ
 
 | Feature           | Gemini | Mock | OpenAI |
 | ----------------- | :----: | :--: | :----: |
-| Caching files     |   ✅   |  ✅  |   ✅  |
-| Compiling prompts |   ✅   |  ✅  |   ✅  |
-| Sending prompts   |   ✅   |  ✅  |   ❌  |
+| Caching files     |   ✅   |  ✅  |   ✅   |
+| Compiling prompts |   ✅   |  ✅  |   ✅   |
+| Sending prompts   |   ✅   |  ✅  |   ❌   |
 
 ## Credits
 
