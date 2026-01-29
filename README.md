@@ -1,5 +1,5 @@
 # AI Clients for PHP
-This library provides a single unified framework independent interface for integration with many popular AI platforms and large language models.
+This library provides a single, unified, framework-independent library for integration with many popular AI platforms and large language models.
 
 ## Supported Platforms
 * Gemini

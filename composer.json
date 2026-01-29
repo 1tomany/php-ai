@@ -1,6 +1,6 @@
 {
     "name": "1tomany/php-ai",
-    "description": "",
+    "description": "A single, unified, framework-independent library for integration with many popular AI platforms and large language models",
     "license": "MIT",
     "type": "library",
     "minimum-stability": "stable",
