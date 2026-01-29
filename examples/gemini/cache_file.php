@@ -28,10 +28,10 @@ if (!$path || !is_file($path) || !is_readable($path)) {
     exit(1);
 }
 
-// Construct the Gemini FileClient
-$fileClient = new FileClient($googApiKey, null, $serializer);
-
 try {
+    // Construct the Gemini FileClient
+    $fileClient = new FileClient($googApiKey, null, $serializer);
+
     // Cache the file with Gemini
     $cachedFile = $fileClient->cache(CacheFileRequest::create('gemini', $path));
 } catch (AiExceptionInterface $e) {

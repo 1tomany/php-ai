@@ -27,10 +27,8 @@ use function sprintf;
 use function strlen;
 use function trim;
 
-final readonly class FileClient implements FileClientInterface
+final readonly class FileClient extends AbstractGeminiClient implements FileClientInterface
 {
-    private HttpClientInterface $httpClient;
-
     /**
      * Files are uploaded in 8MB chunks.
      */
@@ -41,27 +39,17 @@ final readonly class FileClient implements FileClientInterface
      */
     public const string UPLOAD_URL_HEADER = 'x-goog-upload-url';
 
+    /**
+     * @param ?non-empty-string $geminiApiKey
+     *
+     * @throws InvalidArgumentException both the `$geminiApiKey` and `$httpClient` arguments are null
+     */
     public function __construct(
         ?string $geminiApiKey,
         ?HttpClientInterface $httpClient,
-        private DenormalizerInterface $denormalizer,
+        DenormalizerInterface $denormalizer,
     ) {
-        $geminiApiKey = trim($geminiApiKey ?? '');
-
-        if (empty($geminiApiKey) && null === $httpClient) {
-            throw new InvalidArgumentException('Constructing a Gemini file client requires either an API key or scoped HTTP client, but neither were provided.');
-        }
-
-        if (null === $httpClient) {
-            $httpClient = HttpClient::create([
-                'headers' => [
-                    'accept' => 'application/json',
-                    'x-goog-api-key' => $geminiApiKey,
-                ],
-            ]);
-        }
-
-        $this->httpClient = $httpClient;
+        parent::__construct($geminiApiKey, $httpClient, $denormalizer);
     }
 
     public function cache(CacheFileRequestInterface $request): CachedFileResponseInterface
