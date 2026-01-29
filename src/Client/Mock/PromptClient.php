@@ -8,6 +8,8 @@ use OneToMany\AI\Contract\Client\PromptClientInterface;
 use OneToMany\AI\Contract\Request\Prompt\DispatchPromptRequestInterface;
 use OneToMany\AI\Contract\Response\Prompt\DispatchedPromptResponseInterface;
 use OneToMany\AI\Response\Prompt\DispatchedPromptResponse;
+use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 use function json_encode;
 
@@ -18,7 +20,7 @@ final readonly class PromptClient implements PromptClientInterface
 
     private \Faker\Generator $faker;
 
-    public function __construct()
+    public function __construct(private NormalizerInterface&DenormalizerInterface $normalizer)
     {
         $this->faker = \Faker\Factory::create();
     }
