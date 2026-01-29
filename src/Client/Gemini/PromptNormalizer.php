@@ -96,7 +96,7 @@ final readonly class PromptNormalizer implements PromptNormalizerInterface
     }
 
     /**
-     * @see App\Prompt\Vendor\Model\Contract\Client\PromptNormalizerInterface
+     * @see OneToMany\AI\Contract\Client\PromptNormalizerInterface
      */
     public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
     {
@@ -104,7 +104,7 @@ final readonly class PromptNormalizer implements PromptNormalizerInterface
     }
 
     /**
-     * @see App\Prompt\Vendor\Model\Contract\Client\PromptNormalizerInterface
+     * @see OneToMany\AI\Contract\Client\PromptNormalizerInterface
      */
     public function getSupportedTypes(?string $format): array
     {
