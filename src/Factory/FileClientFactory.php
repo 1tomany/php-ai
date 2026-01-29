@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Prompt\Vendor\Model\Factory;
+namespace OneToMany\AI\Factory;
 
 use OneToMany\AI\Contract\Client\FileClientInterface;
 use OneToMany\AI\Factory\Trait\GetClientTrait as TraitGetClientTrait;
