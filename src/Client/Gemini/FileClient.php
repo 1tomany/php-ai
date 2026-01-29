@@ -97,7 +97,7 @@ final readonly class FileClient extends BaseClient implements FileClientInterfac
                 $uploadOffset = $uploadOffset + strlen($fileChunk);
             }
 
-            $file = $this->denormalizer->denormalize($response->toArray(false), File::class, null, [
+            $file = $this->normalizer->denormalize($response->toArray(false), File::class, null, [
                 UnwrappingDenormalizer::UNWRAP_PATH => '[file]',
             ]);
         } catch (HttpClientTransportExceptionInterface $e) {

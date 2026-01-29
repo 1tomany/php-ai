@@ -5,6 +5,7 @@ namespace OneToMany\AI\Client\Gemini;
 use OneToMany\AI\Exception\InvalidArgumentException;
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 use function trim;
@@ -21,7 +22,7 @@ abstract readonly class BaseClient
     public function __construct(
         ?string $geminiApiKey,
         ?HttpClientInterface $httpClient,
-        protected DenormalizerInterface $denormalizer,
+        protected NormalizerInterface&DenormalizerInterface $normalizer,
     ) {
         $geminiApiKey = trim($geminiApiKey ?? '');
 

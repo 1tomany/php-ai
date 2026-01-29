@@ -3,6 +3,7 @@
 namespace OneToMany\AI\Client\Mock;
 
 use OneToMany\AI\Client\Mock\Trait\GenerateUriTrait;
+use OneToMany\AI\Client\Trait\CompilePromptTrait;
 use OneToMany\AI\Contract\Client\PromptClientInterface;
 use OneToMany\AI\Contract\Request\Prompt\DispatchPromptRequestInterface;
 use OneToMany\AI\Contract\Response\Prompt\DispatchedPromptResponseInterface;
@@ -12,6 +13,7 @@ use function json_encode;
 
 final readonly class PromptClient implements PromptClientInterface
 {
+    use CompilePromptTrait;
     use GenerateUriTrait;
 
     private \Faker\Generator $faker;

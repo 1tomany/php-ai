@@ -1,12 +1,12 @@
 <?php
 
-namespace OneToMany\AI\Client\Gemini;
+namespace OneToMany\AI\Client\Gemini\Serializer;
 
-use OneToMany\AI\Contract\Client\PromptNormalizerInterface;
 use OneToMany\AI\Contract\Request\Prompt\CompilePromptRequestInterface;
 use OneToMany\AI\Request\Prompt\Content\CachedFile;
 use OneToMany\AI\Request\Prompt\Content\InputText;
 use OneToMany\AI\Request\Prompt\Content\JsonSchema;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 use function in_array;
 
@@ -20,10 +20,12 @@ use function in_array;
  *   text: non-empty-string,
  * }
  */
-final readonly class PromptNormalizer implements PromptNormalizerInterface
+final readonly class PromptNormalizer implements NormalizerInterface
 {
     /**
-     * @see OneToMany\AI\Contract\Client\PromptNormalizerInterface
+     * @see Symfony\Component\Serializer\Normalizer\NormalizerInterface
+     *
+     * @param CompilePromptRequestInterface $data
      *
      * @return array{
      *   systemInstruction?: array{
@@ -96,7 +98,7 @@ final readonly class PromptNormalizer implements PromptNormalizerInterface
     }
 
     /**
-     * @see OneToMany\AI\Contract\Client\PromptNormalizerInterface
+     * @see Symfony\Component\Serializer\Normalizer\NormalizerInterface
      */
     public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
     {
@@ -104,7 +106,7 @@ final readonly class PromptNormalizer implements PromptNormalizerInterface
     }
 
     /**
-     * @see OneToMany\AI\Contract\Client\PromptNormalizerInterface
+     * @see Symfony\Component\Serializer\Normalizer\NormalizerInterface
      */
     public function getSupportedTypes(?string $format): array
     {
