@@ -6,10 +6,14 @@ use OneToMany\AI\Contract\Request\File\CacheFileRequestInterface;
 use OneToMany\AI\Exception\InvalidArgumentException;
 use OneToMany\AI\Exception\RuntimeException;
 
+use function basename;
+use function filesize;
 use function fopen;
 use function is_file;
 use function is_readable;
+use function mime_content_type;
 use function sprintf;
+use function trim;
 
 final readonly class CacheFileRequest implements CacheFileRequestInterface
 {
@@ -33,6 +37,30 @@ final readonly class CacheFileRequest implements CacheFileRequestInterface
         if (!is_file($this->path) || !is_readable($this->path)) {
             throw new InvalidArgumentException(sprintf('The file "%s" does not exist or is not readable.', $path));
         }
+    }
+
+    /**
+     * @param non-empty-lowercase-string $vendor
+     * @param ?non-empty-lowercase-string $purpose
+     */
+    public static function create(string $vendor, string $path, ?string $purpose = null): self
+    {
+        if (empty($path = trim($path))) {
+            throw new InvalidArgumentException('The path cannot be empty.');
+        }
+
+        /** @var non-empty-string $name */
+        $name = basename($path);
+
+        if (false === $size = @filesize($path)) {
+            throw new RuntimeException(sprintf('Calculating the size of the file "%s" failed.', $path));
+        }
+
+        if (!$format = @mime_content_type($path)) {
+            $format = 'application/octet-stream';
+        }
+
+        return new self($vendor, $path, $name, $size, strtolower($format), $purpose);
     }
 
     /**

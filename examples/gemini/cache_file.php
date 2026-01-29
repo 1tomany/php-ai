@@ -1,6 +1,8 @@
 <?php
 
 use OneToMany\AI\Client\Gemini\FileClient;
+use OneToMany\AI\Contract\Exception\ExceptionInterface as AiExceptionInterface;
+use OneToMany\AI\Request\File\CacheFileRequest;
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 
@@ -33,3 +35,10 @@ $httpClient = HttpClient::create([
 ]);
 
 $fileClient = new FileClient($httpClient, new ObjectNormalizer());
+
+try {
+    $cacheFileRequest = new CacheFileRequest('gemini', $path, basename($path), filesize($path));
+} catch (AiExceptionInterface $e) {
+    printf("[ERROR] %s\n", $e->getMessage());
+    exit(1);
+}
