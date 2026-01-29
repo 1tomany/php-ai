@@ -3,6 +3,8 @@
 require_once __DIR__.'/../vendor/autoload.php';
 
 use OneToMany\AI\Client\Gemini\Serializer\PromptNormalizer as GeminiPromptNormalizer;
+use OneToMany\AI\Client\Mock\Serializer\PromptNormalizer as MockPromptNormalizer;
+use OneToMany\AI\Client\OpenAi\Serializer\PromptNormalizer as OpenAiPromptNormalizer;
 use Symfony\Component\PropertyInfo\Extractor\ConstructorExtractor;
 use Symfony\Component\PropertyInfo\Extractor\PhpDocExtractor;
 use Symfony\Component\PropertyInfo\PropertyInfoExtractor;
@@ -37,7 +39,10 @@ function createSerializer(): Serializer
         new DateTimeNormalizer(),
         new UnwrappingDenormalizer(),
 
+        // Vendor prompt normalizers
         new GeminiPromptNormalizer(),
+        new MockPromptNormalizer(),
+        new OpenAiPromptNormalizer(),
 
         // This must come last so the denormalizer injected into the client can use the UnwrappingDenormalizer
         new ObjectNormalizer($classMetadataFactory, $metadataAwareNameConverter, null, $propertyInfoExtractor),
@@ -45,23 +50,3 @@ function createSerializer(): Serializer
 
     return $serializer;
 }
-
-// // Initialize the normalizers and serializer
-//         $constructorExtractor = new ConstructorExtractor(...[
-//             'extractors' => [new PhpDocExtractor()]
-//         ]);
-
-//         $typeExtractor = new PropertyInfoExtractor(...[
-//             'typeExtractors' => [$constructorExtractor]
-//         ]);
-
-//         $objectNormalizer = new ObjectNormalizer(...[
-//             'propertyTypeExtractor' => $typeExtractor
-//         ]);
-
-//         $this->serializer = new Serializer([
-//             new BackedEnumNormalizer(),
-//             new DateTimeNormalizer(),
-//             new ArrayDenormalizer(),
-//             $objectNormalizer,
-//         ]);
