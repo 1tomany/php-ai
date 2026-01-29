@@ -72,6 +72,7 @@ final readonly class PromptNormalizer implements PromptNormalizerInterface
             }
 
             if ($content instanceof CachedFile) {
+                if ($content->getRole()->isUser()) {
                 $requestContent['contents'][] = [
                     'parts' => [
                         [
@@ -82,6 +83,7 @@ final readonly class PromptNormalizer implements PromptNormalizerInterface
                     ],
                     'role' => $content->getRole()->getValue(),
                 ];
+                }
             }
 
             if ($content instanceof JsonSchema) {
