@@ -7,7 +7,7 @@ use OneToMany\AI\Client\Exception\DecodingResponseContentFailedException;
 use OneToMany\AI\Client\Gemini\Type\Error\Error;
 use OneToMany\AI\Client\Gemini\Type\File\File;
 use OneToMany\AI\Contract\Client\FileClientInterface;
-use OneToMany\AI\Contract\Request\File\CacheFileRequestInterface;
+use OneToMany\AI\Contract\Input\File\CacheFileInputInterface;
 use OneToMany\AI\Contract\Response\File\CachedFileResponseInterface;
 use OneToMany\AI\Exception\RuntimeException;
 use OneToMany\AI\Response\File\CachedFileResponse;
@@ -34,7 +34,7 @@ final readonly class FileClient extends BaseClient implements FileClientInterfac
      */
     public const string UPLOAD_URL_HEADER = 'x-goog-upload-url';
 
-    public function cache(CacheFileRequestInterface $request): CachedFileResponseInterface
+    public function cache(CacheFileInputInterface $request): CachedFileResponseInterface
     {
         $url = $this->generateUrl();
 

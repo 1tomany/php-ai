@@ -2,10 +2,10 @@
 
 namespace OneToMany\AI\Contract\Action\File;
 
-use OneToMany\AI\Contract\Request\File\CacheFileRequestInterface;
+use OneToMany\AI\Contract\Input\File\CacheFileInputInterface;
 use OneToMany\AI\Contract\Response\File\CachedFileResponseInterface;
 
 interface CacheFileActionInterface
 {
-    public function act(CacheFileRequestInterface $request): CachedFileResponseInterface;
+    public function act(CacheFileInputInterface $request): CachedFileResponseInterface;
 }

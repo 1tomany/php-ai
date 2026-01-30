@@ -8,7 +8,7 @@ use OneToMany\AI\Client\Gemini\Type\Content\GenerateContentResponse;
 use OneToMany\AI\Client\Gemini\Type\Error\Status;
 use OneToMany\AI\Client\Trait\CompilePromptTrait;
 use OneToMany\AI\Contract\Client\PromptClientInterface;
-use OneToMany\AI\Contract\Request\Prompt\DispatchPromptRequestInterface;
+use OneToMany\AI\Contract\Input\Request\DispatchPromptRequestInterface;
 use OneToMany\AI\Contract\Response\Prompt\DispatchedPromptResponseInterface;
 use OneToMany\AI\Exception\RuntimeException;
 use OneToMany\AI\Response\Prompt\DispatchedPromptResponse;

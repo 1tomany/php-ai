@@ -3,7 +3,7 @@
 namespace OneToMany\AI\Action\Request;
 
 use OneToMany\AI\Contract\Action\Request\CompileRequestActionInterface;
-use OneToMany\AI\Contract\Request\Prompt\CompilePromptRequestInterface;
+use OneToMany\AI\Contract\Input\Request\CompilePromptRequestInterface;
 use OneToMany\AI\Contract\Response\Prompt\CompiledPromptResponseInterface;
 use OneToMany\AI\Exception\InvalidArgumentException;
 use OneToMany\AI\Factory\PromptClientFactory;

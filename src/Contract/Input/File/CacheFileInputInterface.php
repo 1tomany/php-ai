@@ -1,10 +1,10 @@
 <?php
 
-namespace OneToMany\AI\Contract\Request\File;
+namespace OneToMany\AI\Contract\Input\File;
 
 use OneToMany\AI\Exception\RuntimeException;
 
-interface CacheFileRequestInterface
+interface CacheFileInputInterface
 {
     /**
      * @return non-empty-lowercase-string

@@ -1,8 +1,8 @@
 <?php
 
-namespace OneToMany\AI\Contract\Request\Prompt;
+namespace OneToMany\AI\Contract\Input\Request;
 
-use OneToMany\AI\Contract\Request\Prompt\Content\ContentInterface;
+use OneToMany\AI\Contract\Input\Request\Content\ContentInterface;
 
 interface CompilePromptRequestInterface
 {

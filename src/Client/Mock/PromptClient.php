@@ -5,7 +5,7 @@ namespace OneToMany\AI\Client\Mock;
 use OneToMany\AI\Client\Mock\Trait\GenerateUriTrait;
 use OneToMany\AI\Client\Trait\CompilePromptTrait;
 use OneToMany\AI\Contract\Client\PromptClientInterface;
-use OneToMany\AI\Contract\Request\Prompt\DispatchPromptRequestInterface;
+use OneToMany\AI\Contract\Input\Request\DispatchPromptRequestInterface;
 use OneToMany\AI\Contract\Response\Prompt\DispatchedPromptResponseInterface;
 use OneToMany\AI\Response\Prompt\DispatchedPromptResponse;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;

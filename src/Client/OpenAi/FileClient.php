@@ -7,7 +7,7 @@ use OneToMany\AI\Client\Exception\DecodingResponseContentFailedException;
 use OneToMany\AI\Client\OpenAi\Type\Error\Error;
 use OneToMany\AI\Client\OpenAi\Type\File\File;
 use OneToMany\AI\Contract\Client\FileClientInterface;
-use OneToMany\AI\Contract\Request\File\CacheFileRequestInterface;
+use OneToMany\AI\Contract\Input\File\CacheFileInputInterface;
 use OneToMany\AI\Contract\Response\File\CachedFileResponseInterface;
 use OneToMany\AI\Exception\RuntimeException;
 use OneToMany\AI\Response\File\CachedFileResponse;
@@ -32,7 +32,7 @@ final readonly class FileClient implements FileClientInterface
     /**
      * @see OneToMany\AI\Contract\Client\FileClientInterface
      */
-    public function cache(CacheFileRequestInterface $request): CachedFileResponseInterface
+    public function cache(CacheFileInputInterface $request): CachedFileResponseInterface
     {
         $fileHandle = $request->open();
 

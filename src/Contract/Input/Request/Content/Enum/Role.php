@@ -1,6 +1,6 @@
 <?php
 
-namespace OneToMany\AI\Contract\Request\Prompt\Content\Enum;
+namespace OneToMany\AI\Contract\Input\Request\Content\Enum;
 
 enum Role: string
 {

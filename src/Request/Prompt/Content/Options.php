@@ -2,8 +2,8 @@
 
 namespace OneToMany\AI\Request\Prompt\Content;
 
-use OneToMany\AI\Contract\Request\Prompt\Content\ContentInterface;
-use OneToMany\AI\Contract\Request\Prompt\Content\Enum\Role;
+use OneToMany\AI\Contract\Input\Request\Content\ContentInterface;
+use OneToMany\AI\Contract\Input\Request\Content\Enum\Role;
 
 final readonly class Options implements ContentInterface
 {
@@ -15,7 +15,7 @@ final readonly class Options implements ContentInterface
     }
 
     /**
-     * @see OneToMany\AI\Contract\Request\Prompt\Content\ContentInterface
+     * @see OneToMany\AI\Contract\Input\Request\Content\ContentInterface
      */
     public function getRole(): Role
     {

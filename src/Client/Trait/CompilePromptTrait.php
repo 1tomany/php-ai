@@ -2,7 +2,7 @@
 
 namespace OneToMany\AI\Client\Trait;
 
-use OneToMany\AI\Contract\Request\Prompt\CompilePromptRequestInterface;
+use OneToMany\AI\Contract\Input\Request\CompilePromptRequestInterface;
 use OneToMany\AI\Contract\Response\Prompt\CompiledPromptResponseInterface;
 use OneToMany\AI\Exception\RuntimeException;
 use OneToMany\AI\Response\Prompt\CompiledPromptResponse;

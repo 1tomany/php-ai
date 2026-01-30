@@ -2,8 +2,8 @@
 
 namespace OneToMany\AI\Request\Prompt;
 
-use OneToMany\AI\Contract\Request\Prompt\CompilePromptRequestInterface;
-use OneToMany\AI\Contract\Request\Prompt\Content\ContentInterface;
+use OneToMany\AI\Contract\Input\Request\CompilePromptRequestInterface;
+use OneToMany\AI\Contract\Input\Request\Content\ContentInterface;
 
 final class CompilePromptRequest implements CompilePromptRequestInterface
 {
@@ -20,7 +20,7 @@ final class CompilePromptRequest implements CompilePromptRequestInterface
     }
 
     /**
-     * @see OneToMany\AI\Contract\Request\Prompt\CompilePromptRequestInterface
+     * @see OneToMany\AI\Contract\Input\Request\CompilePromptRequestInterface
      */
     public function getVendor(): string
     {
@@ -28,7 +28,7 @@ final class CompilePromptRequest implements CompilePromptRequestInterface
     }
 
     /**
-     * @see OneToMany\AI\Contract\Request\Prompt\CompilePromptRequestInterface
+     * @see OneToMany\AI\Contract\Input\Request\CompilePromptRequestInterface
      */
     public function getModel(): string
     {
@@ -36,7 +36,7 @@ final class CompilePromptRequest implements CompilePromptRequestInterface
     }
 
     /**
-     * @see OneToMany\AI\Contract\Request\Prompt\CompilePromptRequestInterface
+     * @see OneToMany\AI\Contract\Input\Request\CompilePromptRequestInterface
      */
     public function getContents(): array
     {
@@ -44,7 +44,7 @@ final class CompilePromptRequest implements CompilePromptRequestInterface
     }
 
     /**
-     * @see OneToMany\AI\Contract\Request\Prompt\CompilePromptRequestInterface
+     * @see OneToMany\AI\Contract\Input\Request\CompilePromptRequestInterface
      */
     public function addContent(ContentInterface $content): static
     {
@@ -54,7 +54,7 @@ final class CompilePromptRequest implements CompilePromptRequestInterface
     }
 
     /**
-     * @see OneToMany\AI\Contract\Request\Prompt\CompilePromptRequestInterface
+     * @see OneToMany\AI\Contract\Input\Request\CompilePromptRequestInterface
      */
     public function hasContents(): bool
     {

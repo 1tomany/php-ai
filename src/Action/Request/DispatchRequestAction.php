@@ -3,7 +3,7 @@
 namespace OneToMany\AI\Action\Request;
 
 use OneToMany\AI\Contract\Action\Request\DispatchRequestActionInterface;
-use OneToMany\AI\Contract\Request\Prompt\DispatchPromptRequestInterface;
+use OneToMany\AI\Contract\Input\Request\DispatchPromptRequestInterface;
 use OneToMany\AI\Contract\Response\Prompt\DispatchedPromptResponseInterface;
 use OneToMany\AI\Factory\PromptClientFactory;
 

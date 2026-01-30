@@ -2,7 +2,7 @@
 
 namespace OneToMany\AI\Request\File;
 
-use OneToMany\AI\Contract\Request\File\CacheFileRequestInterface;
+use OneToMany\AI\Contract\Input\File\CacheFileInputInterface;
 use OneToMany\AI\Exception\InvalidArgumentException;
 use OneToMany\AI\Exception\RuntimeException;
 
@@ -15,7 +15,7 @@ use function mime_content_type;
 use function sprintf;
 use function trim;
 
-final readonly class CacheFileRequest implements CacheFileRequestInterface
+final readonly class CacheFileRequest implements CacheFileInputInterface
 {
     /**
      * @param non-empty-lowercase-string $vendor
@@ -64,7 +64,7 @@ final readonly class CacheFileRequest implements CacheFileRequestInterface
     }
 
     /**
-     * @see OneToMany\AI\Contract\Request\File\CacheFileRequestInterface
+     * @see OneToMany\AI\Contract\Input\File\CacheFileInputInterface
      */
     public function getVendor(): string
     {
@@ -72,7 +72,7 @@ final readonly class CacheFileRequest implements CacheFileRequestInterface
     }
 
     /**
-     * @see OneToMany\AI\Contract\Request\File\CacheFileRequestInterface
+     * @see OneToMany\AI\Contract\Input\File\CacheFileInputInterface
      */
     public function getPath(): string
     {
@@ -80,7 +80,7 @@ final readonly class CacheFileRequest implements CacheFileRequestInterface
     }
 
     /**
-     * @see OneToMany\AI\Contract\Request\File\CacheFileRequestInterface
+     * @see OneToMany\AI\Contract\Input\File\CacheFileInputInterface
      */
     public function getName(): string
     {
@@ -88,7 +88,7 @@ final readonly class CacheFileRequest implements CacheFileRequestInterface
     }
 
     /**
-     * @see OneToMany\AI\Contract\Request\File\CacheFileRequestInterface
+     * @see OneToMany\AI\Contract\Input\File\CacheFileInputInterface
      */
     public function getSize(): int
     {
@@ -96,7 +96,7 @@ final readonly class CacheFileRequest implements CacheFileRequestInterface
     }
 
     /**
-     * @see OneToMany\AI\Contract\Request\File\CacheFileRequestInterface
+     * @see OneToMany\AI\Contract\Input\File\CacheFileInputInterface
      */
     public function getFormat(): string
     {
@@ -104,7 +104,7 @@ final readonly class CacheFileRequest implements CacheFileRequestInterface
     }
 
     /**
-     * @see OneToMany\AI\Contract\Request\File\CacheFileRequestInterface
+     * @see OneToMany\AI\Contract\Input\File\CacheFileInputInterface
      */
     public function getPurpose(): ?string
     {
@@ -112,7 +112,7 @@ final readonly class CacheFileRequest implements CacheFileRequestInterface
     }
 
     /**
-     * @see OneToMany\AI\Contract\Request\File\CacheFileRequestInterface
+     * @see OneToMany\AI\Contract\Input\File\CacheFileInputInterface
      */
     public function open(): mixed
     {

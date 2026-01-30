@@ -2,8 +2,8 @@
 
 namespace OneToMany\AI\Request\Prompt\Content;
 
-use OneToMany\AI\Contract\Request\Prompt\Content\ContentInterface;
-use OneToMany\AI\Contract\Request\Prompt\Content\Enum\Role;
+use OneToMany\AI\Contract\Input\Request\Content\ContentInterface;
+use OneToMany\AI\Contract\Input\Request\Content\Enum\Role;
 
 use function is_string;
 use function strtolower;
@@ -73,7 +73,7 @@ final readonly class JsonSchema implements ContentInterface
     }
 
     /**
-     * @see OneToMany\AI\Contract\Request\Prompt\Content\ContentInterface
+     * @see OneToMany\AI\Contract\Input\Request\Content\ContentInterface
      */
     public function getRole(): Role
     {

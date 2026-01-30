@@ -2,7 +2,7 @@
 
 namespace OneToMany\AI\Client\OpenAi\Serializer;
 
-use OneToMany\AI\Contract\Request\Prompt\CompilePromptRequestInterface;
+use OneToMany\AI\Contract\Input\Request\CompilePromptRequestInterface;
 use OneToMany\AI\Request\Prompt\Content\CachedFile;
 use OneToMany\AI\Request\Prompt\Content\InputText;
 use OneToMany\AI\Request\Prompt\Content\JsonSchema;
