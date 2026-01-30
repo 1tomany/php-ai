@@ -2,7 +2,7 @@
 
 namespace OneToMany\AI\Action\Request;
 
-use OneToMany\AI\Contract\Action\Request\CompilePromptActionInterface;
+use OneToMany\AI\Contract\Action\Request\CompileRequestActionInterface;
 use OneToMany\AI\Contract\Request\Prompt\CompilePromptRequestInterface;
 use OneToMany\AI\Contract\Response\Prompt\CompiledPromptResponseInterface;
 use OneToMany\AI\Exception\InvalidArgumentException;
@@ -10,14 +10,14 @@ use OneToMany\AI\Factory\PromptClientFactory;
 
 use function sprintf;
 
-final readonly class CompilePromptAction implements CompilePromptActionInterface
+final readonly class CompileRequestAction implements CompileRequestActionInterface
 {
     public function __construct(private PromptClientFactory $promptClientFactory)
     {
     }
 
     /**
-     * @see OneToMany\AI\Contract\Action\Request\CompilePromptActionInterface
+     * @see OneToMany\AI\Contract\Action\Request\CompileRequestActionInterface
      */
     public function act(CompilePromptRequestInterface $request): CompiledPromptResponseInterface
     {

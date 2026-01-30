@@ -2,7 +2,7 @@
 
 namespace OneToMany\AI\Tests\Action\Request;
 
-use OneToMany\AI\Action\Request\CompilePromptAction;
+use OneToMany\AI\Action\Request\CompileRequestAction;
 use OneToMany\AI\Exception\InvalidArgumentException;
 use OneToMany\AI\Factory\PromptClientFactory;
 use OneToMany\AI\Request\Prompt\CompilePromptRequest;
@@ -20,6 +20,6 @@ final class CompileRequestActionTest extends TestCase
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Compiling the prompt for the model "mock" failed because the contents are empty.');
 
-        new CompilePromptAction(new PromptClientFactory(new ClientContainer()))->act(new CompilePromptRequest('mock', 'mock', []));
+        new CompileRequestAction(new PromptClientFactory(new ClientContainer()))->act(new CompilePromptRequest('mock', 'mock', []));
     }
 }
