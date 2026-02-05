@@ -2,8 +2,8 @@
 
 namespace OneToMany\AI\Client\OpenAi;
 
-use OneToMany\AI\Client\HttpAwareClient;
 use OneToMany\AI\Client\OpenAi\Type\Error\ErrorType;
+use OneToMany\AI\Client\Trait\HttpExceptionTrait;
 use OneToMany\AI\Client\Trait\SupportsModelTrait;
 use OneToMany\AI\Contract\Client\Type\Error\ErrorTypeInterface;
 use Symfony\Contracts\HttpClient\Exception\ExceptionInterface as HttpClientExceptionInterface;
@@ -13,8 +13,9 @@ use Symfony\Contracts\HttpClient\ResponseInterface;
 use function ltrim;
 use function sprintf;
 
-abstract readonly class OpenAiClient extends HttpAwareClient
+abstract readonly class OpenAiClient
 {
+    use HttpExceptionTrait;
     use SupportsModelTrait;
 
     /**
@@ -63,9 +64,6 @@ abstract readonly class OpenAiClient extends HttpAwareClient
         return sprintf('https://api.openai.com/v1/%s', ltrim($path, '/'));
     }
 
-    /**
-     * @see OneToMany\AI\Client\HttpAwareClient
-     */
     protected function decodeErrorResponse(ResponseInterface $response): ErrorTypeInterface
     {
         try {

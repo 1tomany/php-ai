@@ -1,17 +1,13 @@
 <?php
 
-namespace OneToMany\AI\Client;
+namespace OneToMany\AI\Client\Trait;
 
-use OneToMany\AI\Contract\Client\Type\Error\ErrorTypeInterface;
 use OneToMany\AI\Exception\RuntimeException;
 use Symfony\Contracts\HttpClient\Exception\ExceptionInterface as HttpClientExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\HttpExceptionInterface as HttpClientHttpExceptionInterface;
-use Symfony\Contracts\HttpClient\ResponseInterface;
 
-abstract readonly class HttpAwareClient
+trait HttpExceptionTrait
 {
-    abstract protected function decodeErrorResponse(ResponseInterface $response): ErrorTypeInterface;
-
     /**
      * Decodes, wraps, and throws any exception thrown by the Symfony HTTP Client.
      *
