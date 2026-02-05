@@ -29,4 +29,14 @@ abstract readonly class BaseClient
             'gemini-2.5-flash-lite-preview-09-2025',
         ];
     }
+
+    /**
+     * @param non-empty-string $model
+     *
+     * @return non-empty-string
+     */
+    protected function generateUrl(string $path): string
+    {
+        return \sprintf('https://generativelanguage.googleapis.com/%s', \ltrim($path, '/'));
+    }
 }

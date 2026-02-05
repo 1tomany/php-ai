@@ -4,6 +4,7 @@ use OneToMany\AI\Client\Gemini\FileClient;
 use OneToMany\AI\Client\Gemini\PromptClient;
 use OneToMany\AI\Contract\Exception\ExceptionInterface as AiExceptionInterface;
 use OneToMany\AI\Request\File\CacheFileRequest;
+use OneToMany\AI\Request\File\UploadRequest;
 use OneToMany\AI\Request\Prompt\CompilePromptRequest;
 use OneToMany\AI\Request\Prompt\Content\CachedFile;
 use OneToMany\AI\Request\Prompt\Content\InputText;
@@ -11,7 +12,7 @@ use OneToMany\AI\Request\Prompt\Content\JsonSchema;
 use OneToMany\AI\Request\Prompt\DispatchPromptRequest;
 use Symfony\Component\HttpClient\HttpClient;
 
-require_once __DIR__.'/../bootstrap.php';
+require_once __DIR__.'/../../vendor/autoload.php';
 
 $keyVar = 'GEMINI_API_KEY';
 
@@ -35,29 +36,34 @@ $httpClient = HttpClient::create([
     ],
 ]);
 
-$serializer = createSerializer();
-
 try {
     // Construct the Gemini FileClient
-    $fileClient = new FileClient(null, $httpClient, $serializer);
+    $fileClient = new FileClient($httpClient);
 
-    // Create a request to cache the file with Gemini
-    $cacheFileRequest = CacheFileRequest::create('gemini', $path);
+    // Create a request to upload the file with Gemini
+    $uploadRequest = new UploadRequest(...[
+        'model' => 'gemini-2.5-flash',
+    ]);
 
-    // Cache the file with Gemini with the FileClient
-    $cachedFileResponse = $fileClient->cache($cacheFileRequest);
+    $uploadRequest->atPath($path)->withFormat(...[
+        'format' => 'image/jpeg',
+    ]);
 
-    // Output the caching results
-    printf("File successfully cached!\n\n");
-    printf("URI: %s\n", $cachedFileResponse->getUri());
-    printf("Name: %s\n", $cachedFileResponse->getName());
+    // Upload the file to Gemini with the FileClient
+    $response = $fileClient->upload($uploadRequest);
 
-    if ($expiresAt = $cachedFileResponse->getExpiresAt()) {
+    // Output the upload results
+    printf("File successfully uploaded!\n\n");
+    printf("URI: %s\n", $response->getUri());
+    printf("Name: %s\n", $response->getName());
+
+    if ($expiresAt = $response->getExpiresAt()) {
         printf("ExpiresAt: %s\n", $expiresAt->format('c'));
     }
 
     printf("%s\n", str_repeat('-', 60));
 
+    /*
     // Construct the Gemini PromptClient
     $promptClient = new PromptClient(null, $httpClient, $serializer);
 
@@ -68,8 +74,8 @@ try {
     ]));
 
     $promptConentCachedFile = new CachedFile(
-        $cachedFileResponse->getUri(),
-        $cachedFileResponse->getFormat(),
+        $response->getUri(),
+        $response->getFormat(),
     );
 
     $promptContentJsonSchema = new JsonSchema('identity', [
@@ -134,6 +140,7 @@ try {
     }
 
     printf("%s\n", str_repeat('-', 60));
+    */
 } catch (AiExceptionInterface $e) {
     printf("[ERROR] %s\n", $e->getMessage());
     exit(1);

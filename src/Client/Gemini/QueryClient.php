@@ -135,8 +135,8 @@ final readonly class QueryClient extends BaseClient implements QueryClientInterf
      *
      * @return non-empty-string
      */
-    private function generateUrl(string $model): string
+    protected function generateUrl(string $model): string
     {
-        return sprintf('https://generativelanguage.googleapis.com/v1beta/models/%s:generateContent', $model);
+        return parent::generateUrl(sprintf('/v1beta/models/%s:generateContent', $model));
     }
 }

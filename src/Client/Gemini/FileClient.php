@@ -45,7 +45,9 @@ final readonly class FileClient extends BaseClient implements FileClientInterfac
 
         try {
             // Generate a secure, signed URL to upload the file to
-            $response = $this->httpClient->request('POST', '/upload/v1beta/files', [
+            $url = $this->generateUrl('/upload/v1beta/files');
+
+            $response = $this->httpClient->request('POST', $url, [
                 'headers' => [
                     'x-goog-upload-command' => 'start',
                     'x-goog-upload-protocol' => 'resumable',
