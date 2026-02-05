@@ -3,6 +3,7 @@
 namespace OneToMany\AI\Response\Query;
 
 use OneToMany\AI\Exception\RuntimeException;
+use OneToMany\AI\Response\BaseResponse;
 
 use function json_decode;
 use function max;
@@ -10,7 +11,7 @@ use function max;
 use const JSON_BIGINT_AS_STRING;
 use const JSON_THROW_ON_ERROR;
 
-final readonly class ExecuteResponse
+final readonly class ExecuteResponse extends BaseResponse
 {
     /**
      * @param non-empty-lowercase-string $model
@@ -20,20 +21,13 @@ final readonly class ExecuteResponse
      * @param non-negative-int|float $runtime
      */
     public function __construct(
-        private string $model,
+        string $model,
         private string $uri,
         private string $output,
         private array $response,
         private int|float $runtime,
     ) {
-    }
-
-    /**
-     * @return non-empty-lowercase-string
-     */
-    public function getModel(): string
-    {
-        return $this->model;
+        parent::__construct($model);
     }
 
     /**

@@ -2,9 +2,11 @@
 
 namespace OneToMany\AI\Response\File;
 
+use OneToMany\AI\Response\BaseResponse;
+
 use function strtolower;
 
-final readonly class UploadResponse
+final readonly class UploadResponse extends BaseResponse
 {
     /**
      * @param non-empty-lowercase-string $model
@@ -13,20 +15,13 @@ final readonly class UploadResponse
      * @param ?non-empty-string $purpose
      */
     public function __construct(
-        private string $model,
+        string $model,
         private string $uri,
         private ?string $name = null,
         private ?string $purpose = null,
         private ?\DateTimeImmutable $expiresAt = null,
     ) {
-    }
-
-    /**
-     * @return non-empty-lowercase-string
-     */
-    public function getModel(): string
-    {
-        return $this->model;
+        parent::__construct($model);
     }
 
     /**

@@ -2,7 +2,9 @@
 
 namespace OneToMany\AI\Response\Query;
 
-final readonly class CompileResponse
+use OneToMany\AI\Response\BaseResponse;
+
+final readonly class CompileResponse extends BaseResponse
 {
     /**
      * @param non-empty-lowercase-string $model
@@ -10,18 +12,11 @@ final readonly class CompileResponse
      * @param array<string, mixed> $request
      */
     public function __construct(
-        private string $model,
+        string $model,
         private string $url,
         private array $request,
     ) {
-    }
-
-    /**
-     * @return non-empty-lowercase-string
-     */
-    public function getModel(): string
-    {
-        return $this->model;
+        parent::__construct($model);
     }
 
     /**
