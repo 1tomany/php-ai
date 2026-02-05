@@ -31,13 +31,13 @@ abstract readonly class BaseClient
     }
 
     /**
-     * @param non-empty-lowercase-string $prefix
-     * @param positive-int $byteCount
+     * @param non-empty-string $prefix
+     * @param positive-int $suffixLength
      *
      * @return non-empty-lowercase-string
      */
-    protected function generateUri(string $prefix, int $byteCount = 4): string
+    protected function generateUri(string $prefix, int $suffixLength = 4): string
     {
-        return strtolower(sprintf('%s_%s', $prefix, bin2hex(random_bytes($byteCount))));
+        return strtolower(sprintf('%s_%s', $prefix, bin2hex(random_bytes($suffixLength))));
     }
 }
