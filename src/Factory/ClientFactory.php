@@ -2,14 +2,14 @@
 
 namespace OneToMany\AI\Factory;
 
-use OneToMany\AI\Contract\Client\ModelClientInterface;
+use OneToMany\AI\Contract\Client\ClientInterface;
 use OneToMany\AI\Contract\Factory\ClientFactoryInterface;
 use OneToMany\AI\Exception\InvalidArgumentException;
 
 use function sprintf;
 
 /**
- * @template T of ModelClientInterface
+ * @template T of ClientInterface
  *
  * @implements ClientFactoryInterface<T>
  */
@@ -27,7 +27,7 @@ final readonly class ClientFactory implements ClientFactoryInterface
      *
      * @throws InvalidArgumentException a client for the model `$model` is not registered
      */
-    public function create(string $model): ModelClientInterface
+    public function create(string $model): ClientInterface
     {
         foreach ($this->clients as $client) {
             if ($client->supportsModel($model)) {

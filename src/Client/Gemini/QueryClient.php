@@ -123,7 +123,7 @@ final readonly class QueryClient extends BaseClient implements QueryClientInterf
     }
 
     /**
-     * @see OneToMany\AI\Contract\Client\ModelClientInterface
+     * @see OneToMany\AI\Contract\Client\ClientInterface
      */
     public function supportsRequest(object $request): bool
     {

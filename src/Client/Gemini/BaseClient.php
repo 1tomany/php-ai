@@ -2,6 +2,7 @@
 
 namespace OneToMany\AI\Client\Gemini;
 
+use OneToMany\AI\Client\Trait\SupportsModelTrait;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 use function ltrim;
@@ -9,12 +10,14 @@ use function sprintf;
 
 abstract readonly class BaseClient
 {
+    use SupportsModelTrait;
+
     public function __construct(protected HttpClientInterface $httpClient)
     {
     }
 
     /**
-     * @see OneToMany\AI\Contract\Client\ModelClientInterface
+     * @see OneToMany\AI\Contract\Client\ClientInterface
      *
      * @return non-empty-list<non-empty-lowercase-string>
      */

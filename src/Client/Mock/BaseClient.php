@@ -3,10 +3,12 @@
 namespace OneToMany\AI\Client\Mock;
 
 use OneToMany\AI\Client\Mock\Trait\GenerateUriTrait;
+use OneToMany\AI\Client\Trait\SupportsModelTrait;
 
 abstract readonly class BaseClient
 {
     use GenerateUriTrait;
+    use SupportsModelTrait;
 
     protected \Faker\Generator $faker;
 
@@ -16,7 +18,7 @@ abstract readonly class BaseClient
     }
 
     /**
-     * @see App\File\Vendor\AI\Contract\Client\ModelClientInterface
+     * @see OneToMany\AI\Contract\Client\ClientInterface
      *
      * @return non-empty-list<non-empty-lowercase-string>
      */

@@ -2,7 +2,7 @@
 
 namespace OneToMany\AI\Contract\Client;
 
-interface ModelClientInterface
+interface ClientInterface
 {
     /**
      * @param non-empty-lowercase-string $model

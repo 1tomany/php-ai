@@ -2,10 +2,10 @@
 
 namespace OneToMany\AI\Contract\Factory;
 
-use OneToMany\AI\Contract\Client\ModelClientInterface;
+use OneToMany\AI\Contract\Client\ClientInterface;
 
 /**
- * @template T of ModelClientInterface
+ * @template T of ClientInterface
  */
 interface ClientFactoryInterface
 {
@@ -14,5 +14,5 @@ interface ClientFactoryInterface
      *
      * @return T
      */
-    public function create(string $model): ModelClientInterface;
+    public function create(string $model): ClientInterface;
 }

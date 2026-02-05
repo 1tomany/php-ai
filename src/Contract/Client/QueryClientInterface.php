@@ -7,7 +7,7 @@ use OneToMany\AI\Request\Query\ExecuteRequest;
 use OneToMany\AI\Response\Query\CompileResponse;
 use OneToMany\AI\Response\Query\ExecuteResponse;
 
-interface QueryClientInterface extends ModelClientInterface
+interface QueryClientInterface extends ClientInterface
 {
     public function compile(CompileRequest $request): CompileResponse;
 
