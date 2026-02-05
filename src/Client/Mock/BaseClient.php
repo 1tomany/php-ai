@@ -2,12 +2,15 @@
 
 namespace OneToMany\AI\Client\Mock;
 
-use OneToMany\AI\Client\Mock\Trait\GenerateUriTrait;
 use OneToMany\AI\Client\Trait\SupportsModelTrait;
+
+use function bin2hex;
+use function random_bytes;
+use function sprintf;
+use function strtolower;
 
 abstract readonly class BaseClient
 {
-    use GenerateUriTrait;
     use SupportsModelTrait;
 
     protected \Faker\Generator $faker;
@@ -25,5 +28,16 @@ abstract readonly class BaseClient
     public function getSupportedModels(): array
     {
         return ['mock'];
+    }
+
+    /**
+     * @param non-empty-lowercase-string $prefix
+     * @param positive-int $byteCount
+     *
+     * @return non-empty-lowercase-string
+     */
+    protected function generateUri(string $prefix, int $byteCount = 4): string
+    {
+        return strtolower(sprintf('%s_%s', $prefix, bin2hex(random_bytes($byteCount))));
     }
 }

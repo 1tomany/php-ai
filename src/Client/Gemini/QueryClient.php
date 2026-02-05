@@ -2,7 +2,6 @@
 
 namespace OneToMany\AI\Client\Gemini;
 
-use OneToMany\AI\Client\Gemini\Trait\ExceptionTrait;
 use OneToMany\AI\Contract\Client\QueryClientInterface;
 use OneToMany\AI\Request\Query\CompileRequest;
 use OneToMany\AI\Request\Query\Component\FileUriComponent;
@@ -18,8 +17,6 @@ use function sprintf;
 
 final readonly class QueryClient extends BaseClient implements QueryClientInterface
 {
-    use ExceptionTrait;
-
     /**
      * @see OneToMany\AI\Contract\Client\QueryClientInterface
      */

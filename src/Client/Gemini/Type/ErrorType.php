@@ -6,20 +6,19 @@ use function array_filter;
 use function explode;
 use function implode;
 use function rtrim;
-use function trim;
 
 final readonly class ErrorType
 {
-    public string $message;
-
-    public function __construct(string $message, public int $code = 500)
-    {
-        $this->message = trim(implode(' ', array_filter(explode(' ', $message))));
+    public function __construct(
+        public int $code,
+        public string $message,
+        public ?string $status = null,
+    ) {
     }
 
     public function getMessage(): string
     {
-        return $this->message;
+        return implode(' ', array_filter(explode(' ', $this->message)));
     }
 
     /**
@@ -28,6 +27,6 @@ final readonly class ErrorType
      */
     public function getInlineMessage(): string
     {
-        return rtrim($this->message, '.');
+        return rtrim($this->getMessage(), '.');
     }
 }

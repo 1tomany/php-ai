@@ -2,9 +2,7 @@
 
 namespace OneToMany\AI\Client\Gemini;
 
-use OneToMany\AI\Client\Gemini\Trait\ExceptionTrait;
 use OneToMany\AI\Contract\Client\FileClientInterface;
-use OneToMany\AI\Exception\LogicException;
 use OneToMany\AI\Exception\RuntimeException;
 use OneToMany\AI\Request\File\UploadRequest;
 use OneToMany\AI\Response\File\UploadResponse;
@@ -17,13 +15,11 @@ use function strlen;
 
 final readonly class FileClient extends BaseClient implements FileClientInterface
 {
-    use ExceptionTrait;
-
     /**
      * @see OneToMany\AI\Contract\Client\FileClientInterface
      *
-     * @throws LogicException an empty file is uploaded
-     * @throws RuntimeException Gemini fails to generate a signed URL
+     * @throws RuntimeException an empty file is uploaded
+     * @throws RuntimeException a signed URL is not generated
      * @throws RuntimeException uploading a file chunk fails
      */
     public function upload(UploadRequest $request): UploadResponse
@@ -39,11 +35,11 @@ final readonly class FileClient extends BaseClient implements FileClientInterfac
         $uploadChunkCount = (int) ceil($request->getSize() / $uploadChunkByteCount);
 
         if (0 === $uploadChunkCount || 0 === $request->getSize()) {
-            throw new LogicException('Empty files cannot be uploaded.');
+            throw new RuntimeException('Empty files cannot be uploaded.');
         }
 
         try {
-            // Generate a secure, signed URL to upload the file to
+            // Generate a signed URL to upload the file to
             $url = $this->generateUrl('/upload/v1beta/files');
 
             $response = $this->httpClient->request('POST', $url, [
@@ -61,7 +57,7 @@ final readonly class FileClient extends BaseClient implements FileClientInterfac
             ]);
 
             if (200 !== $statusCode = $response->getStatusCode()) {
-                throw new RuntimeException(sprintf('Generating the signed URL failed: %s.', $this->createErrorFromResponse($response)->getInlineMessage()), $statusCode);
+                throw new RuntimeException(sprintf('Generating the signed URL failed: %s.', $this->decodeErrorResponse($response)->getInlineMessage()), $statusCode);
             }
 
             /** @var non-empty-string $uploadUrl */
@@ -84,7 +80,7 @@ final readonly class FileClient extends BaseClient implements FileClientInterfac
                 ]);
 
                 if (200 !== $statusCode = $response->getStatusCode()) {
-                    throw new RuntimeException(sprintf('Chunk %d of %d was rejected by the server: %s.', $uploadChunk, $uploadChunkCount, $this->createErrorFromResponse($response)->getInlineMessage()), $statusCode);
+                    throw new RuntimeException(sprintf('Chunk %d of %d was rejected by the server: %s.', $uploadChunk, $uploadChunkCount, $this->decodeErrorResponse($response)->getInlineMessage()), $statusCode);
                 }
 
                 // Don't assume the chunk was an even 8MB
