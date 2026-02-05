@@ -2,6 +2,7 @@
 
 namespace OneToMany\AI\Client\OpenAi;
 
+use OneToMany\AI\Client\OpenAi\Type\File\Enum\Purpose;
 use OneToMany\AI\Contract\Client\FileClientInterface;
 use OneToMany\AI\Request\File\UploadRequest;
 use OneToMany\AI\Response\File\UploadResponse;
@@ -17,11 +18,13 @@ final readonly class FileClient extends OpenAiClient implements FileClientInterf
         $url = $this->generateUrl('files');
 
         try {
+            $purpose = Purpose::create($request->getPurpose());
+
             $response = $this->httpClient->request('POST', $url, [
                 'auth_bearer' => $this->apiKey,
                 'body' => [
+                    'purpose' => $purpose->getValue(),
                     'file' => $request->openFileHandle(),
-                    'purposes' => $request->getPurpose(),
                 ],
             ]);
 
