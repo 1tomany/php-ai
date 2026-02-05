@@ -13,7 +13,7 @@ use function fread;
 use function sprintf;
 use function strlen;
 
-final readonly class FileClient extends BaseClient implements FileClientInterface
+final readonly class FileClient extends GeminiClient implements FileClientInterface
 {
     /**
      * @see OneToMany\AI\Contract\Client\FileClientInterface

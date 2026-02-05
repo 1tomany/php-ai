@@ -15,7 +15,7 @@ use Symfony\Contracts\HttpClient\Exception\ExceptionInterface as HttpClientExcep
 
 use function sprintf;
 
-final readonly class QueryClient extends BaseClient implements QueryClientInterface
+final readonly class QueryClient extends GeminiClient implements QueryClientInterface
 {
     /**
      * @see OneToMany\AI\Contract\Client\QueryClientInterface

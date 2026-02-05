@@ -13,7 +13,7 @@ use Symfony\Contracts\HttpClient\ResponseInterface;
 use function ltrim;
 use function sprintf;
 
-abstract readonly class BaseClient
+abstract readonly class GeminiClient
 {
     use SupportsModelTrait;
 
