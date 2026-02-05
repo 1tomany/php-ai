@@ -5,6 +5,7 @@ use OneToMany\AI\Client\Gemini\QueryClient;
 use OneToMany\AI\Contract\Exception\ExceptionInterface as AiExceptionInterface;
 use OneToMany\AI\Request\File\UploadRequest;
 use OneToMany\AI\Request\Query\CompileRequest;
+use OneToMany\AI\Request\Query\ExecuteRequest;
 use Symfony\Component\HttpClient\HttpClient;
 
 require_once __DIR__.'/../../vendor/autoload.php';
@@ -113,28 +114,22 @@ try {
 
     $response = $queryClient->compile($compileRequest);
 
-    /*
-    // Convert the compiled prompt to a dispatchable request
-    $dispatchPromptRequest = DispatchPromptRequest::create(...[
-        'response' => $compiledPromptResponse,
+    // Send the compiled query to the LLM server
+    $executeRequest = new ExecuteRequest(...[
+        'model' => $response->getModel(),
     ]);
 
-    $dispatchedPromptResponse = $queryClient->dispatch(...[
-        'request' => $dispatchPromptRequest,
+    $executeRequest->withUrl($response->getUrl())->withRequest(...[
+        'request' => $response->getRequest(),
     ]);
 
-    printf("Prompt successfully dispatched!\n\n");
-    printf("URI: %s\n", $dispatchedPromptResponse->getUri());
-    printf("Runtime: %sms\n", $dispatchedPromptResponse->getRuntime());
+    $response = $queryClient->execute($executeRequest);
 
-    if (null !== $output = $dispatchedPromptResponse->getOutput()) {
-        printf("Output: %s\n", json_encode(json_decode($output, true)));
-    }
-
+    printf("Query successfully executed!\n\n");
+    printf("URI: %s\n", $response->getUri());
+    printf("Runtime: %sms\n", $response->getRuntime());
+    printf("Output: %s\n", json_encode($response->toRecord()));
     printf("%s\n", str_repeat('-', 60));
-    */
-
-    print_r($response);
 } catch (AiExceptionInterface $e) {
     printf("[ERROR] %s\n", $e->getMessage());
     exit(1);
