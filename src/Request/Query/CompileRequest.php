@@ -16,7 +16,7 @@ class CompileRequest
     /**
      * @var non-empty-lowercase-string
      */
-    private string $model = 'mock';
+    private string $model;
 
     /**
      * @var list<ComponentInterface>

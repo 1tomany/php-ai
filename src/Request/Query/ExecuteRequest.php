@@ -10,21 +10,23 @@ class ExecuteRequest
     /**
      * @var non-empty-lowercase-string
      */
-    private string $model = 'mock';
+    private string $model;
 
     /**
      * @var non-empty-string
      */
-    private string $url = 'mock';
+    private string $url;
 
     /**
      * @var array<string, mixed>
      */
     private array $request = [];
 
-    public function __construct(string $model = 'mock')
-    {
-        $this->forModel($model);
+    public function __construct(
+        string $model = 'mock',
+        string $url = 'mock',
+    ) {
+        $this->forModel($model)->withUrl($url);
     }
 
     public function forModel(string $model): static
