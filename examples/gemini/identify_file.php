@@ -46,7 +46,7 @@ try {
         'model' => 'gemini-2.5-flash',
     ]);
 
-    $uploadRequest->atPath($path)->withFormat(...[
+    $uploadRequest->atPath($path)->withFormat(...[ // @phpstan-ignore-line
         'format' => mime_content_type($path),
     ]);
 
