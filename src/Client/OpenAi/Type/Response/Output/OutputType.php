@@ -36,6 +36,10 @@ final readonly class OutputType
      */
     public function getOutput(): ?string
     {
-        return trim(implode('', array_map(fn ($c) => (string) $c->text, $this->content ?? []))) ?: null;
+        if (null !== $this->content) {
+            return trim(implode('', array_map(fn ($c) => (string) $c->text, $this->content))) ?: null;
+        }
+
+        return null;
     }
 }

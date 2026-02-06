@@ -7,7 +7,9 @@ use OneToMany\AI\Client\OpenAi\Type\Response\Enum\Status;
 use OneToMany\AI\Client\OpenAi\Type\Response\Output\OutputType;
 use OneToMany\AI\Exception\RuntimeException;
 
-use function is_array;
+use function array_map;
+use function implode;
+use function trim;
 
 final readonly class ResponseType
 {
@@ -36,11 +38,12 @@ final readonly class ResponseType
      */
     public function getOutput(): string
     {
-        if (true === is_array($this->output)) {
-            foreach ($this->output as $output) {
-            }
+        $output = null;
+
+        if (null !== $this->output) {
+            $output = trim(implode('', array_map(fn ($o) => $o->getOutput(), $this->output)));
         }
 
-        throw new RuntimeException('Not implemented!');
+        return $output ?: throw new RuntimeException('The query failed to generate any output.');
     }
 }
