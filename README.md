@@ -10,7 +10,7 @@ This library provides a single, unified, framework-independent library for integ
 
 ### Platform feature support
 
-**Note** Each platform refers to generating content differently. I've decided the word "query" is the most succinct term to describe the process by which a large language model generates content. The "Queries" section below refers to the ability to compile and execute a query against a large language model.
+**Note:** Each platform refers to running model inference differently; OpenAI uses the word "Responses" while Gemini uses the word "Content". I've decided the word "Query" is the most succinct term to describe interacting with an LLM. The "Queries" section below refers to the ability to compile and execute a query against a large language model.
 
 | Feature       | Gemini | Mock | OpenAI |
 | ------------- | :----: | :--: | :----: |
