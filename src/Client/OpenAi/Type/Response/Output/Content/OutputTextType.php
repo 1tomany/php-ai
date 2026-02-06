@@ -7,7 +7,7 @@ use OneToMany\AI\Exception\InvalidArgumentException;
 
 use function sprintf;
 
-final readonly class OutputText
+final readonly class OutputTextType
 {
     /**
      * @param ?non-empty-string $text

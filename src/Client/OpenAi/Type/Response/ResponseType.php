@@ -4,6 +4,7 @@ namespace OneToMany\AI\Client\OpenAi\Type\Response;
 
 use OneToMany\AI\Client\OpenAi\Type\Error\ErrorType;
 use OneToMany\AI\Client\OpenAi\Type\Response\Enum\Status;
+use OneToMany\AI\Client\OpenAi\Type\Response\Output\OutputType;
 use OneToMany\AI\Exception\RuntimeException;
 
 final readonly class ResponseType
@@ -14,7 +15,7 @@ final readonly class ResponseType
      * @param non-negative-int $created_at
      * @param ?non-negative-int $completed_at
      * @param non-empty-lowercase-string $model
-     * @param ?non-empty-list<> $output
+     * @param ?non-empty-list<OutputType> $output
      */
     public function __construct(
         public string $id,
