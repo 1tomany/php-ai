@@ -16,23 +16,6 @@ use OneToMany\AI\Response\Query\ExecuteResponse;
 use Symfony\Component\Stopwatch\Stopwatch;
 use Symfony\Contracts\HttpClient\Exception\ExceptionInterface as HttpClientExceptionInterface;
 
-/**
- * @phpstan-type OpenAiContentText array{type: 'output_text', text: non-empty-string}
- * @phpstan-type OpenAiContentReasoning array{type: 'reasoning_text', text: non-empty-string}
- * @phpstan-type OpenAiContentRefusal array{type: 'refusal', refusal: non-empty-string}
- * @phpstan-type OpenAiOutputMessage array{
- *   type: 'message',
- *   id: non-empty-string,
- *   status: 'in_progress'|'completed'|'incomplete',
- *   content: non-empty-list<OpenAiContentText|OpenAiContentRefusal>,
- * }
- * @phpstan-type OpenAiOutputReasoning array{
- *   type: 'reasoning',
- *   id: non-empty-string,
- *   status: 'in_progress'|'completed'|'incomplete',
- *   content: non-empty-list<OpenAiContentReasoning>,
- * }
- */
 final readonly class QueryClient extends OpenAiClient implements QueryClientInterface
 {
     /**

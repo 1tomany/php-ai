@@ -2,6 +2,7 @@
 
 namespace OneToMany\AI\Response\Query;
 
+use OneToMany\AI\Request\Query\ExecuteRequest;
 use OneToMany\AI\Response\BaseResponse;
 
 final readonly class CompileResponse extends BaseResponse
@@ -33,5 +34,10 @@ final readonly class CompileResponse extends BaseResponse
     public function getRequest(): array
     {
         return $this->request;
+    }
+
+    public function toExecuteRequest(): ExecuteRequest
+    {
+        return new ExecuteRequest($this->getModel())->withUrl($this->getUrl())->withRequest($this->getRequest());
     }
 }
