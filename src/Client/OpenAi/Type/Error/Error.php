@@ -2,11 +2,11 @@
 
 namespace OneToMany\AI\Client\OpenAi\Type\Error;
 
-use OneToMany\AI\Contract\Client\Type\Error\ErrorTypeInterface;
+use OneToMany\AI\Contract\Client\Type\Error\ErrorInterface;
 
 use function rtrim;
 
-final readonly class ErrorType implements ErrorTypeInterface
+final readonly class Error implements ErrorInterface
 {
     /**
      * @param ?non-empty-string $type
@@ -22,7 +22,7 @@ final readonly class ErrorType implements ErrorTypeInterface
     }
 
     /**
-     * @see OneToMany\AI\Contract\Client\Type\Error\ErrorTypeInterface
+     * @see OneToMany\AI\Contract\Client\Type\Error\ErrorInterface
      */
     public function getMessage(): string
     {
@@ -30,7 +30,7 @@ final readonly class ErrorType implements ErrorTypeInterface
     }
 
     /**
-     * @see OneToMany\AI\Contract\Client\Type\Error\ErrorTypeInterface
+     * @see OneToMany\AI\Contract\Client\Type\Error\ErrorInterface
      */
     public function getInlineMessage(): string
     {

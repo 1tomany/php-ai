@@ -41,4 +41,4 @@ $queryClient = new QueryClient($serializer, $httpClient, getenv('OPENAI_API_KEY'
 $compileRequest = new CompileRequest('gpt-5-nano')->withText('Who was the first president of the United States of America?');
 $response = $queryClient->execute($queryClient->compile($compileRequest)->toExecuteRequest());
 
-print_r($response);
+// print_r($response);

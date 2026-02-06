@@ -2,9 +2,9 @@
 
 namespace OneToMany\AI\Client\OpenAi\Type\Response;
 
-use OneToMany\AI\Client\OpenAi\Type\Error\ErrorType;
+use OneToMany\AI\Client\OpenAi\Type\Error\Error;
 use OneToMany\AI\Client\OpenAi\Type\Response\Enum\Status;
-use OneToMany\AI\Client\OpenAi\Type\Response\Output\OutputType;
+use OneToMany\AI\Client\OpenAi\Type\Response\Output\Output;
 use OneToMany\AI\Exception\RuntimeException;
 
 use function array_map;
@@ -12,7 +12,7 @@ use function implode;
 use function sprintf;
 use function trim;
 
-final readonly class ResponseType
+final readonly class Response
 {
     /**
      * @param non-empty-string $id
@@ -20,17 +20,20 @@ final readonly class ResponseType
      * @param non-negative-int $created_at
      * @param ?non-negative-int $completed_at
      * @param non-empty-lowercase-string $model
-     * @param ?list<OutputType> $output
+     * @param ?list<Output> $output
      */
     public function __construct(
         public string $id,
         public string $object,
         public int $created_at,
         public Status $status,
+        public ?bool $background,
         public ?int $completed_at,
-        public ?ErrorType $error,
+        public ?Error $error,
         public string $model,
-        public ?array $output = null,
+        public ?array $output,
+        public int|float $temperature = 1.0,
+        public Usage $usage = new Usage(),
     ) {
     }
 

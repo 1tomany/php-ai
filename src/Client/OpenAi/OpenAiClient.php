@@ -2,10 +2,10 @@
 
 namespace OneToMany\AI\Client\OpenAi;
 
-use OneToMany\AI\Client\OpenAi\Type\Error\ErrorType;
+use OneToMany\AI\Client\OpenAi\Type\Error\Error;
 use OneToMany\AI\Client\Trait\HttpExceptionTrait;
 use OneToMany\AI\Client\Trait\SupportsModelTrait;
-use OneToMany\AI\Contract\Client\Type\Error\ErrorTypeInterface;
+use OneToMany\AI\Contract\Client\Type\Error\ErrorInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Component\Serializer\SerializerInterface;
@@ -69,7 +69,7 @@ abstract readonly class OpenAiClient
         return sprintf('https://api.openai.com/v1/%s', ltrim(implode('/', $paths), '/'));
     }
 
-    protected function decodeErrorResponse(ResponseInterface $response): ErrorTypeInterface
+    protected function decodeErrorResponse(ResponseInterface $response): ErrorInterface
     {
         try {
             /**
@@ -84,9 +84,9 @@ abstract readonly class OpenAiClient
              */
             $error = $response->toArray(false);
         } catch (HttpClientExceptionInterface) {
-            return new ErrorType($response->getContent(false));
+            return new Error($response->getContent(false));
         }
 
-        return new ErrorType($error['error']['message'], $error['error']['type'] ?? null, $error['error']['param'] ?? null, $error['error']['code'] ?? null);
+        return new Error($error['error']['message'], $error['error']['type'] ?? null, $error['error']['param'] ?? null, $error['error']['code'] ?? null);
     }
 }

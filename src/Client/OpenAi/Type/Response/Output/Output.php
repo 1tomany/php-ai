@@ -4,7 +4,7 @@ namespace OneToMany\AI\Client\OpenAi\Type\Response\Output;
 
 use OneToMany\AI\Client\OpenAi\Type\Response\Enum\Role;
 use OneToMany\AI\Client\OpenAi\Type\Response\Enum\Status;
-use OneToMany\AI\Client\OpenAi\Type\Response\Output\Content\OutputTextType;
+use OneToMany\AI\Client\OpenAi\Type\Response\Output\Content\OutputText;
 use OneToMany\AI\Client\OpenAi\Type\Response\Output\Enum\Type;
 use OneToMany\AI\Exception\InvalidArgumentException;
 
@@ -13,11 +13,11 @@ use function implode;
 use function sprintf;
 use function trim;
 
-final readonly class OutputType
+final readonly class Output
 {
     /**
      * @param non-empty-string $id
-     * @param ?list<OutputTextType> $content
+     * @param ?list<OutputText> $content
      */
     public function __construct(
         public string $id,

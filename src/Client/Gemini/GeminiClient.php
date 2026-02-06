@@ -5,7 +5,7 @@ namespace OneToMany\AI\Client\Gemini;
 use OneToMany\AI\Client\Gemini\Type\Error\ErrorType;
 use OneToMany\AI\Client\Trait\HttpExceptionTrait;
 use OneToMany\AI\Client\Trait\SupportsModelTrait;
-use OneToMany\AI\Contract\Client\Type\Error\ErrorTypeInterface;
+use OneToMany\AI\Contract\Client\Type\Error\ErrorInterface;
 use Symfony\Contracts\HttpClient\Exception\ExceptionInterface as HttpClientExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Contracts\HttpClient\ResponseInterface;
@@ -57,7 +57,7 @@ abstract readonly class GeminiClient
         return sprintf('https://generativelanguage.googleapis.com/%s', ltrim($path, '/'));
     }
 
-    protected function decodeErrorResponse(ResponseInterface $response): ErrorTypeInterface
+    protected function decodeErrorResponse(ResponseInterface $response): ErrorInterface
     {
         try {
             /**

@@ -3,7 +3,7 @@
 namespace OneToMany\AI\Client\OpenAi;
 
 use OneToMany\AI\Client\OpenAi\Type\Response\Enum\FileType;
-use OneToMany\AI\Client\OpenAi\Type\Response\ResponseType;
+use OneToMany\AI\Client\OpenAi\Type\Response\Response;
 use OneToMany\AI\Contract\Client\QueryClientInterface;
 use OneToMany\AI\Exception\RuntimeException;
 use OneToMany\AI\Request\Query\CompileRequest;
@@ -95,9 +95,9 @@ final readonly class QueryClient extends OpenAiClient implements QueryClientInte
             $timer->stop();
         }
 
-        $output = $this->serializer->denormalize($responseContent, ResponseType::class);
+        $output = $this->serializer->denormalize($responseContent, Response::class);
 
-        if ($output->error) {
+        if (null !== $output->error) {
             throw new RuntimeException($output->error->getMessage());
         }
 

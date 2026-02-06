@@ -7,7 +7,7 @@ use OneToMany\AI\Exception\InvalidArgumentException;
 
 use function sprintf;
 
-final readonly class OutputTextType
+final readonly class OutputText
 {
     /**
      * @param ?non-empty-string $text
@@ -19,7 +19,7 @@ final readonly class OutputTextType
         public ?string $refusal = null,
     ) {
         if (!$text && !$refusal) {
-            throw new InvalidArgumentException('The text and refusal cannot both be empty.');
+            throw new InvalidArgumentException('Both the text and refusal cannot be empty.');
         }
 
         if ($type->isOutputText() && !$text) {
