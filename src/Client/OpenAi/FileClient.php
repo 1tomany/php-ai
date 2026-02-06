@@ -3,6 +3,7 @@
 namespace OneToMany\AI\Client\OpenAi;
 
 use OneToMany\AI\Client\OpenAi\Type\File\Enum\Purpose;
+use OneToMany\AI\Client\OpenAi\Type\File\File;
 use OneToMany\AI\Contract\Client\FileClientInterface;
 use OneToMany\AI\Exception\RuntimeException;
 use OneToMany\AI\Request\File\DeleteRequest;
@@ -33,23 +34,12 @@ final readonly class FileClient extends OpenAiClient implements FileClientInterf
                 ],
             ]);
 
-            /**
-             * @var array{
-             *   id: non-empty-string,
-             *   object: 'file',
-             *   bytes: non-negative-int,
-             *   created_at: non-negative-int,
-             *   expires_at: ?non-negative-int,
-             *   filename: non-empty-string,
-             *   purpose: non-empty-lowercase-string,
-             * } $file
-             */
-            $file = $response->toArray(true);
+            $file = $this->serializer->denormalize($response->toArray(true), File::class);
         } catch (HttpClientExceptionInterface $e) {
             $this->handleHttpException($e);
         }
 
-        return new UploadResponse($request->getModel(), $file['id'], $file['filename'], $file['purpose'], null !== $file['expires_at'] ? \DateTimeImmutable::createFromTimestamp($file['expires_at']) : null);
+        return new UploadResponse($request->getModel(), $file->id, $file->filename, $file->purpose->getValue(), $file->getExpiresAt());
     }
 
     /**
