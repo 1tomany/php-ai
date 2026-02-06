@@ -44,6 +44,6 @@ final readonly class OutputType
             $output = array_map(fn ($c) => (string) $c->text, $this->content);
         }
 
-        return trim(implode('', $output ?? '')) ?: null;
+        return trim(implode('', $output ?? [])) ?: null;
     }
 }

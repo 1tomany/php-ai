@@ -43,6 +43,6 @@ final readonly class ResponseType
             $output = array_map(fn ($o) => $o->getOutput(), $this->output);
         }
 
-        return trim(implode('', $output ?? '')) ?: throw new RuntimeException(sprintf('The model "%s" failed to generate any output.', $this->model));
+        return trim(implode('', $output ?? [])) ?: throw new RuntimeException(sprintf('The model "%s" failed to generate any output.', $this->model));
     }
 }
