@@ -34,6 +34,7 @@ final readonly class FileClient extends OpenAiClient implements FileClientInterf
                 ],
             ]);
 
+            print_r($response->toArray(true));
             $file = $this->serializer->denormalize($response->toArray(true), File::class);
         } catch (HttpClientExceptionInterface $e) {
             $this->handleHttpException($e);

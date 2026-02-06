@@ -7,23 +7,22 @@ use OneToMany\AI\Client\OpenAi\Type\File\Enum\Purpose;
 final readonly class File
 {
     /**
-     * @param non-empty-string $id
      * @param 'file' $object
+     * @param non-empty-string $id
+     * @param non-empty-string $filename
      * @param non-negative-int $bytes
      * @param non-negative-int $created_at
      * @param ?non-negative-int $expires_at
-     * @param non-empty-string $filename
      */
     public function __construct(
-        public string $id,
         public string $object,
+        public string $id,
+        public Purpose $purpose,
+        public string $filename,
         public int $bytes,
         public int $created_at,
-        public ?int $expires_at,
-        public string $filename,
-        public Purpose $purpose,
-    )
-    {
+        public ?int $expires_at = null,
+    ) {
     }
 
     public function getExpiresAt(): ?\DateTimeImmutable
