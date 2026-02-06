@@ -33,6 +33,11 @@ final readonly class FileUriComponent implements ComponentInterface
         return $this->format;
     }
 
+    public function isImage(): bool
+    {
+        return \str_starts_with($this->getFormat(), 'image/');
+    }
+
     /**
      * @see OneToMany\AI\Contract\Request\Query\Component\ComponentInterface
      */
