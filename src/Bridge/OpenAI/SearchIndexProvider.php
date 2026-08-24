@@ -18,16 +18,39 @@ final readonly class SearchIndexProvider extends AbstractProvider implements Sea
     #[\Override]
     public function create(string $name, ?string $description = null): SearchIndex
     {
-        $payload = ['name' => $name];
+        $payload = [
+            'name' => $name,
+            'description' => $description,
+        ];
 
-        if (null !== $description) {
-            $payload['description'] = $description;
+        $url = $this->url('vector_stores');
+
+        try {
+            $response = $this->transport->postRequest($url, [
+                'auth_bearer' => $this->apiKey,
+                'headers' => $this->headers(),
+                'json' => [
+                    ...$payload,
+                ],
+            ]);
+        } finally {
+            unset($payload);
         }
 
-        $response = $this->transport->postRequest($this->url('vector_stores'), [
+        return $this->mapSearchIndex($this->transport->decode($response, SearchIndexRecord::class));
+    }
+
+    /**
+     * @see OneToMany\AI\Contract\Bridge\SearchIndexProviderInterface
+     */
+    #[\Override]
+    public function read(string $searchIndexId): SearchIndex
+    {
+        $url = $this->url('vector_stores', $searchIndexId);
+
+        $response = $this->transport->getRequest($url, [
             'auth_bearer' => $this->apiKey,
             'headers' => $this->headers(),
-            'json' => $payload,
         ]);
 
         return $this->mapSearchIndex($this->transport->decode($response, SearchIndexRecord::class));
@@ -55,11 +78,19 @@ final readonly class SearchIndexProvider extends AbstractProvider implements Sea
             $payload['attributes'] = $metadata;
         }
 
-        $response = $this->transport->postRequest($this->url('vector_stores', $searchIndexId, 'files'), [
-            'auth_bearer' => $this->apiKey,
-            'headers' => $this->headers(),
-            'json' => $payload,
-        ]);
+        $url = $this->url('vector_stores', $searchIndexId, 'files');
+
+        try {
+            $response = $this->transport->postRequest($url, [
+                'auth_bearer' => $this->apiKey,
+                'headers' => $this->headers(),
+                'json' => [
+                    ...$payload,
+                ],
+            ]);
+        } finally {
+            unset($payload);
+        }
 
         $record = $this->transport->decode($response, SearchIndexFileRecord::class);
 
@@ -72,30 +103,20 @@ final readonly class SearchIndexProvider extends AbstractProvider implements Sea
     #[\Override]
     public function removeFile(string $searchIndexId, string $searchIndexFileId): void
     {
-        $this->transport->deleteRequest($this->url('vector_stores', $searchIndexId, 'files', $searchIndexFileId), [
+        $url = $this->url('vector_stores', $searchIndexId, 'files', $searchIndexFileId);
+
+        $this->transport->deleteRequest($url, [
             'auth_bearer' => $this->apiKey,
             'headers' => $this->headers(),
         ]);
-    }
-
-    /**
-     * @see OneToMany\AI\Contract\Bridge\SearchIndexProviderInterface
-     */
-    #[\Override]
-    public function read(string $searchIndexId): SearchIndex
-    {
-        $response = $this->transport->getRequest($this->url('vector_stores', $searchIndexId), [
-            'auth_bearer' => $this->apiKey,
-            'headers' => $this->headers(),
-        ]);
-
-        return $this->mapSearchIndex($this->transport->decode($response, SearchIndexRecord::class));
     }
 
     private function findFile(string $searchIndexId, string $fileId): ?SearchIndexFileRecord
     {
+        $url = $this->url('vector_stores', $searchIndexId, 'files', $fileId);
+
         try {
-            $response = $this->transport->getRequest($this->url('vector_stores', $searchIndexId, 'files', $fileId), [
+            $response = $this->transport->getRequest($url, [
                 'auth_bearer' => $this->apiKey,
                 'headers' => $this->headers(),
             ]);
@@ -130,15 +151,12 @@ final readonly class SearchIndexProvider extends AbstractProvider implements Sea
     /**
      * @param non-empty-string $fileId
      */
-    private function mapSearchIndexFile(SearchIndexFileRecord $record, string $fileId): SearchIndexFile
+    private function mapSearchIndexFile(
+        SearchIndexFileRecord $record,
+        string $fileId,
+    ): SearchIndexFile
     {
-        return new SearchIndexFile(
-            $record->id,
-            $record->vector_store_id,
-            $fileId,
-            $record->status,
-            $record->attributes ?? [],
-        );
+        return new SearchIndexFile($record->id, $record->vector_store_id, $fileId, $record->status, $record->attributes ?? []);
     }
 
     /**
