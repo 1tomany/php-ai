@@ -154,8 +154,7 @@ final readonly class SearchIndexProvider extends AbstractProvider implements Sea
     private function mapSearchIndexFile(
         SearchIndexFileRecord $record,
         string $fileId,
-    ): SearchIndexFile
-    {
+    ): SearchIndexFile {
         return new SearchIndexFile($record->id, $record->vector_store_id, $fileId, $record->status, $record->attributes ?? []);
     }
 
