@@ -1,8 +1,8 @@
 <?php
 
-namespace OneToMany\AI\Bridge\Gemini\Response\SearchIndex;
+namespace OneToMany\AI\Bridge\Gemini\Response\FileSearchStore;
 
-final readonly class SearchIndex
+final readonly class FileSearchStore
 {
     /**
      * @param non-empty-string $name

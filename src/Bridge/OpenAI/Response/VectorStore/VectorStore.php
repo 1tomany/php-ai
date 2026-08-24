@@ -1,8 +1,8 @@
 <?php
 
-namespace OneToMany\AI\Bridge\OpenAI\Response\SearchIndex;
+namespace OneToMany\AI\Bridge\OpenAI\Response\VectorStore;
 
-final readonly class SearchIndex
+final readonly class VectorStore
 {
     /**
      * @param non-empty-string $id

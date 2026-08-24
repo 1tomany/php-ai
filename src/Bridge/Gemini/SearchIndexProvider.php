@@ -2,11 +2,11 @@
 
 namespace OneToMany\AI\Bridge\Gemini;
 
-use OneToMany\AI\Bridge\Gemini\Response\SearchIndex\ImportFileResponse;
-use OneToMany\AI\Bridge\Gemini\Response\SearchIndex\Operation;
-use OneToMany\AI\Bridge\Gemini\Response\SearchIndex\SearchIndex as SearchIndexRecord;
-use OneToMany\AI\Bridge\Gemini\Response\SearchIndex\SearchIndexFile as SearchIndexFileRecord;
-use OneToMany\AI\Bridge\Gemini\Response\SearchIndex\SearchIndexFileList;
+use OneToMany\AI\Bridge\Gemini\Response\FileSearchStore\FileSearchStore as FileSearchStoreRecord;
+use OneToMany\AI\Bridge\Gemini\Response\FileSearchStore\ImportFileResponse;
+use OneToMany\AI\Bridge\Gemini\Response\FileSearchStore\Operation;
+use OneToMany\AI\Bridge\Gemini\Response\FileSearchStore\SearchIndexFile as SearchIndexFileRecord;
+use OneToMany\AI\Bridge\Gemini\Response\FileSearchStore\SearchIndexFileList;
 use OneToMany\AI\Contract\Bridge\SearchIndexProviderInterface;
 use OneToMany\AI\Exception\RuntimeException;
 use OneToMany\AI\Resource\SearchIndex\SearchIndex;
@@ -40,7 +40,7 @@ final readonly class SearchIndexProvider extends AbstractProvider implements Sea
             'json' => ['displayName' => $name],
         ]);
 
-        return $this->mapSearchIndex($this->transport->decode($response, SearchIndexRecord::class));
+        return $this->mapSearchIndex($this->transport->decode($response, FileSearchStoreRecord::class));
     }
 
     /**
@@ -105,7 +105,7 @@ final readonly class SearchIndexProvider extends AbstractProvider implements Sea
             'headers' => $this->headers(),
         ]);
 
-        return $this->mapSearchIndex($this->transport->decode($response, SearchIndexRecord::class));
+        return $this->mapSearchIndex($this->transport->decode($response, FileSearchStoreRecord::class));
     }
 
     private function findFile(string $searchIndexId, string $fileId): ?SearchIndexFileRecord
@@ -169,7 +169,7 @@ final readonly class SearchIndexProvider extends AbstractProvider implements Sea
         throw new RuntimeException('The Gemini import operation did not complete in time.');
     }
 
-    private function mapSearchIndex(SearchIndexRecord $record): SearchIndex
+    private function mapSearchIndex(FileSearchStoreRecord $record): SearchIndex
     {
         $completed = max(0, (int) $record->activeDocumentsCount);
         $inProgress = max(0, (int) $record->pendingDocumentsCount);

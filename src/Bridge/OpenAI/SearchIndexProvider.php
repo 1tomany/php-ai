@@ -2,8 +2,8 @@
 
 namespace OneToMany\AI\Bridge\OpenAI;
 
-use OneToMany\AI\Bridge\OpenAI\Response\SearchIndex\SearchIndex as SearchIndexRecord;
-use OneToMany\AI\Bridge\OpenAI\Response\SearchIndex\SearchIndexFile as SearchIndexFileRecord;
+use OneToMany\AI\Bridge\OpenAI\Response\VectorStore\SearchIndexFile as SearchIndexFileRecord;
+use OneToMany\AI\Bridge\OpenAI\Response\VectorStore\VectorStore as VectorStoreRecord;
 use OneToMany\AI\Contract\Bridge\SearchIndexProviderInterface;
 use OneToMany\AI\Exception\RuntimeException;
 use OneToMany\AI\Resource\SearchIndex\SearchIndex;
@@ -37,7 +37,7 @@ final readonly class SearchIndexProvider extends AbstractProvider implements Sea
             unset($payload);
         }
 
-        return $this->mapSearchIndex($this->transport->decode($response, SearchIndexRecord::class));
+        return $this->mapSearchIndex($this->transport->decode($response, VectorStoreRecord::class));
     }
 
     /**
@@ -53,7 +53,7 @@ final readonly class SearchIndexProvider extends AbstractProvider implements Sea
             'headers' => $this->headers(),
         ]);
 
-        return $this->mapSearchIndex($this->transport->decode($response, SearchIndexRecord::class));
+        return $this->mapSearchIndex($this->transport->decode($response, VectorStoreRecord::class));
     }
 
     /**
@@ -131,7 +131,7 @@ final readonly class SearchIndexProvider extends AbstractProvider implements Sea
         return $this->transport->decode($response, SearchIndexFileRecord::class);
     }
 
-    private function mapSearchIndex(SearchIndexRecord $record): SearchIndex
+    private function mapSearchIndex(VectorStoreRecord $record): SearchIndex
     {
         return new SearchIndex(
             $record->id,

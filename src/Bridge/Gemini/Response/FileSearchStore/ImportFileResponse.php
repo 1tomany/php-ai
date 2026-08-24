@@ -1,6 +1,6 @@
 <?php
 
-namespace OneToMany\AI\Bridge\Gemini\Response\SearchIndex;
+namespace OneToMany\AI\Bridge\Gemini\Response\FileSearchStore;
 
 final readonly class ImportFileResponse
 {

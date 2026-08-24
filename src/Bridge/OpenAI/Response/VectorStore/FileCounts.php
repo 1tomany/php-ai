@@ -1,6 +1,6 @@
 <?php
 
-namespace OneToMany\AI\Bridge\OpenAI\Response\SearchIndex;
+namespace OneToMany\AI\Bridge\OpenAI\Response\VectorStore;
 
 final readonly class FileCounts
 {
