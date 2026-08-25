@@ -40,8 +40,6 @@ final readonly class InputText implements \Stringable
     }
 
     /**
-     * @see OneToMany\AI\Resource\Query\InputText::__construct()
-     *
      * @throws RuntimeException when reading the file fails
      */
     public static function fromFile(string $path): self
