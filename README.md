@@ -21,43 +21,21 @@ A [Symfony bundle](https://github.com/1tomany/php-ai-bundle) is available if you
 
 ### Platform features
 
-| Feature              | Gemini | OpenAI |
-| -------------------- | :----: | :----: |
-| **Files**            |        |        |
-| Upload               |   ✅   |   ✅   |
-| Delete               |   ✅   |   ✅   |
-| **Queries**          |        |        |
-| Compile              |   ✅   |   ✅   |
-| Run                  |   ✅   |   ✅   |
-| **Search stores**    |        |        |
-| Create               |   ✅   |   ✅   |
-| Read with statistics |   ✅   |   ✅   |
-| Delete               |   ✅   |   ✅   |
-| Attach file          |   ✅   |   ✅   |
-| Read attached file   |   ✅   |   ✅   |
-| Delete attached file |   ✅   |   ✅   |
-
-Search stores and their attached files are exposed as separate resource facades:
-
-```php
-$searchStore = $aiClient->searchStores->create('openai', 'Documentation');
-$searchStore = $aiClient->searchStores->read('openai', $searchStore->id);
-
-$searchStoreFile = $aiClient->searchStores->files->attach(
-    'openai',
-    $searchStore->id,
-    $remoteFile->id,
-    ['section' => 'reference'],
-);
-$searchStoreFile = $aiClient->searchStores->files->read(
-    'openai',
-    $searchStore->id,
-    $searchStoreFile->id,
-);
-
-$aiClient->searchStores->files->delete('openai', $searchStore->id, $searchStoreFile->id);
-$aiClient->searchStores->delete('openai', $searchStore->id);
-```
+| Feature          | Gemini | OpenAI |
+| ---------------- | :----: | :----: |
+| **Files**        |        |        |
+| Upload           |   ✅   |   ✅   |
+| Delete           |   ✅   |   ✅   |
+| **Queries**      |        |        |
+| Compile          |   ✅   |   ✅   |
+| Run              |   ✅   |   ✅   |
+| **SearchStores** |        |        |
+| Create           |   ✅   |   ✅   |
+| Read             |   ✅   |   ✅   |
+| Delete           |   ✅   |   ✅   |
+| Attach file      |   ✅   |   ✅   |
+| Read file        |   ✅   |   ✅   |
+| Delete file      |   ✅   |   ✅   |
 
 **Note:** Each platform refers to generating output - inference - differently: OpenAI uses "Response", Gemini uses "Interaction", and Anthropic uses "Message". I've decided the word "Query" best represents how you interact with a generative LLM: you compile a query and then run the query to generate a response. The word "Embedding" will continue to be used for embedding models.
 
