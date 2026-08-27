@@ -2,18 +2,24 @@
 
 namespace OneToMany\AI\Bridge\Gemini\Response\FileSearchStore;
 
+use OneToMany\AI\Bridge\Gemini\Response\FileSearchStore\Enum\DocumentState;
+
 final readonly class Document
 {
     /**
      * @param non-empty-string $name
-     * @param non-empty-string $state
-     * @param list<array<string, mixed>> $customMetadata
+     * @param non-empty-string $displayName
+     * @param non-negative-int|numeric-string $sizeBytes
+     * @param non-empty-string $mimeType
      */
     public function __construct(
         public string $name,
-        public string $state,
-        public array $customMetadata = [],
-        public string $displayName = '',
+        public string $displayName,
+        public \DateTimeImmutable $createTime,
+        public \DateTimeImmutable $updateTime,
+        public DocumentState $state,
+        public int|string $sizeBytes,
+        public string $mimeType,
     ) {
     }
 }

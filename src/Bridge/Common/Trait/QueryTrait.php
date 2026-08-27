@@ -17,8 +17,11 @@ trait QueryTrait
      * @throws RuntimeException when compiling the query fails
      */
     #[\Override]
-    public function compile(Model $model, Prompt $prompt, array $options = []): Query
-    {
+    public function compile(
+        Model $model,
+        Prompt $prompt,
+        array $options = [],
+    ): Query {
         try {
             /** @var array<string, mixed> $request */
             $request = $this->serializer->normalize(new QueryDefinition($model, $prompt, $options));

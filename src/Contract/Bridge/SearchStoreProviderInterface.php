@@ -4,6 +4,7 @@ namespace OneToMany\AI\Contract\Bridge;
 
 use OneToMany\AI\Resource\SearchStore\SearchStore;
 use OneToMany\AI\Resource\SearchStore\SearchStoreFile;
+use OneToMany\AI\Resource\Shared\Metadata;
 
 interface SearchStoreProviderInterface extends ProviderInterface
 {
@@ -26,9 +27,8 @@ interface SearchStoreProviderInterface extends ProviderInterface
     /**
      * @param non-empty-string $searchStoreId
      * @param non-empty-string $fileId
-     * @param ?array<string, scalar> $metadata
      */
-    public function attachFile(string $searchStoreId, string $fileId, ?array $metadata = null): SearchStoreFile;
+    public function attachFile(string $searchStoreId, string $fileId, Metadata $metadata): SearchStoreFile;
 
     /**
      * @param non-empty-string $searchStoreId

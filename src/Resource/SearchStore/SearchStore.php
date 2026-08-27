@@ -8,13 +8,11 @@ final readonly class SearchStore
      * @param non-empty-string $id
      * @param non-empty-string $name
      * @param ?non-empty-string $description
-     * @param ?non-empty-string $status
      */
     public function __construct(
         public string $id,
         public string $name,
         public ?string $description = null,
-        public ?string $status = null,
         public Statistics $statistics = new Statistics(),
     ) {
     }
@@ -41,14 +39,6 @@ final readonly class SearchStore
     public function getDescription(): ?string
     {
         return $this->description;
-    }
-
-    /**
-     * @return ?non-empty-string
-     */
-    public function getStatus(): ?string
-    {
-        return $this->status;
     }
 
     public function getStatistics(): Statistics

@@ -3,7 +3,6 @@
 namespace OneToMany\AI\Bridge\Gemini;
 
 use OneToMany\AI\Bridge\Gemini\Response\FileSearchStore\Document;
-use OneToMany\AI\Bridge\Gemini\Response\FileSearchStore\DocumentList;
 use OneToMany\AI\Bridge\Gemini\Response\FileSearchStore\FileSearchStore;
 use OneToMany\AI\Bridge\Gemini\Response\FileSearchStore\ImportFileResponse;
 use OneToMany\AI\Bridge\Gemini\Response\FileSearchStore\Operation;
@@ -11,10 +10,10 @@ use OneToMany\AI\Contract\Bridge\SearchStoreProviderInterface;
 use OneToMany\AI\Exception\RuntimeException;
 use OneToMany\AI\Resource\SearchStore\SearchStore;
 use OneToMany\AI\Resource\SearchStore\SearchStoreFile;
+use OneToMany\AI\Resource\Shared\Metadata;
 
 use function array_key_exists;
 use function is_array;
-use function is_bool;
 use function is_float;
 use function is_int;
 use function is_string;
@@ -91,30 +90,9 @@ final readonly class SearchStoreProvider extends AbstractProvider implements Sea
     public function attachFile(
         string $searchStoreId,
         string $fileId,
-        ?array $metadata = null,
+        Metadata $metadata,
     ): SearchStoreFile {
-        // if (!$force && null !== $record = $this->findFile($searchStoreId, $fileId)) {
-        //     return $this->mapSearchStoreFile($record, $searchStoreId, $fileId);
-        // }
-
-        $response = $this->transport->postRequest($this->url($this->apiVersion, $searchStoreId.':importFile'), [
-            'headers' => $this->headers(),
-            'json' => [
-                'fileName' => $fileId,
-                'customMetadata' => $this->normalizeMetadata($fileId, $metadata),
-            ],
-        ]);
-
-        $operation = $this->transport->decode($response, Operation::class);
-        $result = $this->waitForImport($operation);
-
-        if (null === $result->documentName) {
-            throw new RuntimeException('Gemini did not return the attached search store file ID.');
-        }
-
-        $record = $this->getFile($result->documentName);
-
-        return $this->mapSearchStoreFile($record, $searchStoreId, $fileId, $metadata);
+        throw new RuntimeException('Not implemented!');
     }
 
     /**
@@ -125,15 +103,26 @@ final readonly class SearchStoreProvider extends AbstractProvider implements Sea
         string $searchStoreId,
         string $searchStoreFileId,
     ): SearchStoreFile {
-        $record = $this->getFile($searchStoreFileId);
-        $metadata = $this->metadata($record);
-        $fileId = $metadata[self::SOURCE_FILE_METADATA_KEY] ?? $record->name;
+        $url = $this->url($this->apiVersion, $searchStoreFileId);
 
-        if (!is_string($fileId) || '' === $fileId) {
-            $fileId = $record->name;
-        }
+        $response = $this->transport->getRequest($url, [
+            'headers' => [
+                'x-goog-api-key' => $this->apiKey,
+            ],
+        ]);
 
-        return $this->mapSearchStoreFile($record, $searchStoreId, $fileId, $metadata);
+        $document = $this->transport->decode($response, Document::class);
+
+        return new SearchStoreFile($document->name);
+        // $record = $this->getFile($searchStoreFileId);
+        // $metadata = $this->metadata($record);
+        // $fileId = $metadata[self::SOURCE_FILE_METADATA_KEY] ?? $record->name;
+
+        // if (!is_string($fileId) || '' === $fileId) {
+        //     $fileId = $record->name;
+        // }
+
+        // return $this->mapSearchStoreFile($record, $searchStoreId, $fileId, $metadata);
     }
 
     /**
@@ -192,8 +181,12 @@ final readonly class SearchStoreProvider extends AbstractProvider implements Sea
 
     private function getFile(string $searchStoreFileId): Document
     {
-        $response = $this->transport->getRequest($this->url($this->apiVersion, $searchStoreFileId), [
-            'headers' => $this->headers(),
+        $url = $this->url($this->apiVersion, $searchStoreFileId);
+
+        $response = $this->transport->getRequest($url, [
+            'headers' => [
+                'x-goog-api-key' => $this->apiKey,
+            ],
         ]);
 
         return $this->transport->decode($response, Document::class);
@@ -253,31 +246,6 @@ final readonly class SearchStoreProvider extends AbstractProvider implements Sea
             },
             $metadata,
         );
-    }
-
-    /**
-     * @param non-empty-string $fileId
-     * @param array<string, string|int|float|bool> $metadata
-     *
-     * @return non-empty-list<array{key: string, stringValue?: string, numericValue?: int|float}>
-     */
-    private function normalizeMetadata(string $fileId, array $metadata): array
-    {
-        $metadata[self::SOURCE_FILE_METADATA_KEY] = $fileId;
-        $normalized = [];
-
-        foreach ($metadata as $key => $value) {
-            if (is_int($value) || is_float($value)) {
-                $normalized[] = ['key' => $key, 'numericValue' => $value];
-            } else {
-                $normalized[] = [
-                    'key' => $key,
-                    'stringValue' => is_bool($value) ? ($value ? 'true' : 'false') : $value,
-                ];
-            }
-        }
-
-        return $normalized;
     }
 
     /**
