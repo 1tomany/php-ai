@@ -4,11 +4,13 @@ namespace OneToMany\AI\Bridge\Gemini;
 
 use OneToMany\AI\Bridge\Gemini\Response\FileSearchStore\Document;
 use OneToMany\AI\Bridge\Gemini\Response\FileSearchStore\FileSearchStore;
+use OneToMany\AI\Bridge\Gemini\Response\FileSearchStore\Operation;
 use OneToMany\AI\Contract\Bridge\SearchStoreProviderInterface;
-use OneToMany\AI\Exception\RuntimeException;
 use OneToMany\AI\Resource\SearchStore\SearchStore;
 use OneToMany\AI\Resource\SearchStore\SearchStoreFile;
 use OneToMany\AI\Resource\Shared\Metadata;
+
+use function sprintf;
 
 final readonly class SearchStoreProvider extends AbstractProvider implements SearchStoreProviderInterface
 {
@@ -78,7 +80,20 @@ final readonly class SearchStoreProvider extends AbstractProvider implements Sea
         string $fileId,
         Metadata $metadata,
     ): SearchStoreFile {
-        throw new RuntimeException('Not implemented!');
+        $url = $this->url($this->apiVersion, sprintf('%s:importFile', $searchStoreId));
+
+        $response = $this->transport->postRequest($url, [
+            'headers' => [
+                'x-goog-api-key' => $this->apiKey,
+            ],
+            'json' => [
+                'fileName' => $fileId,
+            ],
+        ]);
+
+        $operation = $this->transport->decode($response, Operation::class);
+
+        return $this->readFile($searchStoreId, $operation->id);
     }
 
     /**
