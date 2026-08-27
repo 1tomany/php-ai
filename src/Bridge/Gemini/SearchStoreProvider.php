@@ -4,8 +4,6 @@ namespace OneToMany\AI\Bridge\Gemini;
 
 use OneToMany\AI\Bridge\Gemini\Response\FileSearchStore\Document;
 use OneToMany\AI\Bridge\Gemini\Response\FileSearchStore\FileSearchStore;
-use OneToMany\AI\Bridge\Gemini\Response\FileSearchStore\ImportFileResponse;
-use OneToMany\AI\Bridge\Gemini\Response\FileSearchStore\Operation;
 use OneToMany\AI\Contract\Bridge\SearchStoreProviderInterface;
 use OneToMany\AI\Exception\RuntimeException;
 use OneToMany\AI\Resource\SearchStore\SearchStore;
