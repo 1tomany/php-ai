@@ -30,11 +30,8 @@
     "require-dev": {
         "fakerphp/faker": "^1.24",
         "friendsofphp/php-cs-fixer": "^3.93",
-        "phpdocumentor/reflection-docblock": "^6.0",
         "phpstan/phpstan": "^2.1.55",
-        "phpunit/phpunit": "^13.1.11",
-        "symfony/property-access": "^7.2|^8.0|^8.1",
-        "symfony/property-info": "^7.2|^8.0|^8.1"
+        "phpunit/phpunit": "^13.1.11"
     },
     "autoload": {
         "psr-4": {
