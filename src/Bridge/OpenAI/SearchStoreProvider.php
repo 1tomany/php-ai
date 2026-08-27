@@ -7,6 +7,7 @@ use OneToMany\AI\Bridge\OpenAI\Response\VectorStore\VectorStoreFile;
 use OneToMany\AI\Contract\Bridge\SearchStoreProviderInterface;
 use OneToMany\AI\Resource\SearchStore\SearchStore;
 use OneToMany\AI\Resource\SearchStore\SearchStoreFile;
+use OneToMany\AI\Resource\Shared\Metadata;
 
 final readonly class SearchStoreProvider extends AbstractProvider implements SearchStoreProviderInterface
 {
@@ -66,7 +67,7 @@ final readonly class SearchStoreProvider extends AbstractProvider implements Sea
     public function attachFile(
         string $searchStoreId,
         string $fileId,
-        ?array $metadata = null,
+        Metadata $metadata,
     ): SearchStoreFile {
         $url = $this->url('vector_stores', $searchStoreId, 'files');
 
@@ -74,7 +75,6 @@ final readonly class SearchStoreProvider extends AbstractProvider implements Sea
             'auth_bearer' => $this->apiKey,
             'json' => [
                 'file_id' => $fileId,
-                'attributes' => $metadata,
             ],
         ]);
 
