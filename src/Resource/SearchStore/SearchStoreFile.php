@@ -9,6 +9,7 @@ final readonly class SearchStoreFile
      */
     public function __construct(
         public string $id,
+        public bool $isActive = true,
     ) {
     }
 
@@ -18,5 +19,10 @@ final readonly class SearchStoreFile
     public function getId(): string
     {
         return $this->id;
+    }
+
+    public function isActive(): bool
+    {
+        return $this->isActive;
     }
 }

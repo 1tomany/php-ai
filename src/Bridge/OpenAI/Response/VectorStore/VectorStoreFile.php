@@ -13,7 +13,6 @@ final readonly class VectorStoreFile
      * @param non-negative-int $usage_bytes
      * @param non-negative-int $created_at
      * @param non-empty-string $vector_store_id
-     * @param ?array<string, scalar> $attributes
      */
     public function __construct(
         public string $id,
@@ -23,12 +22,11 @@ final readonly class VectorStoreFile
         public string $vector_store_id,
         public VectorStoreFileStatus $status,
         public ?LastError $last_error,
-        public ?array $attributes = null,
     ) {
     }
 
     public function toResource(): SearchStoreFile
     {
-        return new SearchStoreFile($this->id);
+        return new SearchStoreFile($this->id, $this->status->isCompleted());
     }
 }

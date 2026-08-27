@@ -26,6 +26,6 @@ final readonly class Document
 
     public function toResource(): SearchStoreFile
     {
-        return new SearchStoreFile($this->name);
+        return new SearchStoreFile($this->name, $this->state->isActive());
     }
 }

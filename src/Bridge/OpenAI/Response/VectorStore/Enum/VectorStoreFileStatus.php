@@ -8,4 +8,12 @@ enum VectorStoreFileStatus: string
     case Completed = 'completed';
     case Cancelled = 'cancelled';
     case Failed = 'failed';
+
+    /**
+     * @phpstan-assert-if-true self::Completed $this
+     */
+    public function isCompleted(): bool
+    {
+        return self::Completed === $this;
+    }
 }
