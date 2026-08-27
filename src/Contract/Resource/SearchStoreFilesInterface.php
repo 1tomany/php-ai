@@ -3,7 +3,6 @@
 namespace OneToMany\AI\Contract\Resource;
 
 use OneToMany\AI\Exception\EmptyIdException;
-use OneToMany\AI\Exception\InvalidArgumentException;
 use OneToMany\AI\Resource\SearchStore\SearchStoreFile;
 use OneToMany\AI\Vendor;
 
