@@ -60,6 +60,6 @@ final class FileSearchStore
 
     public function toResource(): SearchStore
     {
-        return new SearchStore($this->name, $this->displayName ?? $this->name, null, null, new Statistics($this->totalDocuments, $this->activeDocuments, $this->pendingDocuments, $this->failedDocuments));
+        return new SearchStore($this->name, $this->displayName ?? $this->name, null, new Statistics($this->totalDocuments, $this->activeDocuments, $this->pendingDocuments, $this->failedDocuments));
     }
 }
