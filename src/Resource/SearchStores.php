@@ -45,7 +45,7 @@ final readonly class SearchStores extends AbstractResource implements SearchStor
             $description = trim($description);
         }
 
-        return $this->providers->get(Vendor::create($vendor))->create($name, '' !== $description ? $description : null);
+        return $this->getProvider($vendor)->create($name, '' !== $description ? $description : null);
     }
 
     /**
@@ -56,7 +56,7 @@ final readonly class SearchStores extends AbstractResource implements SearchStor
         string|Vendor $vendor,
         ?string $searchStoreId,
     ): SearchStore {
-        return $this->providers->get(Vendor::create($vendor))->read(EmptyIdException::validate($searchStoreId, 'search store'));
+        return $this->getProvider($vendor)->read(EmptyIdException::validate($searchStoreId, 'search store'));
     }
 
     /**
@@ -67,6 +67,6 @@ final readonly class SearchStores extends AbstractResource implements SearchStor
         string|Vendor $vendor,
         ?string $searchStoreId,
     ): void {
-        $this->providers->get(Vendor::create($vendor))->delete(EmptyIdException::validate($searchStoreId, 'search store'));
+        $this->getProvider($vendor)->delete(EmptyIdException::validate($searchStoreId, 'search store'));
     }
 }

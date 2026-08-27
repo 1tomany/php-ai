@@ -23,7 +23,7 @@ final readonly class SearchStoreFiles extends AbstractResource implements Search
         ?string $fileId,
         ?array $metadata = null,
     ): SearchStoreFile {
-        return $this->providers->get(Vendor::create($vendor))->attachFile(EmptyIdException::validate($searchStoreId, 'search store'), EmptyIdException::validate($fileId, 'file'), $metadata);
+        return $this->getProvider($vendor)->attachFile(EmptyIdException::validate($searchStoreId, 'search store'), EmptyIdException::validate($fileId, 'file'), $metadata);
     }
 
     /**
@@ -35,7 +35,7 @@ final readonly class SearchStoreFiles extends AbstractResource implements Search
         ?string $searchStoreId,
         ?string $searchStoreFileId,
     ): SearchStoreFile {
-        return $this->providers->get(Vendor::create($vendor))->readFile(EmptyIdException::validate($searchStoreId, 'search store'), EmptyIdException::validate($searchStoreFileId, 'search store file'));
+        return $this->getProvider($vendor)->readFile(EmptyIdException::validate($searchStoreId, 'search store'), EmptyIdException::validate($searchStoreFileId, 'search store file'));
     }
 
     /**
@@ -47,6 +47,6 @@ final readonly class SearchStoreFiles extends AbstractResource implements Search
         ?string $searchStoreId,
         ?string $searchStoreFileId,
     ): void {
-        $this->providers->get(Vendor::create($vendor))->deleteFile(EmptyIdException::validate($searchStoreId, 'search store'), EmptyIdException::validate($searchStoreFileId, 'search store file'));
+        $this->getProvider($vendor)->deleteFile(EmptyIdException::validate($searchStoreId, 'search store'), EmptyIdException::validate($searchStoreFileId, 'search store file'));
     }
 }
