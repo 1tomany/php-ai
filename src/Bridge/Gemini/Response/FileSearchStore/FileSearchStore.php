@@ -2,7 +2,12 @@
 
 namespace OneToMany\AI\Bridge\Gemini\Response\FileSearchStore;
 
-final readonly class FileSearchStore
+use OneToMany\AI\Resource\SearchStore\SearchStore;
+use OneToMany\AI\Resource\SearchStore\Statistics;
+
+use function max;
+
+final class FileSearchStore
 {
     /**
      * @param non-empty-string $name
@@ -11,11 +16,44 @@ final readonly class FileSearchStore
      * @param non-negative-int|numeric-string $failedDocumentsCount
      */
     public function __construct(
-        public string $name,
-        public string $displayName = '',
-        public int|string $activeDocumentsCount = 0,
-        public int|string $pendingDocumentsCount = 0,
-        public int|string $failedDocumentsCount = 0,
+        public readonly string $name,
+        public readonly string $displayName,
+        public readonly int|string $activeDocumentsCount = 0,
+        public readonly int|string $pendingDocumentsCount = 0,
+        public readonly int|string $failedDocumentsCount = 0,
     ) {
+    }
+
+    /**
+     * @var non-negative-int
+     */
+    public int $totalDocuments {
+        get => $this->activeDocuments + $this->pendingDocuments + $this->failedDocuments;
+    }
+
+    /**
+     * @var non-negative-int
+     */
+    public int $activeDocuments {
+        get => max(0, (int) $this->activeDocumentsCount);
+    }
+
+    /**
+     * @var non-negative-int
+     */
+    public int $pendingDocuments {
+        get => max(0, (int) $this->pendingDocumentsCount);
+    }
+
+    /**
+     * @var non-negative-int
+     */
+    public int $failedDocuments {
+        get => max(0, (int) $this->failedDocumentsCount);
+    }
+
+    public function toResource(): SearchStore
+    {
+        return new SearchStore($this->name, $this->displayName, null, null, new Statistics($this->totalDocuments, $this->activeDocuments, $this->pendingDocuments, $this->failedDocuments));
     }
 }

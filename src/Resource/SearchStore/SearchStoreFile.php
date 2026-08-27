@@ -9,7 +9,7 @@ final readonly class SearchStoreFile
      * @param non-empty-string $searchStoreId
      * @param non-empty-string $fileId
      * @param ?non-empty-string $status
-     * @param array<string, string|int|float|bool> $metadata
+     * @param array<string, scalar> $metadata
      */
     public function __construct(
         public string $id,
@@ -53,7 +53,7 @@ final readonly class SearchStoreFile
     }
 
     /**
-     * @return array<string, string|int|float|bool>
+     * @return array<string, scalar>
      */
     public function getMetadata(): array
     {

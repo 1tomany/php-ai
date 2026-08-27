@@ -2,16 +2,15 @@
 
 namespace OneToMany\AI\Bridge\Gemini;
 
-use OneToMany\AI\Bridge\Gemini\Response\FileSearchStore\Document as DocumentRecord;
+use OneToMany\AI\Bridge\Gemini\Response\FileSearchStore\Document;
 use OneToMany\AI\Bridge\Gemini\Response\FileSearchStore\DocumentList;
-use OneToMany\AI\Bridge\Gemini\Response\FileSearchStore\FileSearchStore as FileSearchStoreRecord;
+use OneToMany\AI\Bridge\Gemini\Response\FileSearchStore\FileSearchStore;
 use OneToMany\AI\Bridge\Gemini\Response\FileSearchStore\ImportFileResponse;
 use OneToMany\AI\Bridge\Gemini\Response\FileSearchStore\Operation;
 use OneToMany\AI\Contract\Bridge\SearchStoreProviderInterface;
 use OneToMany\AI\Exception\RuntimeException;
 use OneToMany\AI\Resource\SearchStore\SearchStore;
 use OneToMany\AI\Resource\SearchStore\SearchStoreFile;
-use OneToMany\AI\Resource\SearchStore\Statistics;
 
 use function array_key_exists;
 use function is_array;
@@ -19,7 +18,6 @@ use function is_bool;
 use function is_float;
 use function is_int;
 use function is_string;
-use function max;
 use function sprintf;
 use function usleep;
 
@@ -33,14 +31,22 @@ final readonly class SearchStoreProvider extends AbstractProvider implements Sea
      * @see OneToMany\AI\Contract\Bridge\SearchStoreProviderInterface
      */
     #[\Override]
-    public function create(string $name, ?string $description = null): SearchStore
-    {
-        $response = $this->transport->postRequest($this->url($this->apiVersion, 'fileSearchStores'), [
-            'headers' => $this->headers(),
-            'json' => ['displayName' => $name],
+    public function create(
+        string $name,
+        ?string $description = null,
+    ): SearchStore {
+        $url = $this->url($this->apiVersion, 'fileSearchStores');
+
+        $response = $this->transport->postRequest($url, [
+            'headers' => [
+                'x-goog-api-key' => $this->apiKey,
+            ],
+            'json' => [
+                'displayName' => $name,
+            ],
         ]);
 
-        return $this->mapSearchStore($this->transport->decode($response, FileSearchStoreRecord::class));
+        return $this->transport->decode($response, FileSearchStore::class)->toResource();
     }
 
     /**
@@ -49,11 +55,15 @@ final readonly class SearchStoreProvider extends AbstractProvider implements Sea
     #[\Override]
     public function read(string $searchStoreId): SearchStore
     {
-        $response = $this->transport->getRequest($this->url($this->apiVersion, $searchStoreId), [
-            'headers' => $this->headers(),
+        $url = $this->url($this->apiVersion, $searchStoreId);
+
+        $response = $this->transport->getRequest($url, [
+            'headers' => [
+                'x-goog-api-key' => $this->apiKey,
+            ],
         ]);
 
-        return $this->mapSearchStore($this->transport->decode($response, FileSearchStoreRecord::class));
+        return $this->transport->decode($response, FileSearchStore::class)->toResource();
     }
 
     /**
@@ -62,27 +72,30 @@ final readonly class SearchStoreProvider extends AbstractProvider implements Sea
     #[\Override]
     public function delete(string $searchStoreId): void
     {
-        $this->transport->deleteRequest($this->url($this->apiVersion, $searchStoreId), [
-            'headers' => $this->headers(),
-            'query' => ['force' => 'true'],
+        $url = $this->url($this->apiVersion, $searchStoreId);
+
+        $this->transport->deleteRequest($url, [
+            'headers' => [
+                'x-goog-api-key' => $this->apiKey,
+            ],
+            'query' => [
+                'force' => 'true',
+            ],
         ]);
     }
 
     /**
      * @see OneToMany\AI\Contract\Bridge\SearchStoreProviderInterface
-     *
-     * @param array<string, string|int|float|bool> $metadata
      */
     #[\Override]
     public function attachFile(
         string $searchStoreId,
         string $fileId,
-        array $metadata = [],
-        bool $force = false,
+        ?array $metadata = null,
     ): SearchStoreFile {
-        if (!$force && null !== $record = $this->findFile($searchStoreId, $fileId)) {
-            return $this->mapSearchStoreFile($record, $searchStoreId, $fileId);
-        }
+        // if (!$force && null !== $record = $this->findFile($searchStoreId, $fileId)) {
+        //     return $this->mapSearchStoreFile($record, $searchStoreId, $fileId);
+        // }
 
         $response = $this->transport->postRequest($this->url($this->apiVersion, $searchStoreId.':importFile'), [
             'headers' => $this->headers(),
@@ -108,8 +121,10 @@ final readonly class SearchStoreProvider extends AbstractProvider implements Sea
      * @see OneToMany\AI\Contract\Bridge\SearchStoreProviderInterface
      */
     #[\Override]
-    public function readFile(string $searchStoreId, string $searchStoreFileId): SearchStoreFile
-    {
+    public function readFile(
+        string $searchStoreId,
+        string $searchStoreFileId,
+    ): SearchStoreFile {
         $record = $this->getFile($searchStoreFileId);
         $metadata = $this->metadata($record);
         $fileId = $metadata[self::SOURCE_FILE_METADATA_KEY] ?? $record->name;
@@ -125,15 +140,24 @@ final readonly class SearchStoreProvider extends AbstractProvider implements Sea
      * @see OneToMany\AI\Contract\Bridge\SearchStoreProviderInterface
      */
     #[\Override]
-    public function deleteFile(string $searchStoreId, string $searchStoreFileId): void
-    {
-        $this->transport->deleteRequest($this->url($this->apiVersion, $searchStoreFileId), [
-            'headers' => $this->headers(),
-            'query' => ['force' => 'true'],
+    public function deleteFile(
+        string $searchStoreId,
+        string $searchStoreFileId,
+    ): void {
+        $url = $this->url($this->apiVersion, $searchStoreFileId);
+
+        $this->transport->deleteRequest($url, [
+            'headers' => [
+                'x-goog-api-key' => $this->apiKey,
+            ],
+            'query' => [
+                'force' => 'true',
+            ],
         ]);
     }
 
-    private function findFile(string $searchStoreId, string $fileId): ?DocumentRecord
+    /*
+    private function findFile(string $searchStoreId, string $fileId): ?Document
     {
         $pageToken = null;
 
@@ -152,7 +176,7 @@ final readonly class SearchStoreProvider extends AbstractProvider implements Sea
             $page = $this->transport->decode($response, DocumentList::class);
 
             foreach ($page->documents as $document) {
-                $record = $this->createDocumentRecord($document);
+                $record = $this->createDocument($document);
 
                 if (null !== $record && $fileId === ($this->metadata($record)[self::SOURCE_FILE_METADATA_KEY] ?? null)) {
                     return $record;
@@ -164,14 +188,15 @@ final readonly class SearchStoreProvider extends AbstractProvider implements Sea
 
         return null;
     }
+    */
 
-    private function getFile(string $searchStoreFileId): DocumentRecord
+    private function getFile(string $searchStoreFileId): Document
     {
         $response = $this->transport->getRequest($this->url($this->apiVersion, $searchStoreFileId), [
             'headers' => $this->headers(),
         ]);
 
-        return $this->transport->decode($response, DocumentRecord::class);
+        return $this->transport->decode($response, Document::class);
     }
 
     private function waitForImport(Operation $operation): ImportFileResponse
@@ -203,40 +228,13 @@ final readonly class SearchStoreProvider extends AbstractProvider implements Sea
         throw new RuntimeException('The Gemini import operation did not complete in time.');
     }
 
-    private function mapSearchStore(FileSearchStoreRecord $record): SearchStore
-    {
-        $completed = max(0, (int) $record->activeDocumentsCount);
-        $inProgress = max(0, (int) $record->pendingDocumentsCount);
-        $failed = max(0, (int) $record->failedDocumentsCount);
-
-        if ($inProgress > 0) {
-            $status = 'in_progress';
-        } elseif ($failed > 0) {
-            $status = 'failed';
-        } else {
-            $status = 'completed';
-        }
-
-        return new SearchStore(
-            $record->name,
-            '' !== $record->displayName ? $record->displayName : $record->name,
-            status: $status,
-            statistics: new Statistics(
-                $completed + $inProgress + $failed,
-                $completed,
-                $inProgress,
-                $failed,
-            ),
-        );
-    }
-
     /**
      * @param non-empty-string $searchStoreId
      * @param non-empty-string $fileId
      * @param ?array<string, string|int|float|bool> $metadata
      */
     private function mapSearchStoreFile(
-        DocumentRecord $record,
+        Document $record,
         string $searchStoreId,
         string $fileId,
         ?array $metadata = null,
@@ -285,7 +283,7 @@ final readonly class SearchStoreProvider extends AbstractProvider implements Sea
     /**
      * @return array<string, string|int|float|bool>
      */
-    private function metadata(DocumentRecord $record): array
+    private function metadata(Document $record): array
     {
         $metadata = [];
 
@@ -307,7 +305,7 @@ final readonly class SearchStoreProvider extends AbstractProvider implements Sea
     /**
      * @param array<string, mixed> $document
      */
-    private function createDocumentRecord(array $document): ?DocumentRecord
+    private function createDocument(array $document): ?Document
     {
         $name = $document['name'] ?? null;
 
@@ -341,7 +339,7 @@ final readonly class SearchStoreProvider extends AbstractProvider implements Sea
 
         $displayName = $document['displayName'] ?? '';
 
-        return new DocumentRecord(
+        return new Document(
             $name,
             $state,
             $customMetadata,

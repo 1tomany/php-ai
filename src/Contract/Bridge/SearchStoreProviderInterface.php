@@ -26,14 +26,9 @@ interface SearchStoreProviderInterface extends ProviderInterface
     /**
      * @param non-empty-string $searchStoreId
      * @param non-empty-string $fileId
-     * @param array<string, string|int|float|bool> $metadata
+     * @param ?array<string, scalar> $metadata
      */
-    public function attachFile(
-        string $searchStoreId,
-        string $fileId,
-        array $metadata = [],
-        bool $force = false,
-    ): SearchStoreFile;
+    public function attachFile(string $searchStoreId, string $fileId, ?array $metadata = null): SearchStoreFile;
 
     /**
      * @param non-empty-string $searchStoreId
