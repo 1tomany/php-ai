@@ -36,6 +36,7 @@ final readonly class SearchStores extends AbstractResource implements SearchStor
         string|Vendor $vendor,
         ?string $name,
         ?string $description = null,
+        ?string $embeddingModel = null,
     ): SearchStore {
         if ('' === $name = trim((string) $name)) {
             throw new InvalidArgumentException('The search store name cannot be empty.');
@@ -45,7 +46,11 @@ final readonly class SearchStores extends AbstractResource implements SearchStor
             $description = trim($description);
         }
 
-        return $this->getProvider($vendor)->create($name, '' !== $description ? $description : null);
+        if (false === is_null($embeddingModel)) {
+            $embeddingModel = trim($embeddingModel);
+        }
+
+        return $this->getProvider($vendor)->create($name, '' !== $description ? $description : null, '' !== $embeddingModel ? $embeddingModel : null);
     }
 
     /**

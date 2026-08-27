@@ -11,8 +11,9 @@ interface SearchStoreProviderInterface extends ProviderInterface
     /**
      * @param non-empty-string $name
      * @param ?non-empty-string $description
+     * @param ?non-empty-string $embeddingModel
      */
-    public function create(string $name, ?string $description = null): SearchStore;
+    public function create(string $name, ?string $description, ?string $embeddingModel): SearchStore;
 
     /**
      * @param non-empty-string $searchStoreId

@@ -14,15 +14,22 @@ use function sprintf;
 
 final readonly class SearchStoreProvider extends AbstractProvider implements SearchStoreProviderInterface
 {
+    public const string MULTIMODAL_EMBEDDING_MODEL = 'models/gemini-embedding-2';
+
     /**
      * @see OneToMany\AI\Contract\Bridge\SearchStoreProviderInterface
      */
     #[\Override]
     public function create(
         string $name,
-        ?string $description = null,
+        ?string $description,
+        ?string $embeddingModel,
     ): SearchStore {
         $url = $this->url($this->apiVersion, 'fileSearchStores');
+
+        if ('' === $model = trim((string) $embeddingModel)) {
+            $model = self::MULTIMODAL_EMBEDDING_MODEL;
+        }
 
         $response = $this->transport->postRequest($url, [
             'headers' => [
@@ -30,6 +37,7 @@ final readonly class SearchStoreProvider extends AbstractProvider implements Sea
             ],
             'json' => [
                 'displayName' => $name,
+                'embeddingModel' => $model,
             ],
         ]);
 

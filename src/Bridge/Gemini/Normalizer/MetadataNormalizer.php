@@ -67,15 +67,6 @@ final readonly class MetadataNormalizer implements NormalizerInterface
         array $context = [],
     ): bool {
         return $data instanceof Metadata && Vendor::Gemini->getName() === $format;
-        // if ($data instanceof Metadata) {
-        //     $vendor = $context['vendor'] ?? null;
-
-        //     if ($vendor instanceof Vendor) {
-        //         return $vendor->isGemini();
-        //     }
-        // }
-
-        // return false;
     }
 
     /**
