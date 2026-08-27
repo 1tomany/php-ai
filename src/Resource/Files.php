@@ -4,7 +4,7 @@ namespace OneToMany\AI\Resource;
 
 use OneToMany\AI\Contract\Bridge\FileProviderInterface;
 use OneToMany\AI\Contract\Resource\FilesInterface;
-use OneToMany\AI\Exception\EmptyIdException;
+use OneToMany\AI\Exception\InvalidArgumentException;
 use OneToMany\AI\Resource\File\LocalFile;
 use OneToMany\AI\Resource\File\RemoteFile;
 use OneToMany\AI\Vendor;
@@ -37,6 +37,6 @@ final readonly class Files extends AbstractResource implements FilesInterface
         string|Vendor $vendor,
         ?string $fileId,
     ): void {
-        $this->getProvider($vendor)->delete(EmptyIdException::validate($fileId, 'file'));
+        $this->getProvider($vendor)->delete(InvalidArgumentException::validateId($fileId, 'file'));
     }
 }

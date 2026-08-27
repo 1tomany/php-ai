@@ -5,7 +5,6 @@ namespace OneToMany\AI\Resource;
 use OneToMany\AI\Contract\Bridge\SearchStoreProviderInterface;
 use OneToMany\AI\Contract\Resource\SearchStoreFilesInterface;
 use OneToMany\AI\Contract\Resource\SearchStoresInterface;
-use OneToMany\AI\Exception\EmptyIdException;
 use OneToMany\AI\Exception\InvalidArgumentException;
 use OneToMany\AI\Resource\SearchStore\SearchStore;
 use OneToMany\AI\Vendor;
@@ -61,7 +60,7 @@ final readonly class SearchStores extends AbstractResource implements SearchStor
         string|Vendor $vendor,
         ?string $searchStoreId,
     ): SearchStore {
-        return $this->getProvider($vendor)->read(EmptyIdException::validate($searchStoreId, 'search store'));
+        return $this->getProvider($vendor)->read(InvalidArgumentException::validateId($searchStoreId, 'search store'));
     }
 
     /**
@@ -72,6 +71,6 @@ final readonly class SearchStores extends AbstractResource implements SearchStor
         string|Vendor $vendor,
         ?string $searchStoreId,
     ): void {
-        $this->getProvider($vendor)->delete(EmptyIdException::validate($searchStoreId, 'search store'));
+        $this->getProvider($vendor)->delete(InvalidArgumentException::validateId($searchStoreId, 'search store'));
     }
 }
