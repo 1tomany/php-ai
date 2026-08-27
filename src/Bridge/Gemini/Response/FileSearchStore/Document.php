@@ -3,6 +3,7 @@
 namespace OneToMany\AI\Bridge\Gemini\Response\FileSearchStore;
 
 use OneToMany\AI\Bridge\Gemini\Response\FileSearchStore\Enum\DocumentState;
+use OneToMany\AI\Resource\SearchStore\SearchStoreFile;
 
 final readonly class Document
 {
@@ -21,5 +22,10 @@ final readonly class Document
         public int|string $sizeBytes,
         public string $mimeType,
     ) {
+    }
+
+    public function toResource(): SearchStoreFile
+    {
+        return new SearchStoreFile($this->name);
     }
 }
