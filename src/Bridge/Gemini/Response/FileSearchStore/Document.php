@@ -2,7 +2,7 @@
 
 namespace OneToMany\AI\Bridge\Gemini\Response\FileSearchStore;
 
-final readonly class SearchIndexFile
+final readonly class Document
 {
     /**
      * @param non-empty-string $name

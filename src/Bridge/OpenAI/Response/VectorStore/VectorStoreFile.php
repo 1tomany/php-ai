@@ -2,7 +2,7 @@
 
 namespace OneToMany\AI\Bridge\OpenAI\Response\VectorStore;
 
-final readonly class SearchIndexFile
+final readonly class VectorStoreFile
 {
     /**
      * @param non-empty-string $id

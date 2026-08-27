@@ -1,6 +1,6 @@
 <?php
 
-namespace OneToMany\AI\Resource\SearchIndex;
+namespace OneToMany\AI\Resource\SearchStore;
 
 final readonly class Statistics
 {

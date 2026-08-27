@@ -1,19 +1,19 @@
 <?php
 
-namespace OneToMany\AI\Resource\SearchIndex;
+namespace OneToMany\AI\Resource\SearchStore;
 
-final readonly class SearchIndexFile
+final readonly class SearchStoreFile
 {
     /**
      * @param non-empty-string $id
-     * @param non-empty-string $searchIndexId
+     * @param non-empty-string $searchStoreId
      * @param non-empty-string $fileId
      * @param ?non-empty-string $status
      * @param array<string, string|int|float|bool> $metadata
      */
     public function __construct(
         public string $id,
-        public string $searchIndexId,
+        public string $searchStoreId,
         public string $fileId,
         public ?string $status = null,
         public array $metadata = [],
@@ -31,9 +31,9 @@ final readonly class SearchIndexFile
     /**
      * @return non-empty-string
      */
-    public function getSearchIndexId(): string
+    public function getSearchStoreId(): string
     {
-        return $this->searchIndexId;
+        return $this->searchStoreId;
     }
 
     /**

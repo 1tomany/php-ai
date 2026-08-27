@@ -4,7 +4,7 @@ namespace OneToMany\AI\Contract;
 
 use OneToMany\AI\Contract\Resource\FilesInterface;
 use OneToMany\AI\Contract\Resource\QueriesInterface;
-use OneToMany\AI\Contract\Resource\SearchIndexesInterface;
+use OneToMany\AI\Contract\Resource\SearchStoresInterface;
 
 interface AiClientInterface
 {
@@ -12,5 +12,5 @@ interface AiClientInterface
 
     public QueriesInterface $queries { get; }
 
-    public SearchIndexesInterface $searchIndexes { get; }
+    public SearchStoresInterface $searchStores { get; }
 }

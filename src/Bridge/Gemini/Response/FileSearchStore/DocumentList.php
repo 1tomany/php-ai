@@ -2,7 +2,7 @@
 
 namespace OneToMany\AI\Bridge\Gemini\Response\FileSearchStore;
 
-final readonly class SearchIndexFileList
+final readonly class DocumentList
 {
     /**
      * @param list<array<string, mixed>> $documents

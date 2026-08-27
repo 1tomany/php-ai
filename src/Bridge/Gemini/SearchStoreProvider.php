@@ -2,16 +2,16 @@
 
 namespace OneToMany\AI\Bridge\Gemini;
 
+use OneToMany\AI\Bridge\Gemini\Response\FileSearchStore\Document as DocumentRecord;
+use OneToMany\AI\Bridge\Gemini\Response\FileSearchStore\DocumentList;
 use OneToMany\AI\Bridge\Gemini\Response\FileSearchStore\FileSearchStore as FileSearchStoreRecord;
 use OneToMany\AI\Bridge\Gemini\Response\FileSearchStore\ImportFileResponse;
 use OneToMany\AI\Bridge\Gemini\Response\FileSearchStore\Operation;
-use OneToMany\AI\Bridge\Gemini\Response\FileSearchStore\SearchIndexFile as SearchIndexFileRecord;
-use OneToMany\AI\Bridge\Gemini\Response\FileSearchStore\SearchIndexFileList;
-use OneToMany\AI\Contract\Bridge\SearchIndexProviderInterface;
+use OneToMany\AI\Contract\Bridge\SearchStoreProviderInterface;
 use OneToMany\AI\Exception\RuntimeException;
-use OneToMany\AI\Resource\SearchIndex\SearchIndex;
-use OneToMany\AI\Resource\SearchIndex\SearchIndexFile;
-use OneToMany\AI\Resource\SearchIndex\Statistics;
+use OneToMany\AI\Resource\SearchStore\SearchStore;
+use OneToMany\AI\Resource\SearchStore\SearchStoreFile;
+use OneToMany\AI\Resource\SearchStore\Statistics;
 
 use function array_key_exists;
 use function is_array;
@@ -23,43 +23,68 @@ use function max;
 use function sprintf;
 use function usleep;
 
-final readonly class SearchIndexProvider extends AbstractProvider implements SearchIndexProviderInterface
+final readonly class SearchStoreProvider extends AbstractProvider implements SearchStoreProviderInterface
 {
     private const string SOURCE_FILE_METADATA_KEY = '__onetomany_ai_file_id';
     private const int IMPORT_POLL_INTERVAL_MICROSECONDS = 250_000;
     private const int IMPORT_POLL_LIMIT = 240;
 
     /**
-     * @see OneToMany\AI\Contract\Bridge\SearchIndexProviderInterface
+     * @see OneToMany\AI\Contract\Bridge\SearchStoreProviderInterface
      */
     #[\Override]
-    public function create(string $name, ?string $description = null): SearchIndex
+    public function create(string $name, ?string $description = null): SearchStore
     {
         $response = $this->transport->postRequest($this->url($this->apiVersion, 'fileSearchStores'), [
             'headers' => $this->headers(),
             'json' => ['displayName' => $name],
         ]);
 
-        return $this->mapSearchIndex($this->transport->decode($response, FileSearchStoreRecord::class));
+        return $this->mapSearchStore($this->transport->decode($response, FileSearchStoreRecord::class));
     }
 
     /**
-     * @see OneToMany\AI\Contract\Bridge\SearchIndexProviderInterface
+     * @see OneToMany\AI\Contract\Bridge\SearchStoreProviderInterface
+     */
+    #[\Override]
+    public function read(string $searchStoreId): SearchStore
+    {
+        $response = $this->transport->getRequest($this->url($this->apiVersion, $searchStoreId), [
+            'headers' => $this->headers(),
+        ]);
+
+        return $this->mapSearchStore($this->transport->decode($response, FileSearchStoreRecord::class));
+    }
+
+    /**
+     * @see OneToMany\AI\Contract\Bridge\SearchStoreProviderInterface
+     */
+    #[\Override]
+    public function delete(string $searchStoreId): void
+    {
+        $this->transport->deleteRequest($this->url($this->apiVersion, $searchStoreId), [
+            'headers' => $this->headers(),
+            'query' => ['force' => 'true'],
+        ]);
+    }
+
+    /**
+     * @see OneToMany\AI\Contract\Bridge\SearchStoreProviderInterface
      *
      * @param array<string, string|int|float|bool> $metadata
      */
     #[\Override]
     public function attachFile(
-        string $searchIndexId,
+        string $searchStoreId,
         string $fileId,
         array $metadata = [],
         bool $force = false,
-    ): SearchIndexFile {
-        if (!$force && null !== $record = $this->findFile($searchIndexId, $fileId)) {
-            return $this->mapSearchIndexFile($record, $searchIndexId, $fileId);
+    ): SearchStoreFile {
+        if (!$force && null !== $record = $this->findFile($searchStoreId, $fileId)) {
+            return $this->mapSearchStoreFile($record, $searchStoreId, $fileId);
         }
 
-        $response = $this->transport->postRequest($this->url($this->apiVersion, $searchIndexId.':importFile'), [
+        $response = $this->transport->postRequest($this->url($this->apiVersion, $searchStoreId.':importFile'), [
             'headers' => $this->headers(),
             'json' => [
                 'fileName' => $fileId,
@@ -71,44 +96,44 @@ final readonly class SearchIndexProvider extends AbstractProvider implements Sea
         $result = $this->waitForImport($operation);
 
         if (null === $result->documentName) {
-            throw new RuntimeException('Gemini did not return the imported search index file ID.');
+            throw new RuntimeException('Gemini did not return the attached search store file ID.');
         }
 
-        $response = $this->transport->getRequest($this->url($this->apiVersion, $result->documentName), [
-            'headers' => $this->headers(),
-        ]);
+        $record = $this->getFile($result->documentName);
 
-        $record = $this->transport->decode($response, SearchIndexFileRecord::class);
-
-        return $this->mapSearchIndexFile($record, $searchIndexId, $fileId, $metadata);
+        return $this->mapSearchStoreFile($record, $searchStoreId, $fileId, $metadata);
     }
 
     /**
-     * @see OneToMany\AI\Contract\Bridge\SearchIndexProviderInterface
+     * @see OneToMany\AI\Contract\Bridge\SearchStoreProviderInterface
      */
     #[\Override]
-    public function removeFile(string $searchIndexId, string $searchIndexFileId): void
+    public function readFile(string $searchStoreId, string $searchStoreFileId): SearchStoreFile
     {
-        $this->transport->deleteRequest($this->url($this->apiVersion, $searchIndexFileId), [
+        $record = $this->getFile($searchStoreFileId);
+        $metadata = $this->metadata($record);
+        $fileId = $metadata[self::SOURCE_FILE_METADATA_KEY] ?? $record->name;
+
+        if (!is_string($fileId) || '' === $fileId) {
+            $fileId = $record->name;
+        }
+
+        return $this->mapSearchStoreFile($record, $searchStoreId, $fileId, $metadata);
+    }
+
+    /**
+     * @see OneToMany\AI\Contract\Bridge\SearchStoreProviderInterface
+     */
+    #[\Override]
+    public function deleteFile(string $searchStoreId, string $searchStoreFileId): void
+    {
+        $this->transport->deleteRequest($this->url($this->apiVersion, $searchStoreFileId), [
             'headers' => $this->headers(),
             'query' => ['force' => 'true'],
         ]);
     }
 
-    /**
-     * @see OneToMany\AI\Contract\Bridge\SearchIndexProviderInterface
-     */
-    #[\Override]
-    public function read(string $searchIndexId): SearchIndex
-    {
-        $response = $this->transport->getRequest($this->url($this->apiVersion, $searchIndexId), [
-            'headers' => $this->headers(),
-        ]);
-
-        return $this->mapSearchIndex($this->transport->decode($response, FileSearchStoreRecord::class));
-    }
-
-    private function findFile(string $searchIndexId, string $fileId): ?SearchIndexFileRecord
+    private function findFile(string $searchStoreId, string $fileId): ?DocumentRecord
     {
         $pageToken = null;
 
@@ -119,15 +144,15 @@ final readonly class SearchIndexProvider extends AbstractProvider implements Sea
                 $query['pageToken'] = $pageToken;
             }
 
-            $response = $this->transport->getRequest($this->url($this->apiVersion, $searchIndexId, 'documents'), [
+            $response = $this->transport->getRequest($this->url($this->apiVersion, $searchStoreId, 'documents'), [
                 'headers' => $this->headers(),
                 'query' => $query,
             ]);
 
-            $page = $this->transport->decode($response, SearchIndexFileList::class);
+            $page = $this->transport->decode($response, DocumentList::class);
 
             foreach ($page->documents as $document) {
-                $record = $this->createSearchIndexFileRecord($document);
+                $record = $this->createDocumentRecord($document);
 
                 if (null !== $record && $fileId === ($this->metadata($record)[self::SOURCE_FILE_METADATA_KEY] ?? null)) {
                     return $record;
@@ -138,6 +163,15 @@ final readonly class SearchIndexProvider extends AbstractProvider implements Sea
         } while (null !== $pageToken && '' !== $pageToken);
 
         return null;
+    }
+
+    private function getFile(string $searchStoreFileId): DocumentRecord
+    {
+        $response = $this->transport->getRequest($this->url($this->apiVersion, $searchStoreFileId), [
+            'headers' => $this->headers(),
+        ]);
+
+        return $this->transport->decode($response, DocumentRecord::class);
     }
 
     private function waitForImport(Operation $operation): ImportFileResponse
@@ -169,7 +203,7 @@ final readonly class SearchIndexProvider extends AbstractProvider implements Sea
         throw new RuntimeException('The Gemini import operation did not complete in time.');
     }
 
-    private function mapSearchIndex(FileSearchStoreRecord $record): SearchIndex
+    private function mapSearchStore(FileSearchStoreRecord $record): SearchStore
     {
         $completed = max(0, (int) $record->activeDocumentsCount);
         $inProgress = max(0, (int) $record->pendingDocumentsCount);
@@ -183,7 +217,7 @@ final readonly class SearchIndexProvider extends AbstractProvider implements Sea
             $status = 'completed';
         }
 
-        return new SearchIndex(
+        return new SearchStore(
             $record->name,
             '' !== $record->displayName ? $record->displayName : $record->name,
             status: $status,
@@ -197,22 +231,22 @@ final readonly class SearchIndexProvider extends AbstractProvider implements Sea
     }
 
     /**
-     * @param non-empty-string $searchIndexId
+     * @param non-empty-string $searchStoreId
      * @param non-empty-string $fileId
      * @param ?array<string, string|int|float|bool> $metadata
      */
-    private function mapSearchIndexFile(
-        SearchIndexFileRecord $record,
-        string $searchIndexId,
+    private function mapSearchStoreFile(
+        DocumentRecord $record,
+        string $searchStoreId,
         string $fileId,
         ?array $metadata = null,
-    ): SearchIndexFile {
+    ): SearchStoreFile {
         $metadata ??= $this->metadata($record);
         unset($metadata[self::SOURCE_FILE_METADATA_KEY]);
 
-        return new SearchIndexFile(
+        return new SearchStoreFile(
             $record->name,
-            $searchIndexId,
+            $searchStoreId,
             $fileId,
             match ($record->state) {
                 'STATE_ACTIVE' => 'completed',
@@ -251,7 +285,7 @@ final readonly class SearchIndexProvider extends AbstractProvider implements Sea
     /**
      * @return array<string, string|int|float|bool>
      */
-    private function metadata(SearchIndexFileRecord $record): array
+    private function metadata(DocumentRecord $record): array
     {
         $metadata = [];
 
@@ -273,7 +307,7 @@ final readonly class SearchIndexProvider extends AbstractProvider implements Sea
     /**
      * @param array<string, mixed> $document
      */
-    private function createSearchIndexFileRecord(array $document): ?SearchIndexFileRecord
+    private function createDocumentRecord(array $document): ?DocumentRecord
     {
         $name = $document['name'] ?? null;
 
@@ -307,7 +341,7 @@ final readonly class SearchIndexProvider extends AbstractProvider implements Sea
 
         $displayName = $document['displayName'] ?? '';
 
-        return new SearchIndexFileRecord(
+        return new DocumentRecord(
             $name,
             $state,
             $customMetadata,
