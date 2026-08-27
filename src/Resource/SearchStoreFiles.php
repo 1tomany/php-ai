@@ -13,22 +13,11 @@ use function is_string;
 use function sprintf;
 use function trim;
 
-final readonly class SearchStoreFiles implements SearchStoreFilesInterface
+/**
+ * @extends AbstractResource<SearchStoreProviderInterface>
+ */
+final readonly class SearchStoreFiles extends AbstractResource implements SearchStoreFilesInterface
 {
-    /**
-     * @var Registry<SearchStoreProviderInterface>
-     */
-    private Registry $providers;
-
-    /**
-     * @param iterable<SearchStoreProviderInterface> $providers
-     */
-    public function __construct(
-        iterable $providers,
-    ) {
-        $this->providers = new Registry($providers);
-    }
-
     /**
      * @see OneToMany\AI\Contract\Resource\SearchStoreFilesInterface
      *

@@ -11,13 +11,11 @@ use OneToMany\AI\Vendor;
 
 use function trim;
 
-final readonly class SearchStores implements SearchStoresInterface
+/**
+ * @extends AbstractResource<SearchStoreProviderInterface>
+ */
+final readonly class SearchStores extends AbstractResource implements SearchStoresInterface
 {
-    /**
-     * @var Registry<SearchStoreProviderInterface>
-     */
-    private Registry $providers;
-
     /**
      * @param iterable<SearchStoreProviderInterface> $providers
      */
@@ -25,7 +23,7 @@ final readonly class SearchStores implements SearchStoresInterface
         iterable $providers,
         public SearchStoreFilesInterface $files,
     ) {
-        $this->providers = new Registry($providers);
+        parent::__construct($providers);
     }
 
     /**

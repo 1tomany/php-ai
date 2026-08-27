@@ -11,22 +11,11 @@ use OneToMany\AI\Vendor;
 
 use function trim;
 
-final readonly class Files implements FilesInterface
+/**
+ * @extends AbstractResource<FileProviderInterface>
+ */
+final readonly class Files extends AbstractResource implements FilesInterface
 {
-    /**
-     * @var Registry<FileProviderInterface>
-     */
-    private Registry $providers;
-
-    /**
-     * @param iterable<FileProviderInterface> $providers
-     */
-    public function __construct(
-        iterable $providers,
-    ) {
-        $this->providers = new Registry($providers);
-    }
-
     /**
      * @see OneToMany\AI\Contract\Resource\FilesInterface
      */

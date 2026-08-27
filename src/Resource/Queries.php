@@ -10,22 +10,11 @@ use OneToMany\AI\Resource\Query\Prompt;
 use OneToMany\AI\Resource\Query\Query;
 use OneToMany\AI\Resource\Query\Response;
 
-final readonly class Queries implements QueriesInterface
+/**
+ * @extends AbstractResource<QueryProviderInterface>
+ */
+final readonly class Queries extends AbstractResource implements QueriesInterface
 {
-    /**
-     * @var Registry<QueryProviderInterface>
-     */
-    private Registry $providers;
-
-    /**
-     * @param iterable<QueryProviderInterface> $providers
-     */
-    public function __construct(
-        iterable $providers,
-    ) {
-        $this->providers = new Registry($providers);
-    }
-
     /**
      * @see OneToMany\AI\Contract\Resource\QueriesInterface
      *
