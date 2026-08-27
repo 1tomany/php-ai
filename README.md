@@ -21,14 +21,21 @@ A [Symfony bundle](https://github.com/1tomany/php-ai-bundle) is available if you
 
 ### Platform features
 
-| Feature     | Gemini | OpenAI |
-| ----------- | :----: | :----: |
-| **Files**   |        |        |
-| Upload      |   ✅   |   ✅   |
-| Delete      |   ✅   |   ✅   |
-| **Queries** |        |        |
-| Compile     |   ✅   |   ✅   |
-| Run         |   ✅   |   ✅   |
+| Feature          | Gemini | OpenAI |
+| ---------------- | :----: | :----: |
+| **Files**        |        |        |
+| Upload           |   ✅   |   ✅   |
+| Delete           |   ✅   |   ✅   |
+| **Queries**      |        |        |
+| Compile          |   ✅   |   ✅   |
+| Run              |   ✅   |   ✅   |
+| **SearchStores** |        |        |
+| Create           |   ✅   |   ✅   |
+| Read             |   ✅   |   ✅   |
+| Delete           |   ✅   |   ✅   |
+| Attach file      |   ✅   |   ✅   |
+| Read file        |   ✅   |   ✅   |
+| Delete file      |   ✅   |   ✅   |
 
 **Note:** Each platform refers to generating output - inference - differently: OpenAI uses "Response", Gemini uses "Interaction", and Anthropic uses "Message". I've decided the word "Query" best represents how you interact with a generative LLM: you compile a query and then run the query to generate a response. The word "Embedding" will continue to be used for embedding models.
 

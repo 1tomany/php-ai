@@ -47,6 +47,14 @@ readonly class Transport
     /**
      * @param array<string, mixed> $options
      */
+    public function getRequest(string $url, array $options = []): HttpResponseInterface
+    {
+        return $this->request('GET', $url, $options);
+    }
+
+    /**
+     * @param array<string, mixed> $options
+     */
     public function postRequest(string $url, array $options = []): HttpResponseInterface
     {
         return $this->request('POST', $url, $options);
