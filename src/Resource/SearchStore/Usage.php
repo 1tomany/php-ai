@@ -2,8 +2,7 @@
 
 namespace OneToMany\AI\Resource\SearchStore;
 
-use function array_sum;
-use function is_int;
+use function is_string;
 use function max;
 
 final readonly class Usage
@@ -40,29 +39,31 @@ final readonly class Usage
         int|string $failed = 0,
         int|string|null $total = null,
     ) {
-        if (false === is_int($active)) {
+        if (is_string($active)) {
             $active = (int) $active;
         }
 
         $this->active = max(0, $active);
 
-        if (false === is_int($pending)) {
+        if (is_string($pending)) {
             $pending = (int) $pending;
         }
 
         $this->pending = max(0, $pending);
 
-        if (false === is_int($failed)) {
+        if (is_string($failed)) {
             $failed = (int) $failed;
         }
 
         $this->failed = max(0, $failed);
 
-        $total ??= array_sum([
-            $this->active,
-            $this->pending,
-            $this->failed,
-        ]);
+        if (null === $total) {
+            $total = (
+                $this->active +
+                $this->pending +
+                $this->failed
+            );
+        }
 
         $this->total = max(0, (int) $total);
     }
