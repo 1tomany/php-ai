@@ -10,10 +10,9 @@ interface SearchStoreProviderInterface extends ProviderInterface
 {
     /**
      * @param non-empty-string $name
-     * @param ?non-empty-string $description
-     * @param ?non-empty-string $embeddingModel
+     * @param ?non-empty-string $model
      */
-    public function create(string $name, ?string $description, ?string $embeddingModel): SearchStore;
+    public function create(string $name, ?string $model): SearchStore;
 
     /**
      * @param non-empty-string $searchStoreId

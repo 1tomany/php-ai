@@ -22,12 +22,11 @@ final readonly class SearchStoreProvider extends AbstractProvider implements Sea
     #[\Override]
     public function create(
         string $name,
-        ?string $description,
-        ?string $embeddingModel,
+        ?string $model,
     ): SearchStore {
         $url = $this->url($this->apiVersion, 'fileSearchStores');
 
-        if ('' === $model = trim((string) $embeddingModel)) {
+        if ('' === $model = trim((string) $model)) {
             $model = self::MULTIMODAL_EMBEDDING_MODEL;
         }
 
