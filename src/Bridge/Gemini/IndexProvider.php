@@ -11,6 +11,7 @@ use OneToMany\AI\Resource\Index\Index;
 use OneToMany\AI\Resource\Index\IndexFile;
 use OneToMany\AI\Resource\Shared\Metadata;
 
+use function rtrim;
 use function sleep;
 use function sprintf;
 
@@ -152,7 +153,7 @@ final readonly class IndexProvider extends AbstractProvider implements IndexProv
     {
         $pollCount = 0;
 
-        do {
+        while (true) {
             if ($pollCount >= $operation::POLL_MAX_COUNT) {
                 throw new RuntimeException(sprintf('Waiting for the operation "%s" to complete timed out.', $operation->name));
             }
@@ -174,13 +175,13 @@ final readonly class IndexProvider extends AbstractProvider implements IndexProv
             sleep($operation::POLL_SLEEP_SECONDS);
 
             ++$pollCount;
-        } while (true);
-
-        if (null !== $operation->error) {
-            throw new RuntimeException(sprintf('The operation "%s" failed: %s.', $operation->name, \rtrim($operation->error->message, '.')), $operation->error->code);
         }
 
-        if (null === $operation->response) {
+        if (null !== $operation->error) {
+            throw new RuntimeException(sprintf('The operation "%s" failed: %s.', $operation->name, rtrim($operation->error->message, '.')), $operation->error->code);
+        }
+
+        if (null === $operation->response?->documentName) {
             throw new RuntimeException(sprintf('The operation "%s" did not return a response.', $operation->name));
         }
 
