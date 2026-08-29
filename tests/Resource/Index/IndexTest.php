@@ -1,11 +1,11 @@
 <?php
 
-namespace OneToMany\AI\Tests\Resource\SearchStore;
+namespace OneToMany\AI\Tests\Resource\Index;
 
 use OneToMany\AI\Resource\Index\Index;
 use PHPUnit\Framework\TestCase;
 
-final class SearchStoreTest extends TestCase
+final class IndexTest extends TestCase
 {
     public function testUsageIsEmptyByDefault(): void
     {

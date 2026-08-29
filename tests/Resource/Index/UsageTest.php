@@ -1,6 +1,6 @@
 <?php
 
-namespace OneToMany\AI\Tests\Resource\SearchStore;
+namespace OneToMany\AI\Tests\Resource\Index;
 
 use OneToMany\AI\Resource\Index\Usage;
 use PHPUnit\Framework\TestCase;
