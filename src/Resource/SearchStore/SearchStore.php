@@ -13,7 +13,7 @@ final readonly class SearchStore
         public string $id,
         public string $name,
         public int $bytes = 0,
-        public Counts $counts = new Counts(),
+        public SearchStoreUsage $usage = new SearchStoreUsage(),
     ) {
     }
 
@@ -41,8 +41,8 @@ final readonly class SearchStore
         return $this->bytes;
     }
 
-    public function getCounts(): Counts
+    public function getUsage(): SearchStoreUsage
     {
-        return $this->counts;
+        return $this->usage;
     }
 }

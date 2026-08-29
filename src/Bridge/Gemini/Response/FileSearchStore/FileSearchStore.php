@@ -2,8 +2,8 @@
 
 namespace OneToMany\AI\Bridge\Gemini\Response\FileSearchStore;
 
-use OneToMany\AI\Resource\SearchStore\Counts;
 use OneToMany\AI\Resource\SearchStore\SearchStore;
+use OneToMany\AI\Resource\SearchStore\SearchStoreUsage;
 
 use function max;
 
@@ -32,7 +32,7 @@ final readonly class FileSearchStore
 
     public function toResource(): SearchStore
     {
-        return new SearchStore($this->name, $this->getName(), $this->getTotalBytes(), new Counts($this->getPendingCount(), $this->getActiveCount(), $this->getFailedCount(), $this->getTotalCount()));
+        return new SearchStore($this->name, $this->getName(), $this->getTotalBytes(), new SearchStoreUsage($this->activeDocumentsCount, $this->pendingDocumentsCount, $this->failedDocumentsCount));
     }
 
     /**
@@ -49,37 +49,5 @@ final readonly class FileSearchStore
     private function getTotalBytes(): int
     {
         return max(0, (int) $this->sizeBytes);
-    }
-
-    /**
-     * @return non-negative-int
-     */
-    private function getPendingCount(): int
-    {
-        return max(0, (int) $this->pendingDocumentsCount);
-    }
-
-    /**
-     * @return non-negative-int
-     */
-    private function getActiveCount(): int
-    {
-        return max(0, (int) $this->activeDocumentsCount);
-    }
-
-    /**
-     * @return non-negative-int
-     */
-    private function getFailedCount(): int
-    {
-        return max(0, (int) $this->failedDocumentsCount);
-    }
-
-    /**
-     * @return non-negative-int
-     */
-    private function getTotalCount(): int
-    {
-        return $this->getPendingCount() + $this->getActiveCount() + $this->getFailedCount();
     }
 }
