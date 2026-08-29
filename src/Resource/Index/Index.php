@@ -2,7 +2,7 @@
 
 namespace OneToMany\AI\Resource\Index;
 
-final readonly class SearchStore
+final readonly class Index
 {
     /**
      * @param non-empty-string $id

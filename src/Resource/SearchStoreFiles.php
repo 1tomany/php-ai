@@ -2,7 +2,7 @@
 
 namespace OneToMany\AI\Resource;
 
-use OneToMany\AI\Contract\Bridge\SearchStoreProviderInterface;
+use OneToMany\AI\Contract\Bridge\IndexProviderInterface;
 use OneToMany\AI\Contract\Resource\SearchStoreFilesInterface;
 use OneToMany\AI\Exception\DomainException;
 use OneToMany\AI\Resource\Index\SearchStoreFile;
@@ -10,7 +10,7 @@ use OneToMany\AI\Resource\Shared\Metadata;
 use OneToMany\AI\Vendor;
 
 /**
- * @extends AbstractResource<SearchStoreProviderInterface>
+ * @extends AbstractResource<IndexProviderInterface>
  */
 final readonly class SearchStoreFiles extends AbstractResource implements SearchStoreFilesInterface
 {

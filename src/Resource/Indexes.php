@@ -2,24 +2,24 @@
 
 namespace OneToMany\AI\Resource;
 
-use OneToMany\AI\Contract\Bridge\SearchStoreProviderInterface;
+use OneToMany\AI\Contract\Bridge\IndexProviderInterface;
 use OneToMany\AI\Contract\Resource\IndexesInterface;
 use OneToMany\AI\Contract\Resource\SearchStoreFilesInterface;
 use OneToMany\AI\Exception\DomainException;
 use OneToMany\AI\Model;
-use OneToMany\AI\Resource\Index\SearchStore;
+use OneToMany\AI\Resource\Index\Index;
 use OneToMany\AI\Vendor;
 
 use function sprintf;
 use function trim;
 
 /**
- * @extends AbstractResource<SearchStoreProviderInterface>
+ * @extends AbstractResource<IndexProviderInterface>
  */
 final readonly class Indexes extends AbstractResource implements IndexesInterface
 {
     /**
-     * @param iterable<SearchStoreProviderInterface> $providers
+     * @param iterable<IndexProviderInterface> $providers
      */
     public function __construct(
         iterable $providers,
@@ -36,7 +36,7 @@ final readonly class Indexes extends AbstractResource implements IndexesInterfac
         string|Vendor $vendor,
         string $name,
         string|Model|null $model = null,
-    ): SearchStore {
+    ): Index {
         if (!$vendor instanceof Vendor) {
             $vendor = Vendor::create($vendor);
         }
@@ -65,7 +65,7 @@ final readonly class Indexes extends AbstractResource implements IndexesInterfac
     public function read(
         string|Vendor $vendor,
         ?string $searchStoreId,
-    ): SearchStore {
+    ): Index {
         return $this->getProvider($vendor)->read(DomainException::validateId($searchStoreId, 'search store'));
     }
 

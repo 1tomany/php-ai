@@ -2,14 +2,14 @@
 
 namespace OneToMany\AI\Tests\Resource\SearchStore;
 
-use OneToMany\AI\Resource\Index\SearchStore;
+use OneToMany\AI\Resource\Index\Index;
 use PHPUnit\Framework\TestCase;
 
 final class SearchStoreTest extends TestCase
 {
     public function testUsageIsEmptyByDefault(): void
     {
-        $usage = new SearchStore('store_123')->getUsage();
+        $usage = new Index('store_123')->getUsage();
 
         $this->assertSame(0, $usage->getBytes());
         $this->assertSame(0, $usage->getActive());
