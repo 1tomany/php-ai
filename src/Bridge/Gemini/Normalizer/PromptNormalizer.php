@@ -5,29 +5,32 @@ namespace OneToMany\AI\Bridge\Gemini\Normalizer;
 use OneToMany\AI\Bridge\Gemini\Resource\Interaction\FileContent;
 use OneToMany\AI\Bridge\Gemini\Resource\Interaction\TextContent;
 use OneToMany\AI\Bridge\Gemini\Resource\Interaction\TextResponseFormat;
-use OneToMany\AI\Resource\Query\InputText;
-use OneToMany\AI\Resource\Query\QueryDefinition;
+use OneToMany\AI\Resource\Prompt\InputText;
+use OneToMany\AI\Resource\Prompt\Prompt;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 use function array_replace;
 
-final readonly class QueryNormalizer implements NormalizerInterface
+final readonly class PromptNormalizer implements NormalizerInterface
 {
     /**
      * @see Symfony\Component\Serializer\Normalizer\NormalizerInterface
      *
-     * @param QueryDefinition $data
+     * @param Prompt $prompt
      *
      * @return array<string, mixed>
      */
     #[\Override]
-    public function normalize(mixed $data, ?string $format = null, array $context = []): array
-    {
+    public function normalize(
+        mixed $prompt,
+        ?string $format = null,
+        array $context = [],
+    ): array {
         $request = [
-            'model' => $data->getModel()->getName(),
+            'model' => $prompt->getModel()->getName(),
         ];
 
-        foreach ($data->getPrompt()->getInputs() as $input) {
+        foreach ($prompt->getInputs() as $input) {
             if (!isset($request['input'])) {
                 $request['input'] = [];
             }
@@ -38,29 +41,32 @@ final readonly class QueryNormalizer implements NormalizerInterface
                 );
             } else {
                 $request['input'][] = FileContent::create(
-                    $input->getId(), $input->getMimeType(),
+                    $input->getId(), $input->getType(),
                 );
             }
         }
 
-        if (null !== $instructions = $data->prompt->getInstructions()) {
+        if (null !== $instructions = $prompt->getInstructions()) {
             $request['system_instruction'] = $instructions->getText();
         }
 
-        if ($schema = $data->getPrompt()->getSchema()?->getSchema()) {
+        if (null !== $schema = $prompt->getSchema()?->getSchema()) {
             $request['response_format'] = new TextResponseFormat($schema);
         }
 
-        return array_replace($data->getOptions(), $request);
+        return array_replace($prompt->getOptions(), $request);
     }
 
     /**
      * @see Symfony\Component\Serializer\Normalizer\NormalizerInterface
      */
     #[\Override]
-    public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
-    {
-        return $data instanceof QueryDefinition && $data->getModel()->getVendor()->isGemini();
+    public function supportsNormalization(
+        mixed $data,
+        ?string $format = null,
+        array $context = [],
+    ): bool {
+        return $data instanceof Prompt && $data->getModel()->getVendor()->isGemini();
     }
 
     /**
@@ -70,7 +76,7 @@ final readonly class QueryNormalizer implements NormalizerInterface
     public function getSupportedTypes(?string $format): array
     {
         return [
-            QueryDefinition::class => false,
+            Prompt::class => false,
         ];
     }
 }

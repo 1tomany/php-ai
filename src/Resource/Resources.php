@@ -8,7 +8,7 @@ use OneToMany\AI\Vendor;
 /**
  * @template TProvider of ProviderInterface
  */
-abstract readonly class AbstractResource
+abstract readonly class Resources
 {
     /**
      * @var Registry<TProvider>

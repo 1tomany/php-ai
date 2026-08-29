@@ -2,21 +2,21 @@
 
 namespace OneToMany\AI\Bridge\OpenAI;
 
-use OneToMany\AI\Bridge\Common\Trait\QueryTrait;
+use OneToMany\AI\Bridge\Common\Trait\PromptTrait;
 use OneToMany\AI\Bridge\OpenAI\Response\Response\Response as ResponsePayload;
-use OneToMany\AI\Contract\Bridge\QueryProviderInterface;
-use OneToMany\AI\Resource\Query\Query;
-use OneToMany\AI\Resource\Query\Response;
+use OneToMany\AI\Contract\Bridge\PromptProviderInterface;
+use OneToMany\AI\Resource\Prompt\Query;
+use OneToMany\AI\Resource\Prompt\Response;
 
-final readonly class QueryProvider extends AbstractProvider implements QueryProviderInterface
+final readonly class PromptProvider extends AbstractProvider implements PromptProviderInterface
 {
-    use QueryTrait;
+    use PromptTrait;
 
     /**
-     * @see OneToMany\AI\Contract\Bridge\QueryProviderInterface
+     * @see OneToMany\AI\Contract\Bridge\PromptProviderInterface
      */
     #[\Override]
-    public function run(Query $query): Response
+    public function send(Query $query): Response
     {
         $url = $this->url('responses');
 
@@ -24,7 +24,7 @@ final readonly class QueryProvider extends AbstractProvider implements QueryProv
             $response = $this->transport->postRequest($url, [
                 'auth_bearer' => $this->apiKey,
                 'json' => [
-                    ...$query->request,
+                    ...$query->getPayload(),
                 ],
             ]);
 

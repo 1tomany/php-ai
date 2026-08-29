@@ -2,21 +2,21 @@
 
 namespace OneToMany\AI\Bridge\Gemini;
 
-use OneToMany\AI\Bridge\Common\Trait\QueryTrait;
+use OneToMany\AI\Bridge\Common\Trait\PromptTrait;
 use OneToMany\AI\Bridge\Gemini\Response\Interaction\Interaction;
-use OneToMany\AI\Contract\Bridge\QueryProviderInterface;
-use OneToMany\AI\Resource\Query\Query;
-use OneToMany\AI\Resource\Query\Response;
+use OneToMany\AI\Contract\Bridge\PromptProviderInterface;
+use OneToMany\AI\Resource\Prompt\Query;
+use OneToMany\AI\Resource\Prompt\Response;
 
-final readonly class QueryProvider extends AbstractProvider implements QueryProviderInterface
+final readonly class PromptProvider extends AbstractProvider implements PromptProviderInterface
 {
-    use QueryTrait;
+    use PromptTrait;
 
     /**
-     * @see OneToMany\AI\Contract\Bridge\QueryProviderInterface
+     * @see OneToMany\AI\Contract\Bridge\PromptProviderInterface
      */
     #[\Override]
-    public function run(Query $query): Response
+    public function send(Query $query): Response
     {
         $url = $this->url($this->apiVersion, 'interactions');
 
@@ -25,7 +25,7 @@ final readonly class QueryProvider extends AbstractProvider implements QueryProv
                 'headers' => [
                     'x-goog-api-key' => $this->apiKey,
                 ],
-                'json' => $query->request,
+                'json' => $query->getPayload(),
             ]);
 
             $record = $this->transport->decode($response, Interaction::class);

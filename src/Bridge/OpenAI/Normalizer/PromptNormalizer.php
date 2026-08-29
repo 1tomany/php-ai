@@ -4,51 +4,55 @@ namespace OneToMany\AI\Bridge\OpenAI\Normalizer;
 
 use OneToMany\AI\Bridge\OpenAI\Resource\Response\EasyInputMessage;
 use OneToMany\AI\Bridge\OpenAI\Resource\Response\ResponseInput;
-use OneToMany\AI\Resource\Query\InputText;
-use OneToMany\AI\Resource\Query\QueryDefinition;
+use OneToMany\AI\Resource\Prompt\InputText;
+use OneToMany\AI\Resource\Prompt\Prompt;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 use function array_replace;
 
-final readonly class QueryNormalizer implements NormalizerInterface
+final readonly class PromptNormalizer implements NormalizerInterface
 {
     /**
      * @see Symfony\Component\Serializer\Normalizer\NormalizerInterface
      *
-     * @param QueryDefinition $data
+     * @param Prompt $prompt
      *
      * @return array<string, mixed>
      */
     #[\Override]
-    public function normalize(mixed $data, ?string $format = null, array $context = []): array
-    {
+    public function normalize(
+        mixed $prompt,
+        ?string $format = null,
+        array $context = [],
+    ): array {
+        $payload = [
+            'model' => $prompt->getModel()->getName(),
+        ];
+
         $easyInputMessage = new EasyInputMessage();
 
-        foreach ($data->getPrompt()->getInputs() as $input) {
+        foreach ($prompt->getInputs() as $input) {
             if ($input instanceof InputText) {
                 $content = ResponseInput::asText(
                     text: $input->getText(),
                 );
             } else {
-                $content = ResponseInput::asFile($input->getId(), $input->getMimeType());
+                $content = ResponseInput::asFile(
+                    $input->getId(), $input->getType(),
+                );
             }
 
             $easyInputMessage->addContent($content);
         }
 
-        $request = [
-            'model' => $data->getModel()->getName(),
-            'input' => [
-                $easyInputMessage,
-            ],
-        ];
+        $payload['input'] = [$easyInputMessage];
 
-        if ($instructions = $data->getPrompt()->getInstructions()) {
-            $request['instructions'] = $instructions->getText();
+        if (null !== $instructions = $prompt->getInstructions()) {
+            $payload['instructions'] = $instructions->getText();
         }
 
-        if ($schema = $data->getPrompt()->getSchema()) {
-            $request['text'] = [
+        if ($schema = $prompt->getSchema()) {
+            $payload['text'] = [
                 'format' => [
                     'type' => 'json_schema',
                     'name' => $schema->getName(),
@@ -58,16 +62,19 @@ final readonly class QueryNormalizer implements NormalizerInterface
             ];
         }
 
-        return array_replace($data->getOptions(), $request);
+        return array_replace($prompt->getOptions(), $payload);
     }
 
     /**
      * @see Symfony\Component\Serializer\Normalizer\NormalizerInterface
      */
     #[\Override]
-    public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
-    {
-        return $data instanceof QueryDefinition && $data->getModel()->getVendor()->isOpenAI();
+    public function supportsNormalization(
+        mixed $data,
+        ?string $format = null,
+        array $context = [],
+    ): bool {
+        return $data instanceof Prompt && $data->getModel()->getVendor()->isOpenAI();
     }
 
     /**
@@ -77,7 +84,7 @@ final readonly class QueryNormalizer implements NormalizerInterface
     public function getSupportedTypes(?string $format): array
     {
         return [
-            QueryDefinition::class => false,
+            Prompt::class => false,
         ];
     }
 }

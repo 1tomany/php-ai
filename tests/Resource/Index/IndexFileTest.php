@@ -1,13 +1,17 @@
 <?php
 
-namespace OneToMany\AI\Tests\Resource\SearchStore;
+namespace OneToMany\AI\Tests\Resource\Index;
 
 use OneToMany\AI\Resource\Index\IndexFile;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 
 use function random_int;
 
-final class SearchStoreFileTest extends TestCase
+#[Group('UnitTests')]
+#[Group('ResourceTests')]
+#[Group('IndexTests')]
+final class IndexFileTest extends TestCase
 {
     public function testGettingBytesIsNotNegative(): void
     {

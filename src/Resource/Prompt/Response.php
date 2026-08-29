@@ -1,12 +1,12 @@
 <?php
 
-namespace OneToMany\AI\Resource\Query;
+namespace OneToMany\AI\Resource\Prompt;
 
+use OneToMany\AI\Exception\DomainException;
 use OneToMany\AI\Exception\RuntimeException;
 
 use function is_array;
 use function json_decode;
-use function json_validate;
 
 use const JSON_THROW_ON_ERROR;
 
@@ -71,29 +71,26 @@ final readonly class Response
     }
 
     /**
-     * @return ?array<array-key, mixed>
+     * @return array<array-key, mixed>
      *
-     * @throws RuntimeException when decoding the response as JSON fails
-     * @throws RuntimeException when the decoded response is not an object or array
+     * @throws DomainException when the response text is empty
+     * @throws RuntimeException when decoding the response text fails
+     * @throws RuntimeException when the decoded response is not an array
      */
-    public function decode(): ?array
+    public function toArray(): array
     {
-        if (!$this->text) {
-            return null;
+        if (null === $text = $this->getText()) {
+            throw new DomainException('The response text is empty.');
         }
 
-        $array = null;
+        try {
+            $array = json_decode($text, true, 512, JSON_THROW_ON_ERROR);
+        } catch (\JsonException $e) {
+            throw new RuntimeException('Decoding the response text failed.', previous: $e);
+        }
 
-        if (json_validate($this->text)) {
-            try {
-                $array = json_decode($this->text, true, 512, JSON_THROW_ON_ERROR);
-            } catch (\JsonException $e) {
-                throw new RuntimeException('Decoding the model output as JSON failed.', previous: $e);
-            }
-
-            if (!is_array($array)) {
-                throw new RuntimeException('The model output did not contain a JSON object or array.');
-            }
+        if (!is_array($array)) {
+            throw new RuntimeException('The decoded response text was expected to be an array.');
         }
 
         return $array;

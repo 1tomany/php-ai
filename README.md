@@ -35,7 +35,7 @@ A [Symfony bundle](https://github.com/1tomany/php-ai-bundle) is available if you
 | Delete file |   ✅   |   ✅   |
 | **Prompts** |        |        |
 | Compile     |   ✅   |   ✅   |
-| Run         |   ✅   |   ✅   |
+| Send        |   ✅   |   ✅   |
 
 #### Indexes
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace OneToMany\AI\Resource\Query;
+namespace OneToMany\AI\Resource\Prompt;
 
 use OneToMany\AI\Exception\DomainException;
 use OneToMany\AI\Exception\RuntimeException;
@@ -42,13 +42,13 @@ final readonly class InputText implements \Stringable
     /**
      * @throws RuntimeException when reading the file fails
      */
-    public static function fromFile(string $path): self
+    public static function fromFile(string $path): static
     {
         if (false === $text = @file_get_contents($path)) {
             throw new RuntimeException(sprintf('Reading the input text file "%s" failed.', $path));
         }
 
-        return new self($text);
+        return new static($text);
     }
 
     /**
