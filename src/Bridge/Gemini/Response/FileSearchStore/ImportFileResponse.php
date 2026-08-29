@@ -2,15 +2,34 @@
 
 namespace OneToMany\AI\Bridge\Gemini\Response\FileSearchStore;
 
+use function trim;
+
 final readonly class ImportFileResponse
 {
     /**
-     * @param ?non-empty-string $parent
-     * @param ?non-empty-string $documentName
+     * @var ?non-empty-string
      */
+    public ?string $parent;
+
+    /**
+     * @var ?non-empty-string
+     */
+    public ?string $documentName;
+
     public function __construct(
-        public ?string $parent = null,
-        public ?string $documentName = null,
+        ?string $parent = null,
+        ?string $documentName = null,
     ) {
+        if (null !== $parent) {
+            $parent = trim($parent);
+        }
+
+        $this->parent = '' !== $parent ? $parent : null;
+
+        if (null !== $documentName) {
+            $documentName = trim($documentName);
+        }
+
+        $this->documentName = '' !== $documentName ? $documentName : null;
     }
 }

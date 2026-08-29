@@ -4,16 +4,22 @@ namespace OneToMany\AI\Bridge\Gemini;
 
 use OneToMany\AI\Bridge\Gemini\Response\FileSearchStore\Document;
 use OneToMany\AI\Bridge\Gemini\Response\FileSearchStore\FileSearchStore;
-use OneToMany\AI\Bridge\Gemini\Response\FileSearchStore\Operation;
+use OneToMany\AI\Bridge\Gemini\Response\FileSearchStore\ImportFileOperation;
 use OneToMany\AI\Contract\Bridge\IndexProviderInterface;
+use OneToMany\AI\Exception\RuntimeException;
 use OneToMany\AI\Resource\Index\Index;
 use OneToMany\AI\Resource\Index\IndexFile;
 use OneToMany\AI\Resource\Shared\Metadata;
 
+use function sleep;
 use function sprintf;
+use function usleep;
 
 final readonly class IndexProvider extends AbstractProvider implements IndexProviderInterface
 {
+    private const int OPERATION_MAX_POLLS = 300;
+    private const int OPERATION_POLL_INTERVAL_MICROSECONDS = 1_000_000;
+
     /**
      * @see OneToMany\AI\Contract\Bridge\IndexProviderInterface
      */
@@ -95,9 +101,9 @@ final readonly class IndexProvider extends AbstractProvider implements IndexProv
             ],
         ]);
 
-        $operation = $this->transport->decode($response, Operation::class);
+        $operation = $this->transport->decode($response, ImportFileOperation::class);
 
-        return $this->readFile($indexId, $operation->id);
+        return $this->readFile($indexId, $this->waitForOperation($operation));
     }
 
     /**
@@ -137,5 +143,58 @@ final readonly class IndexProvider extends AbstractProvider implements IndexProv
                 'force' => 'true',
             ],
         ]);
+    }
+
+    /**
+     * @return non-empty-string
+     *
+     * @throws RuntimeException when the operation fails
+     * @throws RuntimeException when the operation does not return a document name
+     * @throws RuntimeException when waiting for the operation times out
+     */
+    private function waitForOperation(ImportFileOperation $operation): string
+    {
+        $polls = 0;
+
+        do {
+            if ($polls >= self::OPERATION_MAX_POLLS) {
+                throw new RuntimeException(sprintf('Waiting for the Gemini file import operation "%s" to complete timed out.', $operation->name));
+            }
+
+            if (0 < $polls) {
+                usleep(self::OPERATION_POLL_INTERVAL_MICROSECONDS);
+            }
+
+            $url = $this->url($this->apiVersion, $operation->name);
+
+            $response = $this->transport->getRequest($url, [
+                'headers' => [
+                    'x-goog-api-key' => $this->apiKey,
+                ],
+            ]);
+
+            $operation = $this->transport->decode($response, ImportFileOperation::class);
+
+            if (
+                true === $operation->done
+                && null !== $operation->response
+            ) {
+                break;
+            }
+
+            sleep(5);
+
+            ++$polls;
+        } while (!$operation->done);
+
+        if (null !== $operation->error) {
+            throw new RuntimeException(sprintf('The Gemini file import operation "%s" failed.', $operation->name));
+        }
+
+        if (null === $documentName = $operation->response?->documentName) {
+            throw new RuntimeException(sprintf('The Gemini file import operation "%s" did not return a document name.', $operation->name));
+        }
+
+        return $documentName;
     }
 }
