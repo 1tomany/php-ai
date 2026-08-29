@@ -48,10 +48,17 @@ final readonly class SearchStoreUsage
             $total = $active + $pending + $failed;
         }
 
+        // $total = max(0, (int) $total);
+
         $this->active = $active;
         $this->pending = $pending;
         $this->failed = $failed;
-        $this->total = $total;
+
+        if (is_string($total)) {
+            $total = (int) $total;
+        }
+
+        $this->total = max(0, $total);
     }
 
     /**
