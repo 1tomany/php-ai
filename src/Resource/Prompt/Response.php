@@ -7,7 +7,6 @@ use OneToMany\AI\Exception\RuntimeException;
 
 use function is_array;
 use function json_decode;
-use function json_validate;
 
 use const JSON_THROW_ON_ERROR;
 
