@@ -14,6 +14,6 @@ final class SearchStoreTest extends TestCase
         $bytes = -random_int(1, 100_000);
         $this->assertLessThan(0, $bytes);
 
-        $this->assertSame(0, new SearchStore('store_123', 'store_123', $bytes)->getBytes()); // @phpstan-ignore argument.type
+        $this->assertSame(0, new SearchStore('store_123', null, $bytes)->getBytes()); // @phpstan-ignore argument.type
     }
 }

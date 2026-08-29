@@ -8,12 +8,12 @@ final readonly class SearchStore
 {
     /**
      * @param non-empty-string $id
-     * @param non-empty-string $name
+     * @param ?non-empty-string $name
      * @param non-negative-int $bytes
      */
     public function __construct(
         public string $id,
-        public string $name,
+        public ?string $name = null,
         public int $bytes = 0,
         public Usage $usage = new Usage(),
     ) {
@@ -28,9 +28,9 @@ final readonly class SearchStore
     }
 
     /**
-     * @return non-empty-string
+     * @return ?non-empty-string
      */
-    public function getName(): string
+    public function getName(): ?string
     {
         return $this->name;
     }
