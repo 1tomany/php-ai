@@ -2,7 +2,7 @@
 
 namespace OneToMany\AI\Bridge\Gemini\Response\FileSearchStore;
 
-use OneToMany\AI\Resource\SearchStore\FileCounts;
+use OneToMany\AI\Resource\SearchStore\Counts;
 use OneToMany\AI\Resource\SearchStore\SearchStore;
 
 use function max;
@@ -60,6 +60,6 @@ final class FileSearchStore
 
     public function toResource(): SearchStore
     {
-        return new SearchStore($this->name, $this->displayName ?? $this->name, null, new FileCounts($this->activeDocuments, $this->pendingDocuments, $this->failedDocuments, $this->totalDocuments));
+        return new SearchStore($this->name, $this->displayName ?? $this->name, new Counts($this->activeDocuments, $this->pendingDocuments, $this->failedDocuments, $this->totalDocuments));
     }
 }

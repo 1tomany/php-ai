@@ -7,13 +7,11 @@ final readonly class SearchStore
     /**
      * @param non-empty-string $id
      * @param non-empty-string $name
-     * @param ?non-empty-string $description
      */
     public function __construct(
         public string $id,
         public string $name,
-        public ?string $description = null,
-        public FileCounts $fileCounts = new FileCounts(),
+        public Counts $counts = new Counts(),
     ) {
     }
 
@@ -33,16 +31,8 @@ final readonly class SearchStore
         return $this->name;
     }
 
-    /**
-     * @return ?non-empty-string
-     */
-    public function getDescription(): ?string
+    public function getCounts(): Counts
     {
-        return $this->description;
-    }
-
-    public function getStatistics(): FileCounts
-    {
-        return $this->fileCounts;
+        return $this->counts;
     }
 }

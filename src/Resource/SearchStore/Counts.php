@@ -2,7 +2,7 @@
 
 namespace OneToMany\AI\Resource\SearchStore;
 
-final readonly class FileCounts
+final readonly class Counts
 {
     /**
      * @param non-negative-int $active
