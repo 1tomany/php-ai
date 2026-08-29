@@ -1,6 +1,6 @@
 <?php
 
-namespace OneToMany\AI\Tests\Resource\Query;
+namespace OneToMany\AI\Tests\Resource\Prompt;
 
 use OneToMany\AI\Exception\DomainException;
 use OneToMany\AI\Exception\RuntimeException;
@@ -10,7 +10,7 @@ use PHPUnit\Framework\TestCase;
 
 #[Group('UnitTests')]
 #[Group('ResourceTests')]
-#[Group('QueryTests')]
+#[Group('PromptTests')]
 final class InputTextTest extends TestCase
 {
     public function testConstructorRequiresNonEmptyText(): void

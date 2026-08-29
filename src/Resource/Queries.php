@@ -3,7 +3,7 @@
 namespace OneToMany\AI\Resource;
 
 use OneToMany\AI\Contract\Bridge\QueryProviderInterface;
-use OneToMany\AI\Contract\Resource\QueriesInterface;
+use OneToMany\AI\Contract\Resource\PromptsInterface;
 use OneToMany\AI\Exception\DomainException;
 use OneToMany\AI\Resource\Query\Prompt;
 use OneToMany\AI\Resource\Query\Query;
@@ -12,10 +12,10 @@ use OneToMany\AI\Resource\Query\Response;
 /**
  * @extends Resources<QueryProviderInterface>
  */
-final readonly class Queries extends Resources implements QueriesInterface
+final readonly class Queries extends Resources implements PromptsInterface
 {
     /**
-     * @see OneToMany\AI\Contract\Resource\QueriesInterface
+     * @see OneToMany\AI\Contract\Resource\PromptsInterface
      *
      * @throws DomainException when the prompt has no input
      */
@@ -30,7 +30,7 @@ final readonly class Queries extends Resources implements QueriesInterface
     }
 
     /**
-     * @see OneToMany\AI\Contract\Resource\QueriesInterface
+     * @see OneToMany\AI\Contract\Resource\PromptsInterface
      */
     #[\Override]
     public function send(Prompt|Query $request): Response

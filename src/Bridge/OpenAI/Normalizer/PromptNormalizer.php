@@ -24,8 +24,7 @@ final readonly class PromptNormalizer implements NormalizerInterface
         mixed $prompt,
         ?string $format = null,
         array $context = [],
-    ): array
-    {
+    ): array {
         $payload = [
             'model' => $prompt->getModel()->getName(),
         ];
@@ -74,8 +73,7 @@ final readonly class PromptNormalizer implements NormalizerInterface
         mixed $data,
         ?string $format = null,
         array $context = [],
-    ): bool
-    {
+    ): bool {
         return $data instanceof Prompt && $data->getModel()->getVendor()->isOpenAI();
     }
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace OneToMany\AI\Tests\Resource\Query;
+namespace OneToMany\AI\Tests\Resource\Prompt;
 
 use OneToMany\AI\Exception\RuntimeException;
 use OneToMany\AI\Resource\Query\Response;
@@ -14,7 +14,7 @@ use const PHP_INT_MAX;
 
 #[Group('UnitTests')]
 #[Group('ResourceTests')]
-#[Group('QueryTests')]
+#[Group('PromptTests')]
 final class ResponseTest extends TestCase
 {
     public function testDecodeRequiresJsonObjectOrArray(): void
