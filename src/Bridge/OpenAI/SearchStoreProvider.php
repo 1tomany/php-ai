@@ -5,8 +5,8 @@ namespace OneToMany\AI\Bridge\OpenAI;
 use OneToMany\AI\Bridge\OpenAI\Response\VectorStore\VectorStore;
 use OneToMany\AI\Bridge\OpenAI\Response\VectorStore\VectorStoreFile;
 use OneToMany\AI\Contract\Bridge\SearchStoreProviderInterface;
-use OneToMany\AI\Resource\SearchStore\SearchStore;
-use OneToMany\AI\Resource\SearchStore\SearchStoreFile;
+use OneToMany\AI\Resource\Index\SearchStore;
+use OneToMany\AI\Resource\Index\SearchStoreFile;
 use OneToMany\AI\Resource\Shared\Metadata;
 
 final readonly class SearchStoreProvider extends AbstractProvider implements SearchStoreProviderInterface

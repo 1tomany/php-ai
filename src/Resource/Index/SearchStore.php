@@ -1,6 +1,6 @@
 <?php
 
-namespace OneToMany\AI\Resource\SearchStore;
+namespace OneToMany\AI\Resource\Index;
 
 final readonly class SearchStore
 {

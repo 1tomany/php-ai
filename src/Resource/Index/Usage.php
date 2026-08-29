@@ -1,6 +1,6 @@
 <?php
 
-namespace OneToMany\AI\Resource\SearchStore;
+namespace OneToMany\AI\Resource\Index;
 
 use function is_string;
 use function max;

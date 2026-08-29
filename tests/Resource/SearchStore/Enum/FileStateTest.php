@@ -2,7 +2,7 @@
 
 namespace OneToMany\AI\Tests\Resource\SearchStore\Enum;
 
-use OneToMany\AI\Resource\SearchStore\Enum\FileState;
+use OneToMany\AI\Resource\Index\Enum\FileState;
 use PHPUnit\Framework\TestCase;
 
 final class FileStateTest extends TestCase

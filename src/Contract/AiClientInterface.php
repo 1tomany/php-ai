@@ -12,5 +12,5 @@ interface AiClientInterface
 
     public QueriesInterface $queries { get; }
 
-    public IndexesInterface $searchStores { get; }
+    public IndexesInterface $indexes { get; }
 }

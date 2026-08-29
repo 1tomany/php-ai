@@ -6,8 +6,8 @@ use OneToMany\AI\Bridge\Gemini\Response\FileSearchStore\Document;
 use OneToMany\AI\Bridge\Gemini\Response\FileSearchStore\FileSearchStore;
 use OneToMany\AI\Bridge\Gemini\Response\FileSearchStore\Operation;
 use OneToMany\AI\Contract\Bridge\SearchStoreProviderInterface;
-use OneToMany\AI\Resource\SearchStore\SearchStore;
-use OneToMany\AI\Resource\SearchStore\SearchStoreFile;
+use OneToMany\AI\Resource\Index\SearchStore;
+use OneToMany\AI\Resource\Index\SearchStoreFile;
 use OneToMany\AI\Resource\Shared\Metadata;
 
 use function sprintf;

@@ -2,7 +2,7 @@
 
 namespace OneToMany\AI\Tests\Resource\SearchStore;
 
-use OneToMany\AI\Resource\SearchStore\SearchStore;
+use OneToMany\AI\Resource\Index\SearchStore;
 use PHPUnit\Framework\TestCase;
 
 final class SearchStoreTest extends TestCase

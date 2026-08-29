@@ -2,7 +2,7 @@
 
 namespace OneToMany\AI\Bridge\Gemini\Response\FileSearchStore\Enum;
 
-use OneToMany\AI\Resource\SearchStore\Enum\FileState;
+use OneToMany\AI\Resource\Index\Enum\FileState;
 
 enum DocumentState: string
 {

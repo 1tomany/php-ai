@@ -2,7 +2,7 @@
 
 namespace OneToMany\AI\Tests\Resource\SearchStore;
 
-use OneToMany\AI\Resource\SearchStore\SearchStoreFile;
+use OneToMany\AI\Resource\Index\SearchStoreFile;
 use PHPUnit\Framework\TestCase;
 
 use function random_int;

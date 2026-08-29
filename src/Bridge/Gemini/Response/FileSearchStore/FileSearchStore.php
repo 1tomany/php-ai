@@ -2,8 +2,8 @@
 
 namespace OneToMany\AI\Bridge\Gemini\Response\FileSearchStore;
 
-use OneToMany\AI\Resource\SearchStore\SearchStore;
-use OneToMany\AI\Resource\SearchStore\Usage;
+use OneToMany\AI\Resource\Index\SearchStore;
+use OneToMany\AI\Resource\Index\Usage;
 
 final readonly class FileSearchStore
 {

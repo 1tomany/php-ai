@@ -12,7 +12,7 @@ final readonly class AiClient implements AiClientInterface
     public function __construct(
         public FilesInterface $files,
         public QueriesInterface $queries,
-        public IndexesInterface $searchStores,
+        public IndexesInterface $indexes,
     ) {
     }
 }

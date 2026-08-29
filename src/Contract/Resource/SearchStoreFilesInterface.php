@@ -3,7 +3,7 @@
 namespace OneToMany\AI\Contract\Resource;
 
 use OneToMany\AI\Exception\DomainException;
-use OneToMany\AI\Resource\SearchStore\SearchStoreFile;
+use OneToMany\AI\Resource\Index\SearchStoreFile;
 use OneToMany\AI\Vendor;
 
 interface SearchStoreFilesInterface

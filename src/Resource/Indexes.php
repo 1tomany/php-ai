@@ -7,7 +7,7 @@ use OneToMany\AI\Contract\Resource\IndexesInterface;
 use OneToMany\AI\Contract\Resource\SearchStoreFilesInterface;
 use OneToMany\AI\Exception\DomainException;
 use OneToMany\AI\Model;
-use OneToMany\AI\Resource\SearchStore\SearchStore;
+use OneToMany\AI\Resource\Index\SearchStore;
 use OneToMany\AI\Vendor;
 
 use function sprintf;

@@ -4,7 +4,7 @@ namespace OneToMany\AI\Contract\Resource;
 
 use OneToMany\AI\Exception\DomainException;
 use OneToMany\AI\Model;
-use OneToMany\AI\Resource\SearchStore\SearchStore;
+use OneToMany\AI\Resource\Index\SearchStore;
 use OneToMany\AI\Vendor;
 
 interface IndexesInterface

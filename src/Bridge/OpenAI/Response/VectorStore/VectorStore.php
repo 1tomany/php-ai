@@ -3,8 +3,8 @@
 namespace OneToMany\AI\Bridge\OpenAI\Response\VectorStore;
 
 use OneToMany\AI\Bridge\OpenAI\Response\VectorStore\Enum\VectorStoreStatus;
-use OneToMany\AI\Resource\SearchStore\SearchStore;
-use OneToMany\AI\Resource\SearchStore\Usage;
+use OneToMany\AI\Resource\Index\SearchStore;
+use OneToMany\AI\Resource\Index\Usage;
 
 final readonly class VectorStore
 {

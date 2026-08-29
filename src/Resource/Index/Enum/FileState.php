@@ -1,6 +1,6 @@
 <?php
 
-namespace OneToMany\AI\Resource\SearchStore\Enum;
+namespace OneToMany\AI\Resource\Index\Enum;
 
 enum FileState
 {

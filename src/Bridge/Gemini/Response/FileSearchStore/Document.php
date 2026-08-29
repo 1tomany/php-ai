@@ -3,7 +3,7 @@
 namespace OneToMany\AI\Bridge\Gemini\Response\FileSearchStore;
 
 use OneToMany\AI\Bridge\Gemini\Response\FileSearchStore\Enum\DocumentState;
-use OneToMany\AI\Resource\SearchStore\SearchStoreFile;
+use OneToMany\AI\Resource\Index\SearchStoreFile;
 
 use function max;
 

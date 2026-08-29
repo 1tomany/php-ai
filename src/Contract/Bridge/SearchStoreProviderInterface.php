@@ -2,8 +2,8 @@
 
 namespace OneToMany\AI\Contract\Bridge;
 
-use OneToMany\AI\Resource\SearchStore\SearchStore;
-use OneToMany\AI\Resource\SearchStore\SearchStoreFile;
+use OneToMany\AI\Resource\Index\SearchStore;
+use OneToMany\AI\Resource\Index\SearchStoreFile;
 use OneToMany\AI\Resource\Shared\Metadata;
 
 interface SearchStoreProviderInterface extends ProviderInterface
