@@ -20,13 +20,12 @@ trait QueryTrait
     public function compile(
         Model $model,
         Prompt $prompt,
-        array $options = [],
     ): Query {
         try {
             /** @var array<string, mixed> $request */
-            $request = $this->serializer->normalize(new QueryDefinition($model, $prompt, $options));
+            $request = $this->serializer->normalize(new QueryDefinition($model, $prompt));
         } catch (SerializerExceptionInterface $e) {
-            throw new RuntimeException(sprintf('Compiling the %s query failed.', static::getVendor()->getName()), previous: $e);
+            throw new RuntimeException(sprintf('Compiling a %s prompt to a query failed.', $model->getVendor()->getName()), previous: $e);
         }
 
         return new Query($model, $request);

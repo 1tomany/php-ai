@@ -24,7 +24,6 @@ final readonly class Queries extends Resources implements QueriesInterface
     public function compile(
         string|Model $model,
         Prompt $prompt,
-        array $options = [],
     ): Query {
         $model = Model::create($model);
 
@@ -32,29 +31,26 @@ final readonly class Queries extends Resources implements QueriesInterface
             throw new DomainException('At least one text or file input is required to compile a prompt into a query.');
         }
 
-        return $this->getProvider($model->vendor)->compile($model, $prompt, $options);
+        return $this->getProvider($model->getVendor())->compile($model, $prompt);
     }
 
     /**
      * @see OneToMany\AI\Contract\Resource\QueriesInterface
      */
     #[\Override]
-    public function run(Query $query): Response
+    public function send(Query $query): Response
     {
         return $this->getProvider($query->getModel()->getVendor())->run($query);
     }
 
     /**
      * @see OneToMany\AI\Contract\Resource\QueriesInterface
-     *
-     * @param array<string, mixed> $options
      */
     #[\Override]
     public function compileAndRun(
         string|Model $model,
         Prompt $prompt,
-        array $options = [],
     ): Response {
-        return $this->run($this->compile(Model::create($model), $prompt, $options));
+        return $this->send($this->compile(Model::create($model), $prompt));
     }
 }

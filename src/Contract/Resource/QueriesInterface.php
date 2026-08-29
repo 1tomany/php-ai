@@ -9,15 +9,9 @@ use OneToMany\AI\Resource\Query\Response;
 
 interface QueriesInterface
 {
-    /**
-     * @param array<string, mixed> $options
-     */
-    public function compile(Model $model, Prompt $prompt, array $options = []): Query;
+    public function compile(string|Model $model, Prompt $prompt): Query;
 
-    public function run(Query $query): Response;
+    public function send(Query $query): Response;
 
-    /**
-     * @param array<string, mixed> $options
-     */
-    public function compileAndRun(string|Model $model, Prompt $prompt, array $options = []): Response;
+    public function compileAndRun(string|Model $model, Prompt $prompt): Response;
 }

@@ -9,10 +9,7 @@ use OneToMany\AI\Resource\Query\Response;
 
 interface QueryProviderInterface extends ProviderInterface
 {
-    /**
-     * @param array<string, mixed> $options
-     */
-    public function compile(Model $model, Prompt $prompt, array $options = []): Query;
+    public function compile(Model $model, Prompt $prompt): Query;
 
     public function run(Query $query): Response;
 }
