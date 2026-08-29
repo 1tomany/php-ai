@@ -17,12 +17,12 @@ interface IndexesInterface
     public function create(string|Vendor $vendor, string $name, string|Model|null $model = null): Index;
 
     /**
-     * @throws DomainException when the search store ID is empty
+     * @throws DomainException when the index ID is empty
      */
-    public function read(string|Vendor $vendor, ?string $searchStoreId): Index;
+    public function read(string|Vendor $vendor, ?string $indexId): Index;
 
     /**
-     * @throws DomainException when the search store ID is empty
+     * @throws DomainException when the index ID is empty
      */
-    public function delete(string|Vendor $vendor, ?string $searchStoreId): void;
+    public function delete(string|Vendor $vendor, ?string $indexId): void;
 }

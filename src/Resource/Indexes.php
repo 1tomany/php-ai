@@ -42,7 +42,7 @@ final readonly class Indexes extends AbstractResource implements IndexesInterfac
         }
 
         if ('' === $name = trim((string) $name)) {
-            throw new DomainException('The search store name cannot be empty.');
+            throw new DomainException('The index name cannot be empty.');
         }
 
         if (null !== $model) {
@@ -64,9 +64,9 @@ final readonly class Indexes extends AbstractResource implements IndexesInterfac
     #[\Override]
     public function read(
         string|Vendor $vendor,
-        ?string $searchStoreId,
+        ?string $indexId,
     ): Index {
-        return $this->getProvider($vendor)->read(DomainException::validateId($searchStoreId, 'search store'));
+        return $this->getProvider($vendor)->read(DomainException::validateId($indexId, 'index'));
     }
 
     /**
@@ -75,8 +75,8 @@ final readonly class Indexes extends AbstractResource implements IndexesInterfac
     #[\Override]
     public function delete(
         string|Vendor $vendor,
-        ?string $searchStoreId,
+        ?string $indexId,
     ): void {
-        $this->getProvider($vendor)->delete(DomainException::validateId($searchStoreId, 'search store'));
+        $this->getProvider($vendor)->delete(DomainException::validateId($indexId, 'index'));
     }
 }
