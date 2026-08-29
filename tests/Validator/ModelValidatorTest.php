@@ -4,11 +4,13 @@ namespace OneToMany\AI\Tests\Validator;
 
 use OneToMany\AI\Validator\Model;
 use OneToMany\AI\Validator\ModelValidator;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 use Symfony\Component\Validator\Exception\UnexpectedValueException;
 
+#[Group('ValidatorTests')]
 final class ModelValidatorTest extends TestCase
 {
     public function testValidateRequiresModelConstraint(): void

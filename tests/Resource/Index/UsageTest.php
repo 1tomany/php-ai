@@ -3,10 +3,14 @@
 namespace OneToMany\AI\Tests\Resource\Index;
 
 use OneToMany\AI\Resource\Index\Usage;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 
 use function random_int;
 
+#[Group('UnitTests')]
+#[Group('ResourceTests')]
+#[Group('IndexTests')]
 final class UsageTest extends TestCase
 {
     public function testConstructorCalculatesTotalWhenNull(): void

@@ -3,8 +3,12 @@
 namespace OneToMany\AI\Tests\Resource\Index\Enum;
 
 use OneToMany\AI\Resource\Index\Enum\FileState;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 
+#[Group('UnitTests')]
+#[Group('ResourceTests')]
+#[Group('IndexTests')]
 final class FileStateTest extends TestCase
 {
     public function testIsPending(): void

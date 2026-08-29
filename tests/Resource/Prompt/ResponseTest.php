@@ -17,7 +17,7 @@ use const PHP_INT_MAX;
 #[Group('PromptTests')]
 final class ResponseTest extends TestCase
 {
-    public function testDecodeRequiresJsonObjectOrArray(): void
+    public function testToArrayRequiresJsonObjectOrArray(): void
     {
         $text = (string) PHP_INT_MAX;
         $this->assertTrue(json_validate($text));
@@ -25,6 +25,6 @@ final class ResponseTest extends TestCase
         $this->expectException(RuntimeException::class);
         $this->expectExceptionMessageIs('The model output did not contain a JSON object or array.');
 
-        new Response(uniqid(), true, $text)->decode();
+        new Response(uniqid(), true, $text)->toArray();
     }
 }
