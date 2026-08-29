@@ -6,11 +6,9 @@ use OneToMany\AI\Contract\Bridge\IndexProviderInterface;
 use OneToMany\AI\Contract\Resource\IndexesInterface;
 use OneToMany\AI\Contract\Resource\IndexFilesInterface;
 use OneToMany\AI\Exception\DomainException;
-use OneToMany\AI\Model;
 use OneToMany\AI\Resource\Index\Index;
 use OneToMany\AI\Vendor;
 
-use function sprintf;
 use function trim;
 
 /**
@@ -35,27 +33,13 @@ final readonly class Indexes extends AbstractResource implements IndexesInterfac
     public function create(
         string|Vendor $vendor,
         string $name,
-        string|Model|null $model = null,
+        bool $multimodal = false,
     ): Index {
-        if (!$vendor instanceof Vendor) {
-            $vendor = Vendor::create($vendor);
-        }
-
         if ('' === $name = trim((string) $name)) {
             throw new DomainException('The index name cannot be empty.');
         }
 
-        if (null !== $model) {
-            if (!$model instanceof Model) {
-                $model = Model::create($model);
-            }
-
-            if ($model->getVendor() !== $vendor) {
-                throw new DomainException(sprintf('The model "%s" cannot be used with the vendor "%s".', $model->getId(), $vendor->getValue()));
-            }
-        }
-
-        return $this->getProvider($vendor)->create($name, null !== $model ? Model::create($model)->getName() : null);
+        return $this->getProvider($vendor)->create($name, $multimodal);
     }
 
     /**

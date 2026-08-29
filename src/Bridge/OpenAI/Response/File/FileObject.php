@@ -2,7 +2,7 @@
 
 namespace OneToMany\AI\Bridge\OpenAI\Response\File;
 
-final readonly class File
+final readonly class FileObject
 {
     /**
      * @param non-empty-string $id

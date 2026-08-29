@@ -3,7 +3,7 @@
 namespace OneToMany\AI\Bridge\Gemini;
 
 use OneToMany\AI\Bridge\Common\Trait\QueryTrait;
-use OneToMany\AI\Bridge\Gemini\Response\Interaction\Interaction as ResponsePayload;
+use OneToMany\AI\Bridge\Gemini\Response\Interaction\Interaction;
 use OneToMany\AI\Contract\Bridge\QueryProviderInterface;
 use OneToMany\AI\Resource\Query\Query;
 use OneToMany\AI\Resource\Query\Response;
@@ -28,7 +28,7 @@ final readonly class QueryProvider extends AbstractProvider implements QueryProv
                 'json' => $query->request,
             ]);
 
-            $record = $this->transport->decode($response, ResponsePayload::class);
+            $record = $this->transport->decode($response, Interaction::class);
         } finally {
             unset($query);
         }

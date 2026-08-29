@@ -2,7 +2,7 @@
 
 namespace OneToMany\AI\Bridge\OpenAI;
 
-use OneToMany\AI\Bridge\OpenAI\Response\File\File;
+use OneToMany\AI\Bridge\OpenAI\Response\File\FileObject;
 use OneToMany\AI\Contract\Bridge\FileProviderInterface;
 use OneToMany\AI\Exception\RuntimeException;
 use OneToMany\AI\Resource\File\LocalFile;
@@ -37,7 +37,7 @@ final readonly class FileProvider extends AbstractProvider implements FileProvid
                 ],
             ]);
 
-            $record = $this->transport->decode($response, File::class);
+            $record = $this->transport->decode($response, FileObject::class);
         } finally {
             @fclose($handle);
         }

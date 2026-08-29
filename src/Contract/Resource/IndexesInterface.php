@@ -3,7 +3,6 @@
 namespace OneToMany\AI\Contract\Resource;
 
 use OneToMany\AI\Exception\DomainException;
-use OneToMany\AI\Model;
 use OneToMany\AI\Resource\Index\Index;
 use OneToMany\AI\Vendor;
 
@@ -14,7 +13,7 @@ interface IndexesInterface
     /**
      * @throws DomainException when the name is empty
      */
-    public function create(string|Vendor $vendor, string $name, string|Model|null $model = null): Index;
+    public function create(string|Vendor $vendor, string $name, bool $multimodal = false): Index;
 
     /**
      * @throws DomainException when the index ID is empty

@@ -10,9 +10,8 @@ interface IndexProviderInterface extends ProviderInterface
 {
     /**
      * @param non-empty-string $name
-     * @param ?non-empty-string $model
      */
-    public function create(string $name, ?string $model): Index;
+    public function create(string $name, bool $multimodal = false): Index;
 
     /**
      * @param non-empty-string $indexId

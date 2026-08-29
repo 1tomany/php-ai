@@ -35,6 +35,6 @@ final readonly class VectorStore
 
     public function toResource(): Index
     {
-        return new Index($this->id, $this->name, new Usage($this->usage_bytes, $this->file_counts->active, $this->file_counts->pending, $this->file_counts->failed, $this->file_counts->total));
+        return new Index($this->id, $this->name, null, new Usage($this->usage_bytes, $this->file_counts->active, $this->file_counts->pending, $this->file_counts->failed, $this->file_counts->total));
     }
 }

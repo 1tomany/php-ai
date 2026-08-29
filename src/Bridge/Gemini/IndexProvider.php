@@ -14,21 +14,18 @@ use function sprintf;
 
 final readonly class IndexProvider extends AbstractProvider implements IndexProviderInterface
 {
-    public const string MULTIMODAL_EMBEDDING_MODEL = 'models/gemini-embedding-2';
-
     /**
      * @see OneToMany\AI\Contract\Bridge\IndexProviderInterface
      */
     #[\Override]
     public function create(
         string $name,
-        ?string $model,
+        bool $multimodal = false,
     ): Index {
         $url = $this->url($this->apiVersion, 'fileSearchStores');
 
-        if ('' === $model = trim((string) $model)) {
-            $model = self::MULTIMODAL_EMBEDDING_MODEL;
-        }
+        // Determine if we're using a multimodal model or text only
+        $model = $multimodal ? 'models/gemini-embedding-2' : null;
 
         $response = $this->transport->postRequest($url, [
             'headers' => [

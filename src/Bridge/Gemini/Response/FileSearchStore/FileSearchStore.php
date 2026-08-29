@@ -31,6 +31,6 @@ final readonly class FileSearchStore
 
     public function toResource(): Index
     {
-        return new Index($this->name, $this->displayName, new Usage($this->sizeBytes, $this->activeDocumentsCount, $this->pendingDocumentsCount, $this->failedDocumentsCount));
+        return new Index($this->name, $this->displayName, $this->embeddingModel, new Usage($this->sizeBytes, $this->activeDocumentsCount, $this->pendingDocumentsCount, $this->failedDocumentsCount));
     }
 }

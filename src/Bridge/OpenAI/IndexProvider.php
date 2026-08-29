@@ -17,7 +17,7 @@ final readonly class IndexProvider extends AbstractProvider implements IndexProv
     #[\Override]
     public function create(
         string $name,
-        ?string $model,
+        bool $multimodal = false,
     ): Index {
         $url = $this->url('vector_stores');
 
