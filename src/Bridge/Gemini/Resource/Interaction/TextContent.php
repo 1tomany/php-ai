@@ -2,7 +2,7 @@
 
 namespace OneToMany\AI\Bridge\Gemini\Resource\Interaction;
 
-use OneToMany\AI\Exception\InvalidArgumentException;
+use OneToMany\AI\Exception\DomainException;
 
 use function trim;
 
@@ -19,7 +19,7 @@ final readonly class TextContent extends Content implements \JsonSerializable
     /**
      * @see OneToMany\AI\Bridge\Gemini\Resource\Interaction\Content
      *
-     * @throws InvalidArgumentException when the text is empty
+     * @throws DomainException when the text is empty
      */
     public function __construct(
         ?string $text,
@@ -27,7 +27,7 @@ final readonly class TextContent extends Content implements \JsonSerializable
         parent::__construct('text');
 
         if ('' === $text = trim((string) $text)) {
-            throw new InvalidArgumentException('The text cannot be empty.');
+            throw new DomainException('The text cannot be empty.');
         }
 
         $this->text = $text;

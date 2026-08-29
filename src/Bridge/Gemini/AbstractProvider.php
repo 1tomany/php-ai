@@ -4,7 +4,7 @@ namespace OneToMany\AI\Bridge\Gemini;
 
 use OneToMany\AI\Bridge\Transport;
 use OneToMany\AI\Contract\Bridge\ProviderInterface;
-use OneToMany\AI\Exception\InvalidArgumentException;
+use OneToMany\AI\Exception\DomainException;
 use OneToMany\AI\Vendor;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
@@ -17,7 +17,7 @@ abstract readonly class AbstractProvider implements ProviderInterface
     public const string BASE_URL = 'https://generativelanguage.googleapis.com';
 
     /**
-     * @throws InvalidArgumentException when the API key is empty
+     * @throws DomainException when the API key is empty
      */
     public function __construct(
         protected Transport $transport,
@@ -26,7 +26,7 @@ abstract readonly class AbstractProvider implements ProviderInterface
         protected string $apiVersion = 'v1beta',
     ) {
         if ('' === $this->apiKey) {
-            throw new InvalidArgumentException(sprintf('The %s API key cannot be empty.', $this->getVendor()->getName()));
+            throw new DomainException(sprintf('The %s API key cannot be empty.', $this->getVendor()->getName()));
         }
     }
 

@@ -2,7 +2,7 @@
 
 namespace OneToMany\AI;
 
-use OneToMany\AI\Exception\InvalidArgumentException;
+use OneToMany\AI\Exception\DomainException;
 
 use function explode;
 use function sprintf;
@@ -15,7 +15,7 @@ enum Vendor: string
     case OpenAI = 'openai';
 
     /**
-     * @throws InvalidArgumentException when the vendor is not valid
+     * @throws DomainException when the vendor is not valid
      */
     public static function create(string|self $vendor): self
     {
@@ -23,7 +23,7 @@ enum Vendor: string
             try {
                 return self::from($vendor);
             } catch (\ValueError $e) {
-                throw new InvalidArgumentException(sprintf('The vendor "%s" is not valid.', $vendor), previous: $e);
+                throw new DomainException(sprintf('The vendor "%s" is not valid.', $vendor), previous: $e);
             }
         }
 
@@ -31,15 +31,15 @@ enum Vendor: string
     }
 
     /**
-     * @throws InvalidArgumentException when the model format is invalid
-     * @throws InvalidArgumentException when the vendor is not found
+     * @throws DomainException when the model format is invalid
+     * @throws DomainException when the vendor is not found
      */
     public static function fromModel(string $model): self
     {
         $model = trim($model);
 
         if (!str_contains($model, ':')) {
-            throw new InvalidArgumentException('The model must use the "vendor:model" format.');
+            throw new DomainException('The model must use the "vendor:model" format.');
         }
 
         return self::create(explode(':', $model)[0]);

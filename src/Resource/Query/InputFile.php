@@ -2,7 +2,7 @@
 
 namespace OneToMany\AI\Resource\Query;
 
-use OneToMany\AI\Exception\InvalidArgumentException;
+use OneToMany\AI\Exception\DomainException;
 
 use function trim;
 
@@ -19,21 +19,21 @@ final readonly class InputFile
     public string $mimeType;
 
     /**
-     * @throws InvalidArgumentException when the file ID is empty
-     * @throws InvalidArgumentException when the MIME type is empty
+     * @throws DomainException when the file ID is empty
+     * @throws DomainException when the MIME type is empty
      */
     public function __construct(
         ?string $id,
         ?string $mimeType,
     ) {
         if ('' === $id = trim((string) $id)) {
-            throw new InvalidArgumentException('The file ID cannot be empty.');
+            throw new DomainException('The file ID cannot be empty.');
         }
 
         $this->id = $id;
 
         if ('' === $mimeType = trim((string) $mimeType)) {
-            throw new InvalidArgumentException('The MIME type cannot be empty.');
+            throw new DomainException('The MIME type cannot be empty.');
         }
 
         $this->mimeType = strtolower($mimeType);

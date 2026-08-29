@@ -2,7 +2,7 @@
 
 namespace OneToMany\AI\Bridge\OpenAI\Resource\Response;
 
-use OneToMany\AI\Exception\InvalidArgumentException;
+use OneToMany\AI\Exception\DomainException;
 
 use function trim;
 
@@ -19,14 +19,14 @@ final readonly class ResponseInputText extends ResponseInput
     /**
      * @see OneToMany\AI\Bridge\OpenAI\Resource\Response\ResponseInput
      *
-     * @throws InvalidArgumentException when the text is empty
+     * @throws DomainException when the text is empty
      */
     public function __construct(?string $text)
     {
         parent::__construct('input_text');
 
         if ('' === $text = trim((string) $text)) {
-            throw new InvalidArgumentException('The text cannot be empty.');
+            throw new DomainException('The text cannot be empty.');
         }
 
         $this->text = $text;

@@ -2,7 +2,7 @@
 
 namespace OneToMany\AI\Resource\Query;
 
-use OneToMany\AI\Exception\InvalidArgumentException;
+use OneToMany\AI\Exception\DomainException;
 use OneToMany\AI\Exception\RuntimeException;
 
 use function file_get_contents;
@@ -17,12 +17,12 @@ final readonly class InputText implements \Stringable
     public string $text;
 
     /**
-     * @throws InvalidArgumentException when the input text is empty
+     * @throws DomainException when the input text is empty
      */
     public function __construct(?string $text)
     {
         if ('' === $text = trim((string) $text)) {
-            throw new InvalidArgumentException('The input text cannot be empty.');
+            throw new DomainException('The input text cannot be empty.');
         }
 
         $this->text = $text;

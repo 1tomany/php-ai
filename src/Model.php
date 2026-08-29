@@ -2,7 +2,7 @@
 
 namespace OneToMany\AI;
 
-use OneToMany\AI\Exception\InvalidArgumentException;
+use OneToMany\AI\Exception\DomainException;
 
 use function array_last;
 use function explode;
@@ -24,7 +24,7 @@ final readonly class Model implements \Stringable
     public string $name;
 
     /**
-     * @throws InvalidArgumentException when the model name is empty
+     * @throws DomainException when the model name is empty
      */
     public function __construct(
         string|Vendor $vendor,
@@ -33,7 +33,7 @@ final readonly class Model implements \Stringable
         $this->vendor = Vendor::create($vendor);
 
         if ('' === $name = trim($name)) {
-            throw new InvalidArgumentException('The model name cannot be empty.');
+            throw new DomainException('The model name cannot be empty.');
         }
 
         $this->name = $name;

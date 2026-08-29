@@ -2,7 +2,7 @@
 
 namespace OneToMany\AI\Tests;
 
-use OneToMany\AI\Exception\InvalidArgumentException;
+use OneToMany\AI\Exception\DomainException;
 use OneToMany\AI\Model;
 use OneToMany\AI\Vendor;
 use PHPUnit\Framework\Attributes\Group;
@@ -13,7 +13,7 @@ final class ModelTest extends TestCase
 {
     public function testConstructorRequiresNonEmptyName(): void
     {
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(DomainException::class);
         $this->expectExceptionMessageIs('The model name cannot be empty.');
 
         new Model(Vendor::Gemini, '');

@@ -2,7 +2,7 @@
 
 namespace OneToMany\AI\Resource\Query;
 
-use OneToMany\AI\Exception\InvalidArgumentException;
+use OneToMany\AI\Exception\DomainException;
 
 use function array_keys;
 use function file_get_contents;
@@ -29,7 +29,7 @@ final readonly class JsonSchema
     /**
      * @param array<string, mixed> $schema
      *
-     * @throws InvalidArgumentException when the schema has no name or "title" property
+     * @throws DomainException when the schema has no name or "title" property
      */
     public function __construct(
         array $schema,
@@ -37,7 +37,7 @@ final readonly class JsonSchema
         public bool $strict = true,
     ) {
         if ([] === $schema) {
-            throw new InvalidArgumentException('The schema cannot be empty.');
+            throw new DomainException('The schema cannot be empty.');
         }
 
         $this->schema = $schema;
@@ -55,27 +55,27 @@ final readonly class JsonSchema
         }
 
         if (null === $name || '' === $name) {
-            throw new InvalidArgumentException('A JSON schema requires a name or non-empty "title" property.');
+            throw new DomainException('A JSON schema requires a name or non-empty "title" property.');
         }
 
         $this->name = $name;
     }
 
     /**
-     * @throws InvalidArgumentException when reading the schema file fails
-     * @throws InvalidArgumentException when decoding the schema fails
-     * @throws InvalidArgumentException when the schema does not contain an object
+     * @throws DomainException when reading the schema file fails
+     * @throws DomainException when decoding the schema fails
+     * @throws DomainException when the schema does not contain an object
      */
     public static function fromFile(string $file, ?string $name = null): self
     {
         if (false === $contents = @file_get_contents($file)) {
-            throw new InvalidArgumentException(sprintf('Reading the JSON schema file "%s" failed.', $file));
+            throw new DomainException(sprintf('Reading the JSON schema file "%s" failed.', $file));
         }
 
         try {
             $schema = json_decode($contents, true, 512, JSON_THROW_ON_ERROR);
         } catch (\JsonException $e) {
-            throw new InvalidArgumentException(sprintf('Decoding the JSON schema file "%s" failed.', $file), previous: $e);
+            throw new DomainException(sprintf('Decoding the JSON schema file "%s" failed.', $file), previous: $e);
         }
 
         $isObject = true;
@@ -97,7 +97,7 @@ final readonly class JsonSchema
         }
 
         if (false === $isObject) {
-            throw new InvalidArgumentException(sprintf('The JSON schema file "%s" must contain an object.', $file));
+            throw new DomainException(sprintf('The JSON schema file "%s" must contain an object.', $file));
         }
 
         return new self($schema, $name); // @phpstan-ignore argument.type
