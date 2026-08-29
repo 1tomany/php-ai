@@ -7,7 +7,7 @@ use OneToMany\AI\Resource\SearchStore\SearchStore;
 
 use function max;
 
-final class FileSearchStore
+final readonly class FileSearchStore
 {
     /**
      * @param non-empty-string $name
@@ -18,55 +18,68 @@ final class FileSearchStore
      * @param non-negative-int|numeric-string $failedDocumentsCount
      */
     public function __construct(
-        public readonly string $name,
-        public readonly \DateTimeImmutable $createTime,
-        public readonly \DateTimeImmutable $updateTime,
-        public readonly string $embeddingModel,
-        public readonly ?string $displayName = null,
-        public readonly int|string $activeDocumentsCount = 0,
-        public readonly int|string $pendingDocumentsCount = 0,
-        public readonly int|string $failedDocumentsCount = 0,
-        public readonly int|string $sizeBytes = 0,
+        public string $name,
+        public \DateTimeImmutable $createTime,
+        public \DateTimeImmutable $updateTime,
+        public string $embeddingModel,
+        public ?string $displayName = null,
+        public int|string $activeDocumentsCount = 0,
+        public int|string $pendingDocumentsCount = 0,
+        public int|string $failedDocumentsCount = 0,
+        public int|string $sizeBytes = 0,
     ) {
-    }
-
-    /**
-     * @var non-negative-int
-     */
-    public int $activeDocuments {
-        get => max(0, (int) $this->activeDocumentsCount);
-    }
-
-    /**
-     * @var non-negative-int
-     */
-    public int $pendingDocuments {
-        get => max(0, (int) $this->pendingDocumentsCount);
-    }
-
-    /**
-     * @var non-negative-int
-     */
-    public int $failedDocuments {
-        get => max(0, (int) $this->failedDocumentsCount);
-    }
-
-    /**
-     * @var non-negative-int
-     */
-    public int $totalDocuments {
-        get => $this->activeDocuments + $this->pendingDocuments + $this->failedDocuments;
-    }
-
-    /**
-     * @var non-negative-int
-     */
-    public int $totalBytes {
-        get => max(0, (int) $this->sizeBytes);
     }
 
     public function toResource(): SearchStore
     {
-        return new SearchStore($this->name, $this->displayName, $this->totalBytes, new Counts($this->pendingDocuments, $this->activeDocuments, $this->failedDocuments, $this->totalDocuments));
+        return new SearchStore($this->name, $this->getName(), $this->getTotalBytes(), new Counts($this->getPendingCount(), $this->getActiveCount(), $this->getFailedCount(), $this->getTotalCount()));
+    }
+
+    /**
+     * @return non-empty-string
+     */
+    private function getName(): string
+    {
+        return $this->displayName ?? $this->name;
+    }
+
+    /**
+     * @return non-negative-int
+     */
+    private function getTotalBytes(): int
+    {
+        return max(0, (int) $this->sizeBytes);
+    }
+
+    /**
+     * @return non-negative-int
+     */
+    private function getPendingCount(): int
+    {
+        return max(0, (int) $this->pendingDocumentsCount);
+    }
+
+    /**
+     * @return non-negative-int
+     */
+    private function getActiveCount(): int
+    {
+        return max(0, (int) $this->activeDocumentsCount);
+    }
+
+    /**
+     * @return non-negative-int
+     */
+    private function getFailedCount(): int
+    {
+        return max(0, (int) $this->failedDocumentsCount);
+    }
+
+    /**
+     * @return non-negative-int
+     */
+    private function getTotalCount(): int
+    {
+        return $this->getPendingCount() + $this->getActiveCount() + $this->getFailedCount();
     }
 }
