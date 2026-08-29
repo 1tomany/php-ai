@@ -2,14 +2,18 @@
 
 namespace OneToMany\AI\Resource\SearchStore;
 
+use OneToMany\AI\Resource\SearchStore\Enum\FileState;
+
 final readonly class SearchStoreFile
 {
     /**
      * @param non-empty-string $id
+     * @param non-negative-int $bytes
      */
     public function __construct(
         public string $id,
-        public bool $isActive = true,
+        public FileState $state,
+        public int $bytes = 0,
     ) {
     }
 
@@ -21,8 +25,16 @@ final readonly class SearchStoreFile
         return $this->id;
     }
 
-    public function isActive(): bool
+    public function getState(): FileState
     {
-        return $this->isActive;
+        return $this->state;
+    }
+
+    /**
+     * @return non-negative-int
+     */
+    public function getBytes(): int
+    {
+        return $this->bytes;
     }
 }
