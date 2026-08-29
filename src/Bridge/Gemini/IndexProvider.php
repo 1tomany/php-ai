@@ -7,7 +7,7 @@ use OneToMany\AI\Bridge\Gemini\Response\FileSearchStore\FileSearchStore;
 use OneToMany\AI\Bridge\Gemini\Response\FileSearchStore\Operation;
 use OneToMany\AI\Contract\Bridge\IndexProviderInterface;
 use OneToMany\AI\Resource\Index\Index;
-use OneToMany\AI\Resource\Index\SearchStoreFile;
+use OneToMany\AI\Resource\Index\IndexFile;
 use OneToMany\AI\Resource\Shared\Metadata;
 
 use function sprintf;
@@ -86,7 +86,7 @@ final readonly class IndexProvider extends AbstractProvider implements IndexProv
         string $indexId,
         string $fileId,
         Metadata $metadata,
-    ): SearchStoreFile {
+    ): IndexFile {
         $url = $this->url($this->apiVersion, sprintf('%s:importFile', $indexId));
 
         $response = $this->transport->postRequest($url, [
@@ -110,7 +110,7 @@ final readonly class IndexProvider extends AbstractProvider implements IndexProv
     public function readFile(
         string $indexId,
         string $indexFileId,
-    ): SearchStoreFile {
+    ): IndexFile {
         $url = $this->url($this->apiVersion, $indexFileId);
 
         $response = $this->transport->getRequest($url, [

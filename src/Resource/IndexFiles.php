@@ -5,7 +5,7 @@ namespace OneToMany\AI\Resource;
 use OneToMany\AI\Contract\Bridge\IndexProviderInterface;
 use OneToMany\AI\Contract\Resource\IndexFilesInterface;
 use OneToMany\AI\Exception\DomainException;
-use OneToMany\AI\Resource\Index\SearchStoreFile;
+use OneToMany\AI\Resource\Index\IndexFile;
 use OneToMany\AI\Resource\Shared\Metadata;
 use OneToMany\AI\Vendor;
 
@@ -23,7 +23,7 @@ final readonly class IndexFiles extends AbstractResource implements IndexFilesIn
         ?string $indexId,
         ?string $fileId,
         ?array $metadata = null,
-    ): SearchStoreFile {
+    ): IndexFile {
         return $this->getProvider($vendor)->attachFile(DomainException::validateId($indexId, 'index'), DomainException::validateId($fileId, 'file'), new Metadata($metadata));
     }
 
@@ -35,7 +35,7 @@ final readonly class IndexFiles extends AbstractResource implements IndexFilesIn
         string|Vendor $vendor,
         ?string $indexId,
         ?string $indexFileId,
-    ): SearchStoreFile {
+    ): IndexFile {
         return $this->getProvider($vendor)->readFile(DomainException::validateId($indexId, 'index'), DomainException::validateId($indexFileId, 'index file'));
     }
 

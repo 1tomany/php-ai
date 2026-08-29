@@ -3,7 +3,7 @@
 namespace OneToMany\AI\Contract\Bridge;
 
 use OneToMany\AI\Resource\Index\Index;
-use OneToMany\AI\Resource\Index\SearchStoreFile;
+use OneToMany\AI\Resource\Index\IndexFile;
 use OneToMany\AI\Resource\Shared\Metadata;
 
 interface IndexProviderInterface extends ProviderInterface
@@ -28,13 +28,13 @@ interface IndexProviderInterface extends ProviderInterface
      * @param non-empty-string $indexId
      * @param non-empty-string $fileId
      */
-    public function attachFile(string $indexId, string $fileId, Metadata $metadata): SearchStoreFile;
+    public function attachFile(string $indexId, string $fileId, Metadata $metadata): IndexFile;
 
     /**
      * @param non-empty-string $indexId
      * @param non-empty-string $indexFileId
      */
-    public function readFile(string $indexId, string $indexFileId): SearchStoreFile;
+    public function readFile(string $indexId, string $indexFileId): IndexFile;
 
     /**
      * @param non-empty-string $indexId

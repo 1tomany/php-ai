@@ -3,7 +3,7 @@
 namespace OneToMany\AI\Bridge\OpenAI\Response\VectorStore;
 
 use OneToMany\AI\Bridge\OpenAI\Response\VectorStore\Enum\VectorStoreFileStatus;
-use OneToMany\AI\Resource\Index\SearchStoreFile;
+use OneToMany\AI\Resource\Index\IndexFile;
 
 final readonly class VectorStoreFile
 {
@@ -25,8 +25,8 @@ final readonly class VectorStoreFile
     ) {
     }
 
-    public function toResource(): SearchStoreFile
+    public function toResource(): IndexFile
     {
-        return new SearchStoreFile($this->id, $this->status->getFileState(), $this->usage_bytes);
+        return new IndexFile($this->id, $this->status->getFileState(), $this->usage_bytes);
     }
 }

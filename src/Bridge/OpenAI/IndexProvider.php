@@ -6,7 +6,7 @@ use OneToMany\AI\Bridge\OpenAI\Response\VectorStore\VectorStore;
 use OneToMany\AI\Bridge\OpenAI\Response\VectorStore\VectorStoreFile;
 use OneToMany\AI\Contract\Bridge\IndexProviderInterface;
 use OneToMany\AI\Resource\Index\Index;
-use OneToMany\AI\Resource\Index\SearchStoreFile;
+use OneToMany\AI\Resource\Index\IndexFile;
 use OneToMany\AI\Resource\Shared\Metadata;
 
 final readonly class IndexProvider extends AbstractProvider implements IndexProviderInterface
@@ -67,7 +67,7 @@ final readonly class IndexProvider extends AbstractProvider implements IndexProv
         string $indexId,
         string $fileId,
         Metadata $metadata,
-    ): SearchStoreFile {
+    ): IndexFile {
         $url = $this->url('vector_stores', $indexId, 'files');
 
         $response = $this->transport->postRequest($url, [
@@ -87,7 +87,7 @@ final readonly class IndexProvider extends AbstractProvider implements IndexProv
     public function readFile(
         string $indexId,
         string $indexFileId,
-    ): SearchStoreFile {
+    ): IndexFile {
         $url = $this->url('vector_stores', $indexId, 'files', $indexFileId);
 
         $response = $this->transport->getRequest($url, [

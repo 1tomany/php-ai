@@ -6,7 +6,7 @@ use OneToMany\AI\Resource\Index\Enum\FileState;
 
 use function max;
 
-final readonly class SearchStoreFile
+final readonly class IndexFile
 {
     /**
      * @param non-empty-string $id
