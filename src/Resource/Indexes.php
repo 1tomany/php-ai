@@ -4,7 +4,7 @@ namespace OneToMany\AI\Resource;
 
 use OneToMany\AI\Contract\Bridge\SearchStoreProviderInterface;
 use OneToMany\AI\Contract\Resource\SearchStoreFilesInterface;
-use OneToMany\AI\Contract\Resource\SearchStoresInterface;
+use OneToMany\AI\Contract\Resource\IndexesInterface;
 use OneToMany\AI\Exception\DomainException;
 use OneToMany\AI\Model;
 use OneToMany\AI\Resource\SearchStore\SearchStore;
@@ -16,7 +16,7 @@ use function trim;
 /**
  * @extends AbstractResource<SearchStoreProviderInterface>
  */
-final readonly class SearchStores extends AbstractResource implements SearchStoresInterface
+final readonly class Indexes extends AbstractResource implements IndexesInterface
 {
     /**
      * @param iterable<SearchStoreProviderInterface> $providers
@@ -29,7 +29,7 @@ final readonly class SearchStores extends AbstractResource implements SearchStor
     }
 
     /**
-     * @see OneToMany\AI\Contract\Resource\SearchStoresInterface
+     * @see OneToMany\AI\Contract\Resource\IndexesInterface
      */
     #[\Override]
     public function create(
@@ -59,7 +59,7 @@ final readonly class SearchStores extends AbstractResource implements SearchStor
     }
 
     /**
-     * @see OneToMany\AI\Contract\Resource\SearchStoresInterface
+     * @see OneToMany\AI\Contract\Resource\IndexesInterface
      */
     #[\Override]
     public function read(
@@ -70,7 +70,7 @@ final readonly class SearchStores extends AbstractResource implements SearchStor
     }
 
     /**
-     * @see OneToMany\AI\Contract\Resource\SearchStoresInterface
+     * @see OneToMany\AI\Contract\Resource\IndexesInterface
      */
     #[\Override]
     public function delete(

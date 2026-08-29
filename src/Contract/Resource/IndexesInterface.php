@@ -7,7 +7,7 @@ use OneToMany\AI\Model;
 use OneToMany\AI\Resource\SearchStore\SearchStore;
 use OneToMany\AI\Vendor;
 
-interface SearchStoresInterface
+interface IndexesInterface
 {
     public SearchStoreFilesInterface $files { get; }
 
