@@ -13,13 +13,9 @@ use OneToMany\AI\Resource\Shared\Metadata;
 
 use function sleep;
 use function sprintf;
-use function usleep;
 
 final readonly class IndexProvider extends AbstractProvider implements IndexProviderInterface
 {
-    private const int OPERATION_MAX_POLLS = 300;
-    private const int OPERATION_POLL_INTERVAL_MICROSECONDS = 1_000_000;
-
     /**
      * @see OneToMany\AI\Contract\Bridge\IndexProviderInterface
      */
@@ -148,21 +144,17 @@ final readonly class IndexProvider extends AbstractProvider implements IndexProv
     /**
      * @return non-empty-string
      *
+     * @throws RuntimeException when waiting for the operation times out
      * @throws RuntimeException when the operation fails
      * @throws RuntimeException when the operation does not return a document name
-     * @throws RuntimeException when waiting for the operation times out
      */
     private function waitForOperation(ImportFileOperation $operation): string
     {
-        $polls = 0;
+        $pollCount = 0;
 
         do {
-            if ($polls >= self::OPERATION_MAX_POLLS) {
-                throw new RuntimeException(sprintf('Waiting for the Gemini file import operation "%s" to complete timed out.', $operation->name));
-            }
-
-            if (0 < $polls) {
-                usleep(self::OPERATION_POLL_INTERVAL_MICROSECONDS);
+            if ($pollCount >= $operation::POLL_MAX_COUNT) {
+                throw new RuntimeException(sprintf('Waiting for the operation "%s" to complete timed out.', $operation->name));
             }
 
             $url = $this->url($this->apiVersion, $operation->name);
@@ -175,26 +167,23 @@ final readonly class IndexProvider extends AbstractProvider implements IndexProv
 
             $operation = $this->transport->decode($response, ImportFileOperation::class);
 
-            if (
-                true === $operation->done
-                && null !== $operation->response
-            ) {
+            if ($operation->done) {
                 break;
             }
 
-            sleep(5);
+            sleep($operation::POLL_SLEEP_SECONDS);
 
-            ++$polls;
-        } while (!$operation->done);
+            ++$pollCount;
+        } while (true);
 
         if (null !== $operation->error) {
-            throw new RuntimeException(sprintf('The Gemini file import operation "%s" failed.', $operation->name));
+            throw new RuntimeException(sprintf('The operation "%s" failed: %s.', $operation->name, \rtrim($operation->error->message, '.')), $operation->error->code);
         }
 
-        if (null === $documentName = $operation->response?->documentName) {
-            throw new RuntimeException(sprintf('The Gemini file import operation "%s" did not return a document name.', $operation->name));
+        if (null === $operation->response) {
+            throw new RuntimeException(sprintf('The operation "%s" did not return a response.', $operation->name));
         }
 
-        return $documentName;
+        return $operation->response->documentName;
     }
 }

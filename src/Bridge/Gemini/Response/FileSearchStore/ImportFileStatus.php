@@ -2,31 +2,15 @@
 
 namespace OneToMany\AI\Bridge\Gemini\Response\FileSearchStore;
 
-use function max;
-use function trim;
-
 final readonly class ImportFileStatus
 {
     /**
-     * @var non-negative-int
+     * @param non-negative-int $code
+     * @param non-empty-string $message
      */
-    public int $code;
-
-    /**
-     * @var ?non-empty-string
-     */
-    public ?string $message;
-
     public function __construct(
-        ?int $code = null,
-        ?string $message = null,
+        public int $code,
+        public string $message,
     ) {
-        $this->code = max(0, (int) $code);
-
-        if (null !== $message) {
-            $message = trim($message);
-        }
-
-        $this->message = '' !== $message ? $message : null;
     }
 }

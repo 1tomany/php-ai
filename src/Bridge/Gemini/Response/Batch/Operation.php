@@ -10,7 +10,7 @@ readonly class Operation
      *
      * @var positive-int
      */
-    public const int POLL_COUNT = 50;
+    public const int POLL_MAX_COUNT = 50;
 
     /**
      * The number of seconds to sleep between each poll request.
