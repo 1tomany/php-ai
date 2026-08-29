@@ -3,11 +3,14 @@
 namespace OneToMany\AI\Resource\Query;
 
 use OneToMany\AI\Exception\DomainException;
+use OneToMany\AI\Model;
 
 use function is_string;
 
 final class Prompt
 {
+    private ?Model $model = null;
+
     /**
      * @var list<InputFile|InputText>
      */
@@ -15,8 +18,10 @@ final class Prompt
     private ?InputText $instructions = null;
     private ?JsonSchema $schema = null;
 
-    public function __construct()
-    {
+    public function __construct(
+        ?Model $model = null,
+    ) {
+        $this->model = $model;
     }
 
     /**
@@ -33,6 +38,14 @@ final class Prompt
         foreach ($inputs as $input) {
             $prompt = $prompt->addInput($input);
         }
+
+        return $prompt;
+    }
+
+    public function forModel(Model $model): static
+    {
+        $prompt = clone $this;
+        $prompt->model = $model;
 
         return $prompt;
     }
@@ -62,17 +75,22 @@ final class Prompt
     /**
      * @param array<string, mixed> $schema
      */
-    public function withJsonSchema(
+    public function withSchema(
         array $schema,
         ?string $name = null,
         bool $strict = true,
     ): self {
-        return $this->withSchema(new JsonSchema($schema, $name, $strict));
+        return $this->addSchema(new JsonSchema($schema, $name, $strict));
     }
 
-    public function withJsonSchemaFile(string $file, ?string $name = null): static
+    public function withSchemaFile(string $file, ?string $name = null): static
     {
-        return $this->withSchema(JsonSchema::fromFile($file, $name));
+        return $this->addSchema(JsonSchema::fromFile($file, $name));
+    }
+
+    public function getModel(): ?Model
+    {
+        return $this->model;
     }
 
     /**
@@ -106,7 +124,7 @@ final class Prompt
         return $prompt;
     }
 
-    private function withSchema(JsonSchema $schema): static
+    private function addSchema(JsonSchema $schema): static
     {
         $prompt = clone $this;
         $prompt->schema = $schema;
