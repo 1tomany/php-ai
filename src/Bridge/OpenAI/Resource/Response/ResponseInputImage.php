@@ -2,7 +2,7 @@
 
 namespace OneToMany\AI\Bridge\OpenAI\Resource\Response;
 
-use OneToMany\AI\Exception\InvalidArgumentException;
+use OneToMany\AI\Exception\DomainException;
 
 use function trim;
 
@@ -19,14 +19,14 @@ final readonly class ResponseInputImage extends ResponseInput
     /**
      * @see OneToMany\AI\Bridge\OpenAI\Resource\Response\ResponseInput
      *
-     * @throws InvalidArgumentException when the file ID is empty
+     * @throws DomainException when the file ID is empty
      */
     public function __construct(?string $fileId)
     {
         parent::__construct('input_image');
 
         if ('' === $fileId = trim((string) $fileId)) {
-            throw new InvalidArgumentException('The file ID cannot be empty.');
+            throw new DomainException('The file ID cannot be empty.');
         }
 
         $this->fileId = $fileId;

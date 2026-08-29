@@ -2,7 +2,7 @@
 
 namespace OneToMany\AI\Resource\File;
 
-use OneToMany\AI\Exception\InvalidArgumentException;
+use OneToMany\AI\Exception\DomainException;
 use OneToMany\AI\Exception\RuntimeException;
 
 use function basename;
@@ -37,10 +37,10 @@ final readonly class LocalFile
     public int $size;
 
     /**
-     * @throws InvalidArgumentException when the file path is empty
-     * @throws InvalidArgumentException when the file is not readable
-     * @throws InvalidArgumentException when the file name is empty
-     * @throws InvalidArgumentException when the MIME type is empty
+     * @throws DomainException when the file path is empty
+     * @throws DomainException when the file is not readable
+     * @throws DomainException when the file name is empty
+     * @throws DomainException when the MIME type is empty
      * @throws RuntimeException when calculating the file size fails
      */
     public function __construct(
@@ -49,17 +49,17 @@ final readonly class LocalFile
         ?string $name = null,
     ) {
         if ('' === $path = trim($path)) {
-            throw new InvalidArgumentException('The file path cannot be empty.');
+            throw new DomainException('The file path cannot be empty.');
         }
 
         if (!is_file($path) || !is_readable($path)) {
-            throw new InvalidArgumentException(sprintf('The file "%s" is not readable.', $path));
+            throw new DomainException(sprintf('The file "%s" is not readable.', $path));
         }
 
         $this->path = $path;
 
         if ('' === $name = trim($name ?? basename($path))) {
-            throw new InvalidArgumentException('The file name cannot be empty.');
+            throw new DomainException('The file name cannot be empty.');
         }
 
         $this->name = $name;
@@ -69,7 +69,7 @@ final readonly class LocalFile
         }
 
         if (false === $mimeType || '' === $mimeType) {
-            throw new InvalidArgumentException('The MIME type cannot be empty.');
+            throw new DomainException('The MIME type cannot be empty.');
         }
 
         $this->mimeType = strtolower($mimeType);

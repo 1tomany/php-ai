@@ -2,7 +2,7 @@
 
 namespace OneToMany\AI\Bridge\Gemini\Resource\Interaction;
 
-use OneToMany\AI\Exception\InvalidArgumentException;
+use OneToMany\AI\Exception\DomainException;
 
 use function str_starts_with;
 use function trim;
@@ -25,7 +25,7 @@ abstract readonly class FileContent extends Content implements \JsonSerializable
      * @param TType $type
      * @param non-empty-lowercase-string $mimeType
      *
-     * @throws InvalidArgumentException when the URI is empty
+     * @throws DomainException when the URI is empty
      */
     public function __construct(
         string $type,
@@ -35,7 +35,7 @@ abstract readonly class FileContent extends Content implements \JsonSerializable
         parent::__construct($type);
 
         if ('' === $uri = trim((string) $uri)) {
-            throw new InvalidArgumentException('The URI cannot be empty.');
+            throw new DomainException('The URI cannot be empty.');
         }
 
         $this->uri = $uri;

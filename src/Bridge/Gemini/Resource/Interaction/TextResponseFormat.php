@@ -2,7 +2,7 @@
 
 namespace OneToMany\AI\Bridge\Gemini\Resource\Interaction;
 
-use OneToMany\AI\Exception\InvalidArgumentException;
+use OneToMany\AI\Exception\DomainException;
 
 use function sprintf;
 
@@ -17,7 +17,7 @@ final readonly class TextResponseFormat extends ResponseFormat implements \JsonS
      * @param ?array<string, mixed> $schema
      * @param 'application/json'|'text/plain' $mimeType
      *
-     * @throws InvalidArgumentException when the MIME type is "application/json" and a schema is not provided
+     * @throws DomainException when the MIME type is "application/json" and a schema is not provided
      */
     public function __construct(
         public ?array $schema = null,
@@ -26,7 +26,7 @@ final readonly class TextResponseFormat extends ResponseFormat implements \JsonS
         parent::__construct('text');
 
         if ($this->isMimeTypeApplicationJson() && null === $schema) {
-            throw new InvalidArgumentException(sprintf('A schema is required when the MIME type is "%s".', $this->mimeType));
+            throw new DomainException(sprintf('A schema is required when the MIME type is "%s".', $this->mimeType));
         }
     }
 

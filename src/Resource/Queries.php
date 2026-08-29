@@ -4,7 +4,7 @@ namespace OneToMany\AI\Resource;
 
 use OneToMany\AI\Contract\Bridge\QueryProviderInterface;
 use OneToMany\AI\Contract\Resource\QueriesInterface;
-use OneToMany\AI\Exception\InvalidArgumentException;
+use OneToMany\AI\Exception\DomainException;
 use OneToMany\AI\Model;
 use OneToMany\AI\Resource\Query\Prompt;
 use OneToMany\AI\Resource\Query\Query;
@@ -18,7 +18,7 @@ final readonly class Queries extends AbstractResource implements QueriesInterfac
     /**
      * @see OneToMany\AI\Contract\Resource\QueriesInterface
      *
-     * @throws InvalidArgumentException when the prompt has no input
+     * @throws DomainException when the prompt has no input
      */
     #[\Override]
     public function compile(
@@ -29,7 +29,7 @@ final readonly class Queries extends AbstractResource implements QueriesInterfac
         $model = Model::create($model);
 
         if ($prompt->isEmpty()) {
-            throw new InvalidArgumentException('At least one text or file input is required to compile a prompt into a query.');
+            throw new DomainException('At least one text or file input is required to compile a prompt into a query.');
         }
 
         return $this->getProvider($model->vendor)->compile($model, $prompt, $options);

@@ -2,7 +2,7 @@
 
 namespace OneToMany\AI\Tests;
 
-use OneToMany\AI\Exception\InvalidArgumentException;
+use OneToMany\AI\Exception\DomainException;
 use OneToMany\AI\Vendor;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
@@ -31,7 +31,7 @@ final class VendorTest extends TestCase
     {
         $vendor = 'invalid_vendor';
 
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(DomainException::class);
         $this->expectExceptionMessageIs('The vendor "'.$vendor.'" is not valid.');
 
         Vendor::create($vendor);
@@ -39,7 +39,7 @@ final class VendorTest extends TestCase
 
     public function testFromModelRequiresValidFormat(): void
     {
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(DomainException::class);
         $this->expectExceptionMessageIs('The model must use the "vendor:model" format.');
 
         Vendor::fromModel('gemini');

@@ -2,6 +2,8 @@
 
 namespace OneToMany\AI\Bridge\Gemini\Response\FileSearchStore\Enum;
 
+use OneToMany\AI\Resource\SearchStore\Enum\FileState;
+
 enum DocumentState: string
 {
     case Pending = 'STATE_PENDING';
@@ -9,11 +11,14 @@ enum DocumentState: string
     case Failed = 'STATE_FAILED';
     case Unspecified = 'STATE_UNSPECIFIED';
 
-    /**
-     * @phpstan-assert-if-true self::Active $this
-     */
-    public function isActive(): bool
+    public function getFileState(): FileState
     {
-        return self::Active === $this;
+        $state = match ($this) {
+            self::Pending => FileState::Pending,
+            self::Active => FileState::Active,
+            default => FileState::Failed,
+        };
+
+        return $state;
     }
 }

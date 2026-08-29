@@ -4,7 +4,7 @@ namespace OneToMany\AI\Exception;
 
 use OneToMany\AI\Contract\Exception\ExceptionInterface;
 
-class InvalidArgumentException extends \InvalidArgumentException implements ExceptionInterface
+class DomainException extends \DomainException implements ExceptionInterface
 {
     /**
      * @return non-empty-string

@@ -2,7 +2,7 @@
 
 namespace OneToMany\AI\Tests\Resource\Query;
 
-use OneToMany\AI\Exception\InvalidArgumentException;
+use OneToMany\AI\Exception\DomainException;
 use OneToMany\AI\Exception\RuntimeException;
 use OneToMany\AI\Resource\Query\InputText;
 use PHPUnit\Framework\Attributes\Group;
@@ -15,7 +15,7 @@ final class InputTextTest extends TestCase
 {
     public function testConstructorRequiresNonEmptyText(): void
     {
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(DomainException::class);
         $this->expectExceptionMessageIs('The input text cannot be empty.');
 
         new InputText('');

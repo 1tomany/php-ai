@@ -27,6 +27,6 @@ final readonly class VectorStoreFile
 
     public function toResource(): SearchStoreFile
     {
-        return new SearchStoreFile($this->id, $this->status->isCompleted());
+        return new SearchStoreFile($this->id, $this->status->getFileState(), $this->usage_bytes);
     }
 }

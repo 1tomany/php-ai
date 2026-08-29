@@ -2,7 +2,7 @@
 
 namespace OneToMany\AI\Resource\Query;
 
-use OneToMany\AI\Exception\InvalidArgumentException;
+use OneToMany\AI\Exception\DomainException;
 
 use function is_string;
 
@@ -20,12 +20,12 @@ final class Prompt
     }
 
     /**
-     * @throws InvalidArgumentException when no input is provided
+     * @throws DomainException when no input is provided
      */
     public static function with(string|InputFile|InputText ...$inputs): static
     {
         if ([] === $inputs) {
-            throw new InvalidArgumentException('At least one file or text input is required.');
+            throw new DomainException('At least one file or text input is required.');
         }
 
         $prompt = new static();

@@ -7,13 +7,13 @@ final readonly class SearchStore
     /**
      * @param non-empty-string $id
      * @param non-empty-string $name
-     * @param ?non-empty-string $description
+     * @param non-negative-int $bytes
      */
     public function __construct(
         public string $id,
         public string $name,
-        public ?string $description = null,
-        public Statistics $statistics = new Statistics(),
+        public int $bytes = 0,
+        public Counts $counts = new Counts(),
     ) {
     }
 
@@ -34,15 +34,15 @@ final readonly class SearchStore
     }
 
     /**
-     * @return ?non-empty-string
+     * @return non-negative-int
      */
-    public function getDescription(): ?string
+    public function getBytes(): int
     {
-        return $this->description;
+        return $this->bytes;
     }
 
-    public function getStatistics(): Statistics
+    public function getCounts(): Counts
     {
-        return $this->statistics;
+        return $this->counts;
     }
 }

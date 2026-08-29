@@ -2,7 +2,7 @@
 
 namespace OneToMany\AI\Tests\Resource\File;
 
-use OneToMany\AI\Exception\InvalidArgumentException;
+use OneToMany\AI\Exception\DomainException;
 use OneToMany\AI\Resource\File\LocalFile;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
@@ -16,7 +16,7 @@ final class LocalFileTest extends TestCase
 {
     public function testConstructorRequiresNonEmptyPath(): void
     {
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(DomainException::class);
         $this->expectExceptionMessageIs('The file path cannot be empty.');
 
         new LocalFile('', 'text/plain');
@@ -27,7 +27,7 @@ final class LocalFileTest extends TestCase
         $path = '/invalid/instructions.txt';
         $this->assertFileDoesNotExist($path);
 
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(DomainException::class);
         $this->expectExceptionMessageIs('The file "'.$path.'" is not readable.');
 
         new LocalFile($path, 'text/plain');
