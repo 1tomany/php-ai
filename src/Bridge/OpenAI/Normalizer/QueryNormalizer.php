@@ -30,7 +30,9 @@ final readonly class QueryNormalizer implements NormalizerInterface
                     text: $input->getText(),
                 );
             } else {
-                $content = ResponseInput::asFile($input->getId(), $input->getMimeType());
+                $content = ResponseInput::asFile(
+                    $input->getId(), $input->getType(),
+                );
             }
 
             $easyInputMessage->addContent($content);

@@ -16,15 +16,15 @@ final readonly class InputFile
     /**
      * @var non-empty-lowercase-string
      */
-    public string $mimeType;
+    public string $type;
 
     /**
      * @throws DomainException when the file ID is empty
-     * @throws DomainException when the MIME type is empty
+     * @throws DomainException when the type is empty
      */
     public function __construct(
         ?string $id,
-        ?string $mimeType,
+        ?string $type,
     ) {
         if ('' === $id = trim((string) $id)) {
             throw new DomainException('The file ID cannot be empty.');
@@ -32,11 +32,11 @@ final readonly class InputFile
 
         $this->id = $id;
 
-        if ('' === $mimeType = trim((string) $mimeType)) {
-            throw new DomainException('The MIME type cannot be empty.');
+        if ('' === $type = trim((string) $type)) {
+            throw new DomainException('The type cannot be empty.');
         }
 
-        $this->mimeType = strtolower($mimeType);
+        $this->type = strtolower($type);
     }
 
     /**
@@ -50,8 +50,8 @@ final readonly class InputFile
     /**
      * @return non-empty-lowercase-string
      */
-    public function getMimeType(): string
+    public function getType(): string
     {
-        return $this->mimeType;
+        return $this->type;
     }
 }

@@ -38,7 +38,7 @@ final readonly class QueryNormalizer implements NormalizerInterface
                 );
             } else {
                 $request['input'][] = FileContent::create(
-                    $input->getId(), $input->getMimeType(),
+                    $input->getId(), $input->getType(),
                 );
             }
         }

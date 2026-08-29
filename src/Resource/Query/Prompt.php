@@ -38,12 +38,12 @@ final class Prompt
         return $prompt;
     }
 
-    public function addInputText(string|InputText $text): static
+    public function addText(string|InputText $text): static
     {
         return $this->addInput($text);
     }
 
-    public function addInputFile(InputFile $file): static
+    public function addFile(InputFile $file): static
     {
         return $this->addInput($file);
     }

@@ -29,7 +29,7 @@ final readonly class LocalFile
     /**
      * @var non-empty-lowercase-string
      */
-    public string $mimeType;
+    public string $type;
 
     /**
      * @var non-negative-int
@@ -40,12 +40,12 @@ final readonly class LocalFile
      * @throws DomainException when the file path is empty
      * @throws DomainException when the file is not readable
      * @throws DomainException when the file name is empty
-     * @throws DomainException when the MIME type is empty
+     * @throws DomainException when the type is empty
      * @throws RuntimeException when calculating the file size fails
      */
     public function __construct(
         string $path,
-        ?string $mimeType = null,
+        ?string $type = null,
         ?string $name = null,
     ) {
         if ('' === $path = trim($path)) {
@@ -64,15 +64,15 @@ final readonly class LocalFile
 
         $this->name = $name;
 
-        if ('' === $mimeType = trim((string) $mimeType)) {
-            $mimeType = @mime_content_type(filename: $path);
+        if ('' === $type = trim((string) $type)) {
+            $type = @mime_content_type(filename: $path);
         }
 
-        if (false === $mimeType || '' === $mimeType) {
+        if (false === $type || '' === $type) {
             throw new DomainException('The MIME type cannot be empty.');
         }
 
-        $this->mimeType = strtolower($mimeType);
+        $this->type = strtolower($type);
 
         if (false === $size = @filesize($path)) {
             throw new RuntimeException(sprintf('Calculating the size of the file "%s" failed.', $path));
@@ -100,9 +100,9 @@ final readonly class LocalFile
     /**
      * @return non-empty-lowercase-string
      */
-    public function getMimeType(): string
+    public function getType(): string
     {
-        return $this->mimeType;
+        return $this->type;
     }
 
     /**

@@ -33,14 +33,14 @@ final class LocalFileTest extends TestCase
         new LocalFile($path, 'text/plain');
     }
 
-    public function testConstructorAttemptsToResolveMediaTypeIfNotProvided(): void
+    public function testConstructorAttemptsToResolveTypeIfNotProvided(): void
     {
         $path = __FILE__;
         $this->assertFileExists($path);
 
-        $mediaType = @mime_content_type($path);
-        $this->assertIsString($mediaType);
+        $type = @mime_content_type($path);
+        $this->assertIsString($type);
 
-        $this->assertSame($mediaType, new LocalFile($path)->mimeType);
+        $this->assertSame($type, new LocalFile($path)->getType());
     }
 }
