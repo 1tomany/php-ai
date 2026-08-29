@@ -5,8 +5,6 @@ namespace OneToMany\AI\Bridge\Gemini\Response\FileSearchStore;
 use OneToMany\AI\Resource\SearchStore\SearchStore;
 use OneToMany\AI\Resource\SearchStore\Usage;
 
-use function max;
-
 final readonly class FileSearchStore
 {
     /**
@@ -32,6 +30,13 @@ final readonly class FileSearchStore
 
     public function toResource(): SearchStore
     {
-        return new SearchStore($this->name, $this->displayName, max(0, (int) $this->sizeBytes), new Usage($this->activeDocumentsCount, $this->pendingDocumentsCount, $this->failedDocumentsCount));
+        $usage = new Usage(
+            $this->sizeBytes,
+            $this->activeDocumentsCount,
+            $this->pendingDocumentsCount,
+            $this->failedDocumentsCount,
+        );
+
+        return new SearchStore($this->name, $this->displayName, $usage);
     }
 }
