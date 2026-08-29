@@ -7,7 +7,7 @@ use OneToMany\AI\Resource\SearchStore\SearchStoreUsage;
 
 use function max;
 
-final readonly class FileSearchStore
+final class FileSearchStore
 {
     /**
      * @param non-empty-string $name
@@ -18,36 +18,31 @@ final readonly class FileSearchStore
      * @param non-negative-int|numeric-string $failedDocumentsCount
      */
     public function __construct(
-        public string $name,
-        public \DateTimeImmutable $createTime,
-        public \DateTimeImmutable $updateTime,
-        public string $embeddingModel,
-        public ?string $displayName = null,
-        public int|string $activeDocumentsCount = 0,
-        public int|string $pendingDocumentsCount = 0,
-        public int|string $failedDocumentsCount = 0,
-        public int|string $sizeBytes = 0,
+        public readonly string $name,
+        public readonly \DateTimeImmutable $createTime,
+        public readonly \DateTimeImmutable $updateTime,
+        public readonly string $embeddingModel,
+        public readonly ?string $displayName = null,
+        public readonly int|string $activeDocumentsCount = 0,
+        public readonly int|string $pendingDocumentsCount = 0,
+        public readonly int|string $failedDocumentsCount = 0,
+        public readonly int|string $sizeBytes = 0,
     ) {
+    }
+
+    public string $label {
+        get => $this->displayName ?? $this->name;
+    }
+
+    /**
+     * @var non-negative-int
+     */
+    public int $bytes {
+        get => max(0, (int) $this->sizeBytes);
     }
 
     public function toResource(): SearchStore
     {
-        return new SearchStore($this->name, $this->getName(), $this->getTotalBytes(), new SearchStoreUsage($this->activeDocumentsCount, $this->pendingDocumentsCount, $this->failedDocumentsCount));
-    }
-
-    /**
-     * @return non-empty-string
-     */
-    private function getName(): string
-    {
-        return $this->displayName ?? $this->name;
-    }
-
-    /**
-     * @return non-negative-int
-     */
-    private function getTotalBytes(): int
-    {
-        return max(0, (int) $this->sizeBytes);
+        return new SearchStore($this->name, $this->label, $this->bytes, new SearchStoreUsage($this->activeDocumentsCount, $this->pendingDocumentsCount, $this->failedDocumentsCount));
     }
 }

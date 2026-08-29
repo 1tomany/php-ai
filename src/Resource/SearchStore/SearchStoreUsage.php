@@ -2,7 +2,6 @@
 
 namespace OneToMany\AI\Resource\SearchStore;
 
-use function is_int;
 use function is_string;
 use function max;
 
@@ -40,25 +39,29 @@ final readonly class SearchStoreUsage
         int|string $failed = 0,
         int|string|null $total = null,
     ) {
-        $active = max(0, (int) $active);
-        $pending = max(0, (int) $pending);
-        $failed = max(0, (int) $failed);
-
-        if (!is_int($total) && !is_string($total)) {
-            $total = $active + $pending + $failed;
+        if (false === is_int($active)) {
+            $active = (int) $active;
         }
 
-        // $total = max(0, (int) $total);
+        $this->active = max(0, $active);
 
-        $this->active = $active;
-        $this->pending = $pending;
-        $this->failed = $failed;
-
-        if (is_string($total)) {
-            $total = (int) $total;
+        if (false === is_int($pending)) {
+            $pending = (int) $pending;
         }
 
-        $this->total = max(0, $total);
+        $this->pending = max(0, $pending);
+
+        if (false === is_int($failed)) {
+            $failed = (int) $failed;
+        }
+
+        $this->failed = max(0, $failed);
+
+        if (false === is_int($total) && false === is_string($total)) {
+            $total = ($this->active + $this->pending + $this->failed);
+        }
+
+        $this->total = max(0, (int) $total);
     }
 
     /**
