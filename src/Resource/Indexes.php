@@ -12,9 +12,9 @@ use OneToMany\AI\Vendor;
 use function trim;
 
 /**
- * @extends resource<IndexProviderInterface>
+ * @extends Resources<IndexProviderInterface>
  */
-final readonly class Indexes extends Resource implements IndexesInterface
+final readonly class Indexes extends Resources implements IndexesInterface
 {
     /**
      * @param iterable<IndexProviderInterface> $providers

@@ -10,9 +10,9 @@ use OneToMany\AI\Resource\Shared\Metadata;
 use OneToMany\AI\Vendor;
 
 /**
- * @extends resource<IndexProviderInterface>
+ * @extends Resources<IndexProviderInterface>
  */
-final readonly class IndexFiles extends Resource implements IndexFilesInterface
+final readonly class IndexFiles extends Resources implements IndexFilesInterface
 {
     /**
      * @see OneToMany\AI\Contract\Resource\IndexFilesInterface
