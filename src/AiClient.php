@@ -11,8 +11,8 @@ final readonly class AiClient implements AiClientInterface
 {
     public function __construct(
         public FilesInterface $files,
-        public PromptsInterface $prompts,
         public IndexesInterface $indexes,
+        public PromptsInterface $prompts,
     ) {
     }
 }

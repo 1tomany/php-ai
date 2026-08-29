@@ -7,10 +7,10 @@ use OneToMany\AI\Resource\Query\Prompt;
 use OneToMany\AI\Resource\Query\Query;
 use Symfony\Component\Serializer\Exception\ExceptionInterface as SerializerExceptionInterface;
 
-trait CompilePromptTrait
+trait PromptTrait
 {
     /**
-     * @see OneToMany\AI\Contract\Bridge\QueryProviderInterface
+     * @see OneToMany\AI\Contract\Bridge\PromptProviderInterface
      *
      * @throws RuntimeException when compiling the prompt fails
      */

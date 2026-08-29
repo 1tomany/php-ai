@@ -2,18 +2,18 @@
 
 namespace OneToMany\AI\Bridge\OpenAI;
 
-use OneToMany\AI\Bridge\Common\Trait\CompilePromptTrait;
+use OneToMany\AI\Bridge\Common\Trait\PromptTrait;
 use OneToMany\AI\Bridge\OpenAI\Response\Response\Response as ResponsePayload;
-use OneToMany\AI\Contract\Bridge\QueryProviderInterface;
+use OneToMany\AI\Contract\Bridge\PromptProviderInterface;
 use OneToMany\AI\Resource\Query\Query;
 use OneToMany\AI\Resource\Query\Response;
 
-final readonly class QueryProvider extends AbstractProvider implements QueryProviderInterface
+final readonly class PromptProvider extends AbstractProvider implements PromptProviderInterface
 {
-    use CompilePromptTrait;
+    use PromptTrait;
 
     /**
-     * @see OneToMany\AI\Contract\Bridge\QueryProviderInterface
+     * @see OneToMany\AI\Contract\Bridge\PromptProviderInterface
      */
     #[\Override]
     public function send(Query $query): Response

@@ -22,8 +22,8 @@ final readonly class FileProvider extends AbstractProvider implements FileProvid
     #[\Override]
     public function upload(LocalFile $file): RemoteFile
     {
-        if (false === $handle = @fopen($file->path, 'rb')) {
-            throw new RuntimeException(sprintf('Opening the file "%s" failed.', $file->path));
+        if (false === $handle = @fopen($file->getPath(), 'rb')) {
+            throw new RuntimeException(sprintf('Opening the file "%s" failed.', $file->getPath()));
         }
 
         $url = $this->url('files');

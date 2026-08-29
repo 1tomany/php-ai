@@ -6,7 +6,7 @@ use OneToMany\AI\Resource\Query\Prompt;
 use OneToMany\AI\Resource\Query\Query;
 use OneToMany\AI\Resource\Query\Response;
 
-interface QueryProviderInterface extends ProviderInterface
+interface PromptProviderInterface extends ProviderInterface
 {
     public function compile(Prompt $prompt): Query;
 
