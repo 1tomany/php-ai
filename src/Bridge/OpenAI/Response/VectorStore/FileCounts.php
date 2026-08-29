@@ -2,10 +2,30 @@
 
 namespace OneToMany\AI\Bridge\OpenAI\Response\VectorStore;
 
-use OneToMany\AI\Resource\SearchStore\Usage;
+use function max;
 
-final class FileCounts
+final readonly class FileCounts
 {
+    /**
+     * @var non-negative-int
+     */
+    public int $active;
+
+    /**
+     * @var non-negative-int
+     */
+    public int $pending;
+
+    /**
+     * @var non-negative-int
+     */
+    public int $failed;
+
+    /**
+     * @var non-negative-int
+     */
+    public int $total;
+
     /**
      * @param non-negative-int $completed
      * @param non-negative-int $in_progress
@@ -14,16 +34,20 @@ final class FileCounts
      * @param non-negative-int $total
      */
     public function __construct(
-        public int $completed = 0,
-        public int $in_progress = 0,
-        public int $failed = 0,
-        public int $cancelled = 0,
-        public int $total = 0,
+        int $completed = 0,
+        int $in_progress = 0,
+        int $failed = 0,
+        int $cancelled = 0,
+        int $total = 0,
     ) {
-    }
+        $this->active = $completed;
+        $this->pending = $in_progress;
 
-    public function toResource(): Usage
-    {
-        return new Usage($this->completed, $this->in_progress, $this->failed + $this->cancelled, $this->total);
+        $this->failed = (
+            max(0, $failed) +
+            max(0, $cancelled)
+        );
+
+        $this->total = $total;
     }
 }

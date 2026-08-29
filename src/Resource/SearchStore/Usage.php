@@ -10,6 +10,11 @@ final readonly class Usage
     /**
      * @var non-negative-int
      */
+    public int $bytes;
+
+    /**
+     * @var non-negative-int
+     */
     public int $active;
 
     /**
@@ -28,17 +33,25 @@ final readonly class Usage
     public int $total;
 
     /**
+     * @param non-negative-int|numeric-string $bytes
      * @param non-negative-int|numeric-string $active
      * @param non-negative-int|numeric-string $pending
      * @param non-negative-int|numeric-string $failed
      * @param non-negative-int|numeric-string|null $total
      */
     public function __construct(
+        int|string $bytes = 0,
         int|string $active = 0,
         int|string $pending = 0,
         int|string $failed = 0,
         int|string|null $total = null,
     ) {
+        if (is_string($bytes)) {
+            $bytes = (int) $bytes;
+        }
+
+        $this->bytes = max(0, $bytes);
+
         if (is_string($active)) {
             $active = (int) $active;
         }
@@ -66,6 +79,14 @@ final readonly class Usage
         }
 
         $this->total = max(0, (int) $total);
+    }
+
+    /**
+     * @return non-negative-int
+     */
+    public function getBytes(): int
+    {
+        return $this->bytes;
     }
 
     /**

@@ -24,7 +24,15 @@ final class UsageTest extends TestCase
         $total = $active + $pending + $failed;
         $this->assertGreaterThan(0, $total);
 
-        $usage = new Usage($active, $pending, $failed);
+        $usage = new Usage(0, $active, $pending, $failed);
         $this->assertSame($total, $usage->getTotal());
+    }
+
+    public function testGettingBytesIsNotNegative(): void
+    {
+        $bytes = -random_int(1, 100_000);
+        $this->assertLessThan(0, $bytes);
+
+        $this->assertSame(0, new Usage($bytes)->getBytes()); // @phpstan-ignore argument.type
     }
 }

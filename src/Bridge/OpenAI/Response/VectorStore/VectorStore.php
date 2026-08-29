@@ -4,6 +4,7 @@ namespace OneToMany\AI\Bridge\OpenAI\Response\VectorStore;
 
 use OneToMany\AI\Bridge\OpenAI\Response\VectorStore\Enum\VectorStoreStatus;
 use OneToMany\AI\Resource\SearchStore\SearchStore;
+use OneToMany\AI\Resource\SearchStore\Usage;
 
 final readonly class VectorStore
 {
@@ -34,6 +35,6 @@ final readonly class VectorStore
 
     public function toResource(): SearchStore
     {
-        return new SearchStore($this->id, $this->name, $this->usage_bytes, $this->file_counts->toResource());
+        return new SearchStore($this->id, $this->name, new Usage($this->usage_bytes, $this->file_counts->active, $this->file_counts->pending, $this->file_counts->failed, $this->file_counts->total));
     }
 }
