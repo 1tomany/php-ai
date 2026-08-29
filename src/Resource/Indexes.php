@@ -4,7 +4,7 @@ namespace OneToMany\AI\Resource;
 
 use OneToMany\AI\Contract\Bridge\IndexProviderInterface;
 use OneToMany\AI\Contract\Resource\IndexesInterface;
-use OneToMany\AI\Contract\Resource\SearchStoreFilesInterface;
+use OneToMany\AI\Contract\Resource\IndexFilesInterface;
 use OneToMany\AI\Exception\DomainException;
 use OneToMany\AI\Model;
 use OneToMany\AI\Resource\Index\Index;
@@ -23,7 +23,7 @@ final readonly class Indexes extends AbstractResource implements IndexesInterfac
      */
     public function __construct(
         iterable $providers,
-        public SearchStoreFilesInterface $files,
+        public IndexFilesInterface $files,
     ) {
         parent::__construct($providers);
     }

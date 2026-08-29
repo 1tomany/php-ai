@@ -9,7 +9,7 @@ use OneToMany\AI\Vendor;
 
 interface IndexesInterface
 {
-    public SearchStoreFilesInterface $files { get; }
+    public IndexFilesInterface $files { get; }
 
     /**
      * @throws DomainException when the name is empty
