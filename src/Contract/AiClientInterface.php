@@ -10,7 +10,7 @@ interface AiClientInterface
 {
     public FilesInterface $files { get; }
 
-    public QueriesInterface $queries { get; }
+    public QueriesInterface $prompts { get; }
 
     public IndexesInterface $indexes { get; }
 }
