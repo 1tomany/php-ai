@@ -39,9 +39,9 @@ final readonly class VectorStore
 
         $usage = new Usage(
             $this->usage_bytes,
-            $counts->completed,
-            $counts->in_progress,
-            $counts->unavailable,
+            $counts->active,
+            $counts->pending,
+            $counts->failed,
             $counts->total,
         );
 
