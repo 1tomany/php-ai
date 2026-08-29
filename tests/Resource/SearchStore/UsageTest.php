@@ -24,12 +24,7 @@ final class UsageTest extends TestCase
         $total = $active + $pending + $failed;
         $this->assertGreaterThan(0, $total);
 
-        $usage = new Usage(
-            active: $active,
-            pending: $pending,
-            failed: $failed,
-        );
-
+        $usage = new Usage(0, $active, $pending, $failed);
         $this->assertSame($total, $usage->getTotal());
     }
 
