@@ -23,10 +23,10 @@ final class FileSearchStore
         public readonly \DateTimeImmutable $updateTime,
         public readonly string $embeddingModel,
         public readonly ?string $displayName = null,
+        public readonly int|string $sizeBytes = 0,
         public readonly int|string $activeDocumentsCount = 0,
         public readonly int|string $pendingDocumentsCount = 0,
         public readonly int|string $failedDocumentsCount = 0,
-        public readonly int|string $sizeBytes = 0,
     ) {
     }
 
