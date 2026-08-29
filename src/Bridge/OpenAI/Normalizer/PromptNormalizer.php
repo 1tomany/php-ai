@@ -5,26 +5,30 @@ namespace OneToMany\AI\Bridge\OpenAI\Normalizer;
 use OneToMany\AI\Bridge\OpenAI\Resource\Response\EasyInputMessage;
 use OneToMany\AI\Bridge\OpenAI\Resource\Response\ResponseInput;
 use OneToMany\AI\Resource\Query\InputText;
-use OneToMany\AI\Resource\Query\QueryDefinition;
+use OneToMany\AI\Resource\Query\Prompt;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 use function array_replace;
 
-final readonly class QueryNormalizer implements NormalizerInterface
+final readonly class PromptNormalizer implements NormalizerInterface
 {
     /**
      * @see Symfony\Component\Serializer\Normalizer\NormalizerInterface
      *
-     * @param QueryDefinition $prompt
+     * @param Prompt $prompt
      *
      * @return array<string, mixed>
      */
     #[\Override]
-    public function normalize(mixed $prompt, ?string $format = null, array $context = []): array
+    public function normalize(
+        mixed $prompt,
+        ?string $format = null,
+        array $context = [],
+    ): array
     {
         $easyInputMessage = new EasyInputMessage();
 
-        foreach ($prompt->getPrompt()->getInputs() as $input) {
+        foreach ($prompt->getInputs() as $input) {
             if ($input instanceof InputText) {
                 $content = ResponseInput::asText(
                     text: $input->getText(),
@@ -45,11 +49,11 @@ final readonly class QueryNormalizer implements NormalizerInterface
             ],
         ];
 
-        if ($instructions = $prompt->getPrompt()->getInstructions()) {
+        if (null !== $instructions = $prompt->getInstructions()) {
             $request['instructions'] = $instructions->getText();
         }
 
-        if ($schema = $prompt->getPrompt()->getSchema()) {
+        if ($schema = $prompt->getSchema()) {
             $request['text'] = [
                 'format' => [
                     'type' => 'json_schema',
@@ -67,9 +71,13 @@ final readonly class QueryNormalizer implements NormalizerInterface
      * @see Symfony\Component\Serializer\Normalizer\NormalizerInterface
      */
     #[\Override]
-    public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
+    public function supportsNormalization(
+        mixed $data,
+        ?string $format = null,
+        array $context = [],
+    ): bool
     {
-        return $data instanceof QueryDefinition && $data->getModel()->getVendor()->isOpenAI();
+        return $data instanceof Prompt && $data->getModel()->getVendor()->isOpenAI();
     }
 
     /**
@@ -79,7 +87,7 @@ final readonly class QueryNormalizer implements NormalizerInterface
     public function getSupportedTypes(?string $format): array
     {
         return [
-            QueryDefinition::class => false,
+            Prompt::class => false,
         ];
     }
 }
