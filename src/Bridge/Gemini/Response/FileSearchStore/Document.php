@@ -3,7 +3,7 @@
 namespace OneToMany\AI\Bridge\Gemini\Response\FileSearchStore;
 
 use OneToMany\AI\Bridge\Gemini\Response\FileSearchStore\Enum\DocumentState;
-use OneToMany\AI\Resource\SearchStore\SearchStoreFile;
+use OneToMany\AI\Resource\Index\IndexFile;
 
 use function max;
 
@@ -26,8 +26,8 @@ final readonly class Document
     ) {
     }
 
-    public function toResource(): SearchStoreFile
+    public function toResource(): IndexFile
     {
-        return new SearchStoreFile($this->name, $this->state->getFileState(), max(0, (int) $this->sizeBytes));
+        return new IndexFile($this->name, $this->state->getFileState(), max(0, (int) $this->sizeBytes));
     }
 }

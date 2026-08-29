@@ -5,30 +5,27 @@ namespace OneToMany\AI\Bridge\Gemini;
 use OneToMany\AI\Bridge\Gemini\Response\FileSearchStore\Document;
 use OneToMany\AI\Bridge\Gemini\Response\FileSearchStore\FileSearchStore;
 use OneToMany\AI\Bridge\Gemini\Response\FileSearchStore\Operation;
-use OneToMany\AI\Contract\Bridge\SearchStoreProviderInterface;
-use OneToMany\AI\Resource\SearchStore\SearchStore;
-use OneToMany\AI\Resource\SearchStore\SearchStoreFile;
+use OneToMany\AI\Contract\Bridge\IndexProviderInterface;
+use OneToMany\AI\Resource\Index\Index;
+use OneToMany\AI\Resource\Index\IndexFile;
 use OneToMany\AI\Resource\Shared\Metadata;
 
 use function sprintf;
 
-final readonly class SearchStoreProvider extends AbstractProvider implements SearchStoreProviderInterface
+final readonly class IndexProvider extends AbstractProvider implements IndexProviderInterface
 {
-    public const string MULTIMODAL_EMBEDDING_MODEL = 'models/gemini-embedding-2';
-
     /**
-     * @see OneToMany\AI\Contract\Bridge\SearchStoreProviderInterface
+     * @see OneToMany\AI\Contract\Bridge\IndexProviderInterface
      */
     #[\Override]
     public function create(
         string $name,
-        ?string $model,
-    ): SearchStore {
+        bool $multimodal = false,
+    ): Index {
         $url = $this->url($this->apiVersion, 'fileSearchStores');
 
-        if ('' === $model = trim((string) $model)) {
-            $model = self::MULTIMODAL_EMBEDDING_MODEL;
-        }
+        // Determine if we're using a multimodal model or text only
+        $model = $multimodal ? 'models/gemini-embedding-2' : null;
 
         $response = $this->transport->postRequest($url, [
             'headers' => [
@@ -44,12 +41,12 @@ final readonly class SearchStoreProvider extends AbstractProvider implements Sea
     }
 
     /**
-     * @see OneToMany\AI\Contract\Bridge\SearchStoreProviderInterface
+     * @see OneToMany\AI\Contract\Bridge\IndexProviderInterface
      */
     #[\Override]
-    public function read(string $searchStoreId): SearchStore
+    public function read(string $indexId): Index
     {
-        $url = $this->url($this->apiVersion, $searchStoreId);
+        $url = $this->url($this->apiVersion, $indexId);
 
         $response = $this->transport->getRequest($url, [
             'headers' => [
@@ -61,12 +58,12 @@ final readonly class SearchStoreProvider extends AbstractProvider implements Sea
     }
 
     /**
-     * @see OneToMany\AI\Contract\Bridge\SearchStoreProviderInterface
+     * @see OneToMany\AI\Contract\Bridge\IndexProviderInterface
      */
     #[\Override]
-    public function delete(string $searchStoreId): void
+    public function delete(string $indexId): void
     {
-        $url = $this->url($this->apiVersion, $searchStoreId);
+        $url = $this->url($this->apiVersion, $indexId);
 
         $this->transport->deleteRequest($url, [
             'headers' => [
@@ -79,15 +76,15 @@ final readonly class SearchStoreProvider extends AbstractProvider implements Sea
     }
 
     /**
-     * @see OneToMany\AI\Contract\Bridge\SearchStoreProviderInterface
+     * @see OneToMany\AI\Contract\Bridge\IndexProviderInterface
      */
     #[\Override]
     public function attachFile(
-        string $searchStoreId,
+        string $indexId,
         string $fileId,
         Metadata $metadata,
-    ): SearchStoreFile {
-        $url = $this->url($this->apiVersion, sprintf('%s:importFile', $searchStoreId));
+    ): IndexFile {
+        $url = $this->url($this->apiVersion, sprintf('%s:importFile', $indexId));
 
         $response = $this->transport->postRequest($url, [
             'headers' => [
@@ -100,18 +97,18 @@ final readonly class SearchStoreProvider extends AbstractProvider implements Sea
 
         $operation = $this->transport->decode($response, Operation::class);
 
-        return $this->readFile($searchStoreId, $operation->id);
+        return $this->readFile($indexId, $operation->id);
     }
 
     /**
-     * @see OneToMany\AI\Contract\Bridge\SearchStoreProviderInterface
+     * @see OneToMany\AI\Contract\Bridge\IndexProviderInterface
      */
     #[\Override]
     public function readFile(
-        string $searchStoreId,
-        string $searchStoreFileId,
-    ): SearchStoreFile {
-        $url = $this->url($this->apiVersion, $searchStoreFileId);
+        string $indexId,
+        string $indexFileId,
+    ): IndexFile {
+        $url = $this->url($this->apiVersion, $indexFileId);
 
         $response = $this->transport->getRequest($url, [
             'headers' => [
@@ -123,14 +120,14 @@ final readonly class SearchStoreProvider extends AbstractProvider implements Sea
     }
 
     /**
-     * @see OneToMany\AI\Contract\Bridge\SearchStoreProviderInterface
+     * @see OneToMany\AI\Contract\Bridge\IndexProviderInterface
      */
     #[\Override]
     public function deleteFile(
-        string $searchStoreId,
-        string $searchStoreFileId,
+        string $indexId,
+        string $indexFileId,
     ): void {
-        $url = $this->url($this->apiVersion, $searchStoreFileId);
+        $url = $this->url($this->apiVersion, $indexFileId);
 
         $this->transport->deleteRequest($url, [
             'headers' => [

@@ -2,7 +2,7 @@
 
 namespace OneToMany\AI\Bridge\OpenAI\Response\VectorStore\Enum;
 
-use OneToMany\AI\Resource\SearchStore\Enum\FileState;
+use OneToMany\AI\Resource\Index\Enum\FileState;
 
 enum VectorStoreFileStatus: string
 {

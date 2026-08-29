@@ -21,30 +21,41 @@ A [Symfony bundle](https://github.com/1tomany/php-ai-bundle) is available if you
 
 ### Platform features
 
-| Feature          | Gemini | OpenAI |
-| ---------------- | :----: | :----: |
-| **Files**        |        |        |
-| Upload           |   ✅   |   ✅   |
-| Delete           |   ✅   |   ✅   |
-| **Queries**      |        |        |
-| Compile          |   ✅   |   ✅   |
-| Run              |   ✅   |   ✅   |
-| **SearchStores** |        |        |
-| Create           |   ✅   |   ✅   |
-| Read             |   ✅   |   ✅   |
-| Delete           |   ✅   |   ✅   |
-| Attach file      |   ✅   |   ✅   |
-| Read file        |   ✅   |   ✅   |
-| Delete file      |   ✅   |   ✅   |
+| Feature     | Gemini | OpenAI |
+| ----------- | :----: | :----: |
+| **Files**   |        |        |
+| Upload      |   ✅   |   ✅   |
+| Delete      |   ✅   |   ✅   |
+| **Indexes** |        |        |
+| Create      |   ✅   |   ✅   |
+| Read        |   ✅   |   ✅   |
+| Delete      |   ✅   |   ✅   |
+| Attach file |   ✅   |   ✅   |
+| Read file   |   ✅   |   ✅   |
+| Delete file |   ✅   |   ✅   |
+| **Prompts** |        |        |
+| Compile     |   ✅   |   ✅   |
+| Run         |   ✅   |   ✅   |
 
-**Note:** Each platform refers to generating output - inference - differently: OpenAI uses "Response", Gemini uses "Interaction", and Anthropic uses "Message". I've decided the word "Query" best represents how you interact with a generative LLM: you compile a query and then run the query to generate a response. The word "Embedding" will continue to be used for embedding models.
+#### Indexes
 
-To generate a response, you must first compile a query. A query is made up of different input components: text prompts, files, a JSON schema, and/or system instructions. Once the query is compiled, it can be sent to the LLM for inference.
+An "Index" is a repository of files that are available through a semantic search (or RAG) API.
 
-This library allows you to compile a query before sending it to the model for two reasons:
+| Vendor    | Resource          |
+| --------- | ----------------- |
+| Anthropic | N/A               |
+| OpenAI    | `VectorStore`     |
+| Gemini    | `FileSearchStore` |
 
-1. You can log/analyze the request payload before sending it.
-2. You can compile individual requests for batching.
+#### Prompts
+
+A "Prompt" is a general term for data (text, files, schemas, etc) sent to a large language model for inference.
+
+| Vendor    | Resource      |
+| --------- | ------------- |
+| Anthropic | `Message`     |
+| OpenAI    | `Response`    |
+| Gemini    | `Interaction` |
 
 ## Credits
 

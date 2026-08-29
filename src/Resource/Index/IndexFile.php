@@ -1,12 +1,12 @@
 <?php
 
-namespace OneToMany\AI\Resource\SearchStore;
+namespace OneToMany\AI\Resource\Index;
 
-use OneToMany\AI\Resource\SearchStore\Enum\FileState;
+use OneToMany\AI\Resource\Index\Enum\FileState;
 
 use function max;
 
-final readonly class SearchStoreFile
+final readonly class IndexFile
 {
     /**
      * @param non-empty-string $id

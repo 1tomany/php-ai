@@ -4,21 +4,21 @@ namespace OneToMany\AI\Bridge\OpenAI;
 
 use OneToMany\AI\Bridge\OpenAI\Response\VectorStore\VectorStore;
 use OneToMany\AI\Bridge\OpenAI\Response\VectorStore\VectorStoreFile;
-use OneToMany\AI\Contract\Bridge\SearchStoreProviderInterface;
-use OneToMany\AI\Resource\SearchStore\SearchStore;
-use OneToMany\AI\Resource\SearchStore\SearchStoreFile;
+use OneToMany\AI\Contract\Bridge\IndexProviderInterface;
+use OneToMany\AI\Resource\Index\Index;
+use OneToMany\AI\Resource\Index\IndexFile;
 use OneToMany\AI\Resource\Shared\Metadata;
 
-final readonly class SearchStoreProvider extends AbstractProvider implements SearchStoreProviderInterface
+final readonly class IndexProvider extends AbstractProvider implements IndexProviderInterface
 {
     /**
-     * @see OneToMany\AI\Contract\Bridge\SearchStoreProviderInterface
+     * @see OneToMany\AI\Contract\Bridge\IndexProviderInterface
      */
     #[\Override]
     public function create(
         string $name,
-        ?string $model,
-    ): SearchStore {
+        bool $multimodal = false,
+    ): Index {
         $url = $this->url('vector_stores');
 
         $response = $this->transport->postRequest($url, [
@@ -32,12 +32,12 @@ final readonly class SearchStoreProvider extends AbstractProvider implements Sea
     }
 
     /**
-     * @see OneToMany\AI\Contract\Bridge\SearchStoreProviderInterface
+     * @see OneToMany\AI\Contract\Bridge\IndexProviderInterface
      */
     #[\Override]
-    public function read(string $searchStoreId): SearchStore
+    public function read(string $indexId): Index
     {
-        $url = $this->url('vector_stores', $searchStoreId);
+        $url = $this->url('vector_stores', $indexId);
 
         $response = $this->transport->getRequest($url, [
             'auth_bearer' => $this->apiKey,
@@ -47,12 +47,12 @@ final readonly class SearchStoreProvider extends AbstractProvider implements Sea
     }
 
     /**
-     * @see OneToMany\AI\Contract\Bridge\SearchStoreProviderInterface
+     * @see OneToMany\AI\Contract\Bridge\IndexProviderInterface
      */
     #[\Override]
-    public function delete(string $searchStoreId): void
+    public function delete(string $indexId): void
     {
-        $url = $this->url('vector_stores', $searchStoreId);
+        $url = $this->url('vector_stores', $indexId);
 
         $this->transport->deleteRequest($url, [
             'auth_bearer' => $this->apiKey,
@@ -60,15 +60,15 @@ final readonly class SearchStoreProvider extends AbstractProvider implements Sea
     }
 
     /**
-     * @see OneToMany\AI\Contract\Bridge\SearchStoreProviderInterface
+     * @see OneToMany\AI\Contract\Bridge\IndexProviderInterface
      */
     #[\Override]
     public function attachFile(
-        string $searchStoreId,
+        string $indexId,
         string $fileId,
         Metadata $metadata,
-    ): SearchStoreFile {
-        $url = $this->url('vector_stores', $searchStoreId, 'files');
+    ): IndexFile {
+        $url = $this->url('vector_stores', $indexId, 'files');
 
         $response = $this->transport->postRequest($url, [
             'auth_bearer' => $this->apiKey,
@@ -81,14 +81,14 @@ final readonly class SearchStoreProvider extends AbstractProvider implements Sea
     }
 
     /**
-     * @see OneToMany\AI\Contract\Bridge\SearchStoreProviderInterface
+     * @see OneToMany\AI\Contract\Bridge\IndexProviderInterface
      */
     #[\Override]
     public function readFile(
-        string $searchStoreId,
-        string $searchStoreFileId,
-    ): SearchStoreFile {
-        $url = $this->url('vector_stores', $searchStoreId, 'files', $searchStoreFileId);
+        string $indexId,
+        string $indexFileId,
+    ): IndexFile {
+        $url = $this->url('vector_stores', $indexId, 'files', $indexFileId);
 
         $response = $this->transport->getRequest($url, [
             'auth_bearer' => $this->apiKey,
@@ -98,14 +98,14 @@ final readonly class SearchStoreProvider extends AbstractProvider implements Sea
     }
 
     /**
-     * @see OneToMany\AI\Contract\Bridge\SearchStoreProviderInterface
+     * @see OneToMany\AI\Contract\Bridge\IndexProviderInterface
      */
     #[\Override]
     public function deleteFile(
-        string $searchStoreId,
-        string $searchStoreFileId,
+        string $indexId,
+        string $indexFileId,
     ): void {
-        $url = $this->url('vector_stores', $searchStoreId, 'files', $searchStoreFileId);
+        $url = $this->url('vector_stores', $indexId, 'files', $indexFileId);
 
         $this->transport->deleteRequest($url, [
             'auth_bearer' => $this->apiKey,

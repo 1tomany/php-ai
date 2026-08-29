@@ -2,8 +2,8 @@
 
 namespace OneToMany\AI\Bridge\Gemini\Response\FileSearchStore;
 
-use OneToMany\AI\Resource\SearchStore\SearchStore;
-use OneToMany\AI\Resource\SearchStore\Usage;
+use OneToMany\AI\Resource\Index\Index;
+use OneToMany\AI\Resource\Index\Usage;
 
 final readonly class FileSearchStore
 {
@@ -29,8 +29,8 @@ final readonly class FileSearchStore
     ) {
     }
 
-    public function toResource(): SearchStore
+    public function toResource(): Index
     {
-        return new SearchStore($this->name, $this->displayName, new Usage($this->sizeBytes, $this->activeDocumentsCount, $this->pendingDocumentsCount, $this->failedDocumentsCount));
+        return new Index($this->name, $this->displayName, $this->embeddingModel, new Usage($this->sizeBytes, $this->activeDocumentsCount, $this->pendingDocumentsCount, $this->failedDocumentsCount));
     }
 }
