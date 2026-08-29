@@ -2,6 +2,8 @@
 
 namespace OneToMany\AI\Resource\SearchStore;
 
+use function max;
+
 final readonly class SearchStore
 {
     /**
@@ -38,7 +40,7 @@ final readonly class SearchStore
      */
     public function getBytes(): int
     {
-        return $this->bytes;
+        return max(0, $this->bytes);
     }
 
     public function getUsage(): Usage
