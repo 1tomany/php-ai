@@ -2,6 +2,7 @@
 
 namespace OneToMany\AI\Tests\Resource\Prompt;
 
+use OneToMany\AI\Exception\DomainException;
 use OneToMany\AI\Exception\RuntimeException;
 use OneToMany\AI\Resource\Prompt\Response;
 use PHPUnit\Framework\Attributes\Group;
@@ -17,13 +18,21 @@ use const PHP_INT_MAX;
 #[Group('PromptTests')]
 final class ResponseTest extends TestCase
 {
-    public function testToArrayRequiresJsonObjectOrArray(): void
+    public function testToArrayRequiresNonEmptyText(): void
+    {
+        $this->expectException(DomainException::class);
+        $this->expectExceptionMessageIs('The response text is empty.');
+
+        new Response(uniqid(), true, null, null, 'Failed to generate a response.')->toArray();
+    }
+
+    public function testToArrayRequiresJsonArray(): void
     {
         $text = (string) PHP_INT_MAX;
         $this->assertTrue(json_validate($text));
 
         $this->expectException(RuntimeException::class);
-        $this->expectExceptionMessageIs('The model output did not contain a JSON object or array.');
+        $this->expectExceptionMessageIs('The decoded response text was expected to be an array.');
 
         new Response(uniqid(), true, $text)->toArray();
     }
