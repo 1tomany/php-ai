@@ -6,9 +6,12 @@ use OneToMany\AI\Contract\Bridge\SearchStoreProviderInterface;
 use OneToMany\AI\Contract\Resource\SearchStoreFilesInterface;
 use OneToMany\AI\Contract\Resource\SearchStoresInterface;
 use OneToMany\AI\Exception\DomainException;
+use OneToMany\AI\Model;
 use OneToMany\AI\Resource\SearchStore\SearchStore;
 use OneToMany\AI\Vendor;
+use PhpParser\Node\Expr\BinaryOp\Mod;
 
+use function sprintf;
 use function trim;
 
 /**
@@ -33,17 +36,27 @@ final readonly class SearchStores extends AbstractResource implements SearchStor
     public function create(
         string|Vendor $vendor,
         string $name,
-        ?string $model = null,
+        string|Model|null $model = null,
     ): SearchStore {
+        if (!$vendor instanceof Vendor) {
+            $vendor = Vendor::create($vendor);
+        }
+
         if ('' === $name = trim((string) $name)) {
             throw new DomainException('The search store name cannot be empty.');
         }
 
         if (null !== $model) {
-            $model = trim($model);
+            if (!$model instanceof Model) {
+                $model = Model::create($model);
+            }
+
+            if ($model->getVendor() !== $vendor) {
+                throw new DomainException(sprintf('The model "%s" cannot be used with the vendor "%s".', $model->getId(), $vendor->getValue()));
+            }
         }
 
-        return $this->getProvider($vendor)->create($name, '' !== $model ? $model : null);
+        return $this->getProvider($vendor)->create($name, null !== $model ? Model::create($model)->getName() : null);
     }
 
     /**

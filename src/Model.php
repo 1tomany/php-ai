@@ -30,7 +30,11 @@ final readonly class Model implements \Stringable
         string|Vendor $vendor,
         string $name,
     ) {
-        $this->vendor = Vendor::create($vendor);
+        if (!$vendor instanceof Vendor) {
+            $vendor = Vendor::create($vendor);
+        }
+
+        $this->vendor = $vendor;
 
         if ('' === $name = trim($name)) {
             throw new DomainException('The model name cannot be empty.');
@@ -39,7 +43,7 @@ final readonly class Model implements \Stringable
         $this->name = $name;
 
         $this->id = vsprintf('%s:%s', [
-            $this->vendor->value, $name,
+            $vendor->getValue(), $name,
         ]);
     }
 
