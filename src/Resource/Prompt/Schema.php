@@ -31,7 +31,7 @@ final readonly class Schema
      * @param array<string, mixed> $schema
      *
      * @throws DomainException when the schema is empty
-     * @throws DomainException when the schema has no name or "title" property
+     * @throws DomainException when the name is empty or the title property is missing from the schema
      */
     public function __construct(
         array $schema,
