@@ -9,7 +9,6 @@ use OneToMany\AI\Exception\DomainException;
 use OneToMany\AI\Model;
 use OneToMany\AI\Resource\SearchStore\SearchStore;
 use OneToMany\AI\Vendor;
-use PhpParser\Node\Expr\BinaryOp\Mod;
 
 use function sprintf;
 use function trim;

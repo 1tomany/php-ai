@@ -4,31 +4,30 @@ namespace OneToMany\AI;
 
 use OneToMany\AI\Exception\DomainException;
 
-use function array_last;
 use function explode;
 use function trim;
 use function vsprintf;
 
-final readonly class Model implements \Stringable
+final class Model implements \Stringable
 {
     /**
-     * @return non-empty-string
+     * @var ?non-empty-string
      */
-    public string $id;
+    private ?string $id = null;
 
-    public Vendor $vendor;
+    public readonly Vendor $vendor;
 
     /**
      * @var non-empty-string
      */
-    public string $name;
+    public readonly string $name;
 
     /**
      * @throws DomainException when the model name is empty
      */
     public function __construct(
         string|Vendor $vendor,
-        string $name,
+        ?string $name,
     ) {
         if (!$vendor instanceof Vendor) {
             $vendor = Vendor::create($vendor);
@@ -36,15 +35,11 @@ final readonly class Model implements \Stringable
 
         $this->vendor = $vendor;
 
-        if ('' === $name = trim($name)) {
+        if ('' === $name = trim((string) $name)) {
             throw new DomainException('The model name cannot be empty.');
         }
 
         $this->name = $name;
-
-        $this->id = vsprintf('%s:%s', [
-            $vendor->getValue(), $name,
-        ]);
     }
 
     /**
@@ -54,7 +49,7 @@ final readonly class Model implements \Stringable
      */
     public function __toString(): string
     {
-        return $this->id;
+        return $this->getId();
     }
 
     public static function create(string|self $model): self
@@ -63,7 +58,13 @@ final readonly class Model implements \Stringable
             return $model;
         }
 
-        return new self(Vendor::fromModel($model), array_last(explode(':', $model, 2)));
+        $bits = explode(':', $model, 2);
+
+        if (!isset($bits[1])) {
+            $bits[1] = null;
+        }
+
+        return new self(Vendor::fromModel($model), $bits[1]);
     }
 
     public static function gemini(string $name): self
@@ -81,6 +82,12 @@ final readonly class Model implements \Stringable
      */
     public function getId(): string
     {
+        if (null === $this->id) {
+            $this->id = vsprintf('%s:%s', [
+                $this->vendor->value, $this->name,
+            ]);
+        }
+
         return $this->id;
     }
 
