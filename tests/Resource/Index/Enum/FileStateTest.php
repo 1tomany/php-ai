@@ -1,6 +1,6 @@
 <?php
 
-namespace OneToMany\AI\Tests\Resource\SearchStore\Enum;
+namespace OneToMany\AI\Tests\Resource\Index\Enum;
 
 use OneToMany\AI\Resource\Index\Enum\FileState;
 use PHPUnit\Framework\TestCase;
