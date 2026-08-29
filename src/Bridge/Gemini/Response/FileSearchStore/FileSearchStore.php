@@ -31,13 +31,6 @@ final readonly class FileSearchStore
 
     public function toResource(): SearchStore
     {
-        $usage = new Usage(
-            $this->sizeBytes,
-            $this->activeDocumentsCount,
-            $this->pendingDocumentsCount,
-            $this->failedDocumentsCount,
-        );
-
-        return new SearchStore($this->name, $this->displayName, $usage);
+        return new SearchStore($this->name, $this->displayName, new Usage($this->sizeBytes, $this->activeDocumentsCount, $this->pendingDocumentsCount, $this->failedDocumentsCount));
     }
 }

@@ -35,16 +35,6 @@ final readonly class VectorStore
 
     public function toResource(): SearchStore
     {
-        $counts = $this->file_counts;
-
-        $usage = new Usage(
-            $this->usage_bytes,
-            $counts->active,
-            $counts->pending,
-            $counts->failed,
-            $counts->total,
-        );
-
-        return new SearchStore($this->id, $this->name, $usage);
+        return new SearchStore($this->id, $this->name, new Usage($this->usage_bytes, $this->file_counts->active, $this->file_counts->pending, $this->file_counts->failed, $this->file_counts->total));
     }
 }
