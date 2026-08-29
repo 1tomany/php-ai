@@ -114,11 +114,11 @@ final class Prompt
     }
 
     /**
-     * @return ?array<string, mixed>
+     * @return array<string, mixed>
      */
-    public function getOptions(): ?array
+    public function getOptions(): array
     {
-        return $this->options;
+        return $this->options ?? [];
     }
 
     public function isEmpty(): bool

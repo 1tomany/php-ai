@@ -26,6 +26,10 @@ final readonly class PromptNormalizer implements NormalizerInterface
         array $context = [],
     ): array
     {
+        $payload = [
+            'model' => $prompt->getModel()->getName(),
+        ];
+
         $easyInputMessage = new EasyInputMessage();
 
         foreach ($prompt->getInputs() as $input) {
@@ -42,19 +46,14 @@ final readonly class PromptNormalizer implements NormalizerInterface
             $easyInputMessage->addContent($content);
         }
 
-        $request = [
-            'model' => $prompt->getModel()->getName(),
-            'input' => [
-                $easyInputMessage,
-            ],
-        ];
+        $payload['input'] = [$easyInputMessage];
 
         if (null !== $instructions = $prompt->getInstructions()) {
-            $request['instructions'] = $instructions->getText();
+            $payload['instructions'] = $instructions->getText();
         }
 
         if ($schema = $prompt->getSchema()) {
-            $request['text'] = [
+            $payload['text'] = [
                 'format' => [
                     'type' => 'json_schema',
                     'name' => $schema->getName(),
@@ -64,7 +63,7 @@ final readonly class PromptNormalizer implements NormalizerInterface
             ];
         }
 
-        return array_replace($prompt->getOptions(), $request);
+        return array_replace($prompt->getOptions(), $payload);
     }
 
     /**
