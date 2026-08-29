@@ -4,6 +4,8 @@ namespace OneToMany\AI\Resource\SearchStore;
 
 use OneToMany\AI\Resource\SearchStore\Enum\FileState;
 
+use function max;
+
 final readonly class SearchStoreFile
 {
     /**
@@ -12,7 +14,7 @@ final readonly class SearchStoreFile
      */
     public function __construct(
         public string $id,
-        public FileState $state,
+        public FileState $state = FileState::Pending,
         public int $bytes = 0,
     ) {
     }
@@ -35,6 +37,6 @@ final readonly class SearchStoreFile
      */
     public function getBytes(): int
     {
-        return $this->bytes;
+        return max(0, $this->bytes);
     }
 }

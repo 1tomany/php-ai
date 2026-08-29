@@ -9,7 +9,6 @@ use OneToMany\AI\Exception\DomainException;
 use OneToMany\AI\Resource\SearchStore\SearchStore;
 use OneToMany\AI\Vendor;
 
-use function is_null;
 use function trim;
 
 /**
@@ -33,23 +32,18 @@ final readonly class SearchStores extends AbstractResource implements SearchStor
     #[\Override]
     public function create(
         string|Vendor $vendor,
-        ?string $name,
-        ?string $description = null,
-        ?string $embeddingModel = null,
+        string $name,
+        ?string $model = null,
     ): SearchStore {
         if ('' === $name = trim((string) $name)) {
             throw new DomainException('The search store name cannot be empty.');
         }
 
-        if (false === is_null($description)) {
-            $description = trim($description);
+        if (null !== $model) {
+            $model = trim($model);
         }
 
-        if (false === is_null($embeddingModel)) {
-            $embeddingModel = trim($embeddingModel);
-        }
-
-        return $this->getProvider($vendor)->create($name, '' !== $description ? $description : null, '' !== $embeddingModel ? $embeddingModel : null);
+        return $this->getProvider($vendor)->create($name, '' !== $model ? $model : null);
     }
 
     /**

@@ -13,7 +13,7 @@ interface SearchStoresInterface
     /**
      * @throws DomainException when the name is empty
      */
-    public function create(string|Vendor $vendor, ?string $name, ?string $description = null, ?string $embeddingModel = null): SearchStore;
+    public function create(string|Vendor $vendor, string $name, ?string $model = null): SearchStore;
 
     /**
      * @throws DomainException when the search store ID is empty

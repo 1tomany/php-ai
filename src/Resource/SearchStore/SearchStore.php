@@ -2,18 +2,20 @@
 
 namespace OneToMany\AI\Resource\SearchStore;
 
+use function max;
+
 final readonly class SearchStore
 {
     /**
      * @param non-empty-string $id
-     * @param non-empty-string $name
+     * @param ?non-empty-string $name
      * @param non-negative-int $bytes
      */
     public function __construct(
         public string $id,
-        public string $name,
+        public ?string $name = null,
         public int $bytes = 0,
-        public Counts $counts = new Counts(),
+        public Usage $usage = new Usage(),
     ) {
     }
 
@@ -26,9 +28,9 @@ final readonly class SearchStore
     }
 
     /**
-     * @return non-empty-string
+     * @return ?non-empty-string
      */
-    public function getName(): string
+    public function getName(): ?string
     {
         return $this->name;
     }
@@ -38,11 +40,11 @@ final readonly class SearchStore
      */
     public function getBytes(): int
     {
-        return $this->bytes;
+        return max(0, $this->bytes);
     }
 
-    public function getCounts(): Counts
+    public function getUsage(): Usage
     {
-        return $this->counts;
+        return $this->usage;
     }
 }

@@ -17,8 +17,7 @@ final readonly class SearchStoreProvider extends AbstractProvider implements Sea
     #[\Override]
     public function create(
         string $name,
-        ?string $description,
-        ?string $embeddingModel,
+        ?string $model,
     ): SearchStore {
         $url = $this->url('vector_stores');
 
@@ -26,7 +25,6 @@ final readonly class SearchStoreProvider extends AbstractProvider implements Sea
             'auth_bearer' => $this->apiKey,
             'json' => [
                 'name' => $name,
-                'description' => $description,
             ],
         ]);
 
