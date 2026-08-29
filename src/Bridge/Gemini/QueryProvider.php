@@ -2,7 +2,7 @@
 
 namespace OneToMany\AI\Bridge\Gemini;
 
-use OneToMany\AI\Bridge\Common\Trait\QueryTrait;
+use OneToMany\AI\Bridge\Common\Trait\CompilePromptTrait;
 use OneToMany\AI\Bridge\Gemini\Response\Interaction\Interaction;
 use OneToMany\AI\Contract\Bridge\QueryProviderInterface;
 use OneToMany\AI\Resource\Query\Query;
@@ -10,13 +10,13 @@ use OneToMany\AI\Resource\Query\Response;
 
 final readonly class QueryProvider extends AbstractProvider implements QueryProviderInterface
 {
-    use QueryTrait;
+    use CompilePromptTrait;
 
     /**
      * @see OneToMany\AI\Contract\Bridge\QueryProviderInterface
      */
     #[\Override]
-    public function run(Query $query): Response
+    public function send(Query $query): Response
     {
         $url = $this->url($this->apiVersion, 'interactions');
 

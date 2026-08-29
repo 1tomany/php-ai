@@ -15,16 +15,16 @@ final readonly class QueryNormalizer implements NormalizerInterface
     /**
      * @see Symfony\Component\Serializer\Normalizer\NormalizerInterface
      *
-     * @param QueryDefinition $data
+     * @param QueryDefinition $prompt
      *
      * @return array<string, mixed>
      */
     #[\Override]
-    public function normalize(mixed $data, ?string $format = null, array $context = []): array
+    public function normalize(mixed $prompt, ?string $format = null, array $context = []): array
     {
         $easyInputMessage = new EasyInputMessage();
 
-        foreach ($data->getPrompt()->getInputs() as $input) {
+        foreach ($prompt->getPrompt()->getInputs() as $input) {
             if ($input instanceof InputText) {
                 $content = ResponseInput::asText(
                     text: $input->getText(),
@@ -39,17 +39,17 @@ final readonly class QueryNormalizer implements NormalizerInterface
         }
 
         $request = [
-            'model' => $data->getModel()->getName(),
+            'model' => $prompt->getModel()->getName(),
             'input' => [
                 $easyInputMessage,
             ],
         ];
 
-        if ($instructions = $data->getPrompt()->getInstructions()) {
+        if ($instructions = $prompt->getPrompt()->getInstructions()) {
             $request['instructions'] = $instructions->getText();
         }
 
-        if ($schema = $data->getPrompt()->getSchema()) {
+        if ($schema = $prompt->getPrompt()->getSchema()) {
             $request['text'] = [
                 'format' => [
                     'type' => 'json_schema',
@@ -60,7 +60,7 @@ final readonly class QueryNormalizer implements NormalizerInterface
             ];
         }
 
-        return array_replace($data->getOptions(), $request);
+        return array_replace($prompt->getOptions(), $request);
     }
 
     /**

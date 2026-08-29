@@ -11,5 +11,5 @@ interface QueryProviderInterface extends ProviderInterface
 {
     public function compile(Model $model, Prompt $prompt): Query;
 
-    public function run(Query $query): Response;
+    public function send(Query $query): Response;
 }
