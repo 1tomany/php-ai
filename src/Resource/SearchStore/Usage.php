@@ -2,10 +2,11 @@
 
 namespace OneToMany\AI\Resource\SearchStore;
 
-use function is_string;
+use function array_sum;
+use function is_int;
 use function max;
 
-final readonly class SearchStoreUsage
+final readonly class Usage
 {
     /**
      * @var non-negative-int
@@ -57,9 +58,11 @@ final readonly class SearchStoreUsage
 
         $this->failed = max(0, $failed);
 
-        if (false === is_int($total) && false === is_string($total)) {
-            $total = ($this->active + $this->pending + $this->failed);
-        }
+        $total ??= array_sum([
+            $this->active,
+            $this->pending,
+            $this->failed,
+        ]);
 
         $this->total = max(0, (int) $total);
     }

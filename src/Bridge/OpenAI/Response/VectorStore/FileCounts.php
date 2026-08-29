@@ -2,7 +2,7 @@
 
 namespace OneToMany\AI\Bridge\OpenAI\Response\VectorStore;
 
-use OneToMany\AI\Resource\SearchStore\SearchStoreUsage;
+use OneToMany\AI\Resource\SearchStore\Usage;
 
 final class FileCounts
 {
@@ -22,8 +22,8 @@ final class FileCounts
     ) {
     }
 
-    public function toResource(): SearchStoreUsage
+    public function toResource(): Usage
     {
-        return new SearchStoreUsage($this->completed, $this->in_progress, $this->failed + $this->cancelled, $this->total);
+        return new Usage($this->completed, $this->in_progress, $this->failed + $this->cancelled, $this->total);
     }
 }

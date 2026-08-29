@@ -3,7 +3,7 @@
 namespace OneToMany\AI\Bridge\Gemini\Response\FileSearchStore;
 
 use OneToMany\AI\Resource\SearchStore\SearchStore;
-use OneToMany\AI\Resource\SearchStore\SearchStoreUsage;
+use OneToMany\AI\Resource\SearchStore\Usage;
 
 use function max;
 
@@ -30,6 +30,9 @@ final class FileSearchStore
     ) {
     }
 
+    /**
+     * @var non-empty-string
+     */
     public string $label {
         get => $this->displayName ?? $this->name;
     }
@@ -43,6 +46,6 @@ final class FileSearchStore
 
     public function toResource(): SearchStore
     {
-        return new SearchStore($this->name, $this->label, $this->bytes, new SearchStoreUsage($this->activeDocumentsCount, $this->pendingDocumentsCount, $this->failedDocumentsCount));
+        return new SearchStore($this->name, $this->label, $this->bytes, new Usage($this->activeDocumentsCount, $this->pendingDocumentsCount, $this->failedDocumentsCount));
     }
 }
