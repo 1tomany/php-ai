@@ -3,6 +3,7 @@
 namespace OneToMany\AI\Contract\Resource;
 
 use OneToMany\AI\Exception\DomainException;
+use OneToMany\AI\Model;
 use OneToMany\AI\Resource\SearchStore\SearchStore;
 use OneToMany\AI\Vendor;
 
@@ -13,7 +14,7 @@ interface SearchStoresInterface
     /**
      * @throws DomainException when the name is empty
      */
-    public function create(string|Vendor $vendor, string $name, ?string $model = null): SearchStore;
+    public function create(string|Vendor $vendor, string $name, string|Model|null $model = null): SearchStore;
 
     /**
      * @throws DomainException when the search store ID is empty
