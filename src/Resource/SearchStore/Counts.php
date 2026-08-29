@@ -17,4 +17,36 @@ final readonly class Counts
         public int $total = 0,
     ) {
     }
+
+    /**
+     * @return non-negative-int
+     */
+    public function getActive(): int
+    {
+        return $this->active;
+    }
+
+    /**
+     * @return non-negative-int
+     */
+    public function getPending(): int
+    {
+        return $this->pending;
+    }
+
+    /**
+     * @return non-negative-int
+     */
+    public function getFailed(): int
+    {
+        return $this->failed;
+    }
+
+    /**
+     * @return non-negative-int
+     */
+    public function getTotal(): int
+    {
+        return $this->total;
+    }
 }

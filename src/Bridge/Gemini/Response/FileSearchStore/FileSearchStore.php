@@ -58,8 +58,15 @@ final class FileSearchStore
         get => $this->activeDocuments + $this->pendingDocuments + $this->failedDocuments;
     }
 
+    /**
+     * @var non-negative-int
+     */
+    public int $totalBytes {
+        get => max(0, (int) $this->sizeBytes);
+    }
+
     public function toResource(): SearchStore
     {
-        return new SearchStore($this->name, $this->displayName ?? $this->name, new Counts($this->activeDocuments, $this->pendingDocuments, $this->failedDocuments, $this->totalDocuments));
+        return new SearchStore($this->name, $this->displayName ?? $this->name, $this->totalBytes, new Counts($this->activeDocuments, $this->pendingDocuments, $this->failedDocuments, $this->totalDocuments));
     }
 }
