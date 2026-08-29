@@ -7,11 +7,11 @@ use OneToMany\AI\Model;
 final readonly class Query
 {
     /**
-     * @param array<string, mixed> $request
+     * @param array<string, mixed> $payload
      */
     public function __construct(
         public Model $model,
-        public array $request,
+        public array $payload,
     ) {
     }
 
@@ -23,8 +23,8 @@ final readonly class Query
     /**
      * @return array<string, mixed>
      */
-    public function getRequest(): array
+    public function getPayload(): array
     {
-        return $this->request;
+        return $this->payload;
     }
 }

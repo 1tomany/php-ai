@@ -9,7 +9,7 @@ use function is_string;
 
 final class Prompt
 {
-    private ?Model $model = null;
+    private readonly Model $model;
 
     /**
      * @var list<InputFile|InputText>
@@ -18,34 +18,22 @@ final class Prompt
     private ?InputText $instructions = null;
     private ?JsonSchema $schema = null;
 
-    public function __construct(
-        ?Model $model = null,
+    private function __construct(
+        string|Model $model,
     ) {
-        $this->model = $model;
+        $this->model = Model::create($model);
     }
 
-    /**
-     * @throws DomainException when no input is provided
-     */
-    public static function with(string|InputFile|InputText ...$inputs): static
+    public static function create(
+        string|Model $model,
+        string|InputFile|InputText ...$inputs,
+    ): static
     {
-        if ([] === $inputs) {
-            throw new DomainException('At least one file or text input is required.');
-        }
-
-        $prompt = new static();
+        $prompt = new static($model);
 
         foreach ($inputs as $input) {
             $prompt = $prompt->addInput($input);
         }
-
-        return $prompt;
-    }
-
-    public function forModel(Model $model): static
-    {
-        $prompt = clone $this;
-        $prompt->model = $model;
 
         return $prompt;
     }
@@ -88,7 +76,7 @@ final class Prompt
         return $this->addSchema(JsonSchema::fromFile($file, $name));
     }
 
-    public function getModel(): ?Model
+    public function getModel(): Model
     {
         return $this->model;
     }

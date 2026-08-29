@@ -25,7 +25,7 @@ final readonly class QueryProvider extends AbstractProvider implements QueryProv
                 'headers' => [
                     'x-goog-api-key' => $this->apiKey,
                 ],
-                'json' => $query->request,
+                'json' => $query->getPayload(),
             ]);
 
             $record = $this->transport->decode($response, Interaction::class);
