@@ -11,6 +11,7 @@ final readonly class FileSearchStore
      * @param non-empty-string $name
      * @param non-empty-string $embeddingModel
      * @param ?non-empty-string $displayName
+     * @param non-negative-int|numeric-string $sizeBytes
      * @param non-negative-int|numeric-string $activeDocumentsCount
      * @param non-negative-int|numeric-string $pendingDocumentsCount
      * @param non-negative-int|numeric-string $failedDocumentsCount

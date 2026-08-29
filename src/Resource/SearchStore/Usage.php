@@ -33,6 +33,7 @@ final readonly class Usage
     public int $total;
 
     /**
+     * @param non-negative-int|numeric-string $bytes
      * @param non-negative-int|numeric-string $active
      * @param non-negative-int|numeric-string $pending
      * @param non-negative-int|numeric-string $failed
