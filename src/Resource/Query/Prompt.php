@@ -2,7 +2,6 @@
 
 namespace OneToMany\AI\Resource\Query;
 
-use OneToMany\AI\Exception\DomainException;
 use OneToMany\AI\Model;
 
 use function is_string;
@@ -16,7 +15,7 @@ final class Prompt
      */
     private array $inputs = [];
     private ?InputText $instructions = null;
-    private ?JsonSchema $schema = null;
+    private ?Schema $schema = null;
 
     private function __construct(
         string|Model $model,
@@ -27,8 +26,7 @@ final class Prompt
     public static function create(
         string|Model $model,
         string|InputFile|InputText ...$inputs,
-    ): static
-    {
+    ): static {
         $prompt = new static($model);
 
         foreach ($inputs as $input) {
@@ -68,12 +66,12 @@ final class Prompt
         ?string $name = null,
         bool $strict = true,
     ): self {
-        return $this->addSchema(new JsonSchema($schema, $name, $strict));
+        return $this->addSchema(new Schema($schema, $name, $strict));
     }
 
     public function withSchemaFile(string $file, ?string $name = null): static
     {
-        return $this->addSchema(JsonSchema::fromFile($file, $name));
+        return $this->addSchema(Schema::fromFile($file, $name));
     }
 
     public function getModel(): Model
@@ -94,7 +92,7 @@ final class Prompt
         return $this->instructions;
     }
 
-    public function getSchema(): ?JsonSchema
+    public function getSchema(): ?Schema
     {
         return $this->schema;
     }
@@ -112,7 +110,7 @@ final class Prompt
         return $prompt;
     }
 
-    private function addSchema(JsonSchema $schema): static
+    private function addSchema(Schema $schema): static
     {
         $prompt = clone $this;
         $prompt->schema = $schema;

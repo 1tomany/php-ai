@@ -9,12 +9,13 @@ use function file_get_contents;
 use function is_array;
 use function is_string;
 use function json_decode;
+use function rtrim;
 use function sprintf;
 use function trim;
 
 use const JSON_THROW_ON_ERROR;
 
-final readonly class JsonSchema
+final readonly class Schema
 {
     /**
      * @var non-empty-string
@@ -76,7 +77,7 @@ final readonly class JsonSchema
         try {
             $schema = json_decode($contents, true, 512, JSON_THROW_ON_ERROR);
         } catch (\JsonException $e) {
-            throw new DomainException(sprintf('The schema file "%s" is not valid: %s.', $file, \rtrim($e->getMessage(), '.')), previous: $e);
+            throw new DomainException(sprintf('The schema file "%s" is not valid: %s.', $file, rtrim($e->getMessage(), '.')), previous: $e);
         }
 
         $isObject = true;
