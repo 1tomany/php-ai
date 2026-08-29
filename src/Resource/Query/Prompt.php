@@ -17,6 +17,11 @@ final class Prompt
     private ?InputText $instructions = null;
     private ?Schema $schema = null;
 
+    /**
+     * @var ?array<string, mixed>
+     */
+    private ?array $options = null;
+
     private function __construct(
         string|Model $model,
     ) {
@@ -36,6 +41,11 @@ final class Prompt
         return $prompt;
     }
 
+    public function getModel(): Model
+    {
+        return $this->model;
+    }
+
     public function addText(string|InputText $text): static
     {
         return $this->addInput($text);
@@ -44,6 +54,14 @@ final class Prompt
     public function addFile(InputFile $file): static
     {
         return $this->addInput($file);
+    }
+
+    /**
+     * @return list<InputText|InputFile>
+     */
+    public function getInputs(): array
+    {
+        return $this->inputs;
     }
 
     public function withInstructions(string|InputText $text): static
@@ -56,6 +74,11 @@ final class Prompt
         $prompt->instructions = $text;
 
         return $prompt;
+    }
+
+    public function getInstructions(): ?InputText
+    {
+        return $this->instructions;
     }
 
     /**
@@ -74,27 +97,28 @@ final class Prompt
         return $this->addSchema(Schema::fromFile($file, $name));
     }
 
-    public function getModel(): Model
-    {
-        return $this->model;
-    }
-
-    /**
-     * @return list<InputText|InputFile>
-     */
-    public function getInputs(): array
-    {
-        return $this->inputs;
-    }
-
-    public function getInstructions(): ?InputText
-    {
-        return $this->instructions;
-    }
-
     public function getSchema(): ?Schema
     {
         return $this->schema;
+    }
+
+    /**
+     * @param ?array<string, mixed> $options
+     */
+    public function withOptions(?array $options): static
+    {
+        $prompt = clone $this;
+        $prompt->options = $options;
+
+        return $prompt;
+    }
+
+    /**
+     * @return ?array<string, mixed>
+     */
+    public function getOptions(): ?array
+    {
+        return $this->options;
     }
 
     public function isEmpty(): bool
