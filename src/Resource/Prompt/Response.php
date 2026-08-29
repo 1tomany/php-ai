@@ -79,7 +79,7 @@ final readonly class Response
      */
     public function toArray(): array
     {
-        if ('' === $text = $this->getText()) {
+        if (null === $text = $this->getText()) {
             throw new DomainException('The response text is empty.');
         }
 
