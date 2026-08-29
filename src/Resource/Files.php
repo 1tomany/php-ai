@@ -10,9 +10,9 @@ use OneToMany\AI\Resource\File\RemoteFile;
 use OneToMany\AI\Vendor;
 
 /**
- * @extends AbstractResource<FileProviderInterface>
+ * @extends resource<FileProviderInterface>
  */
-final readonly class Files extends AbstractResource implements FilesInterface
+final readonly class Files extends Resource implements FilesInterface
 {
     /**
      * @see OneToMany\AI\Contract\Resource\FilesInterface

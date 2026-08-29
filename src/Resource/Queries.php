@@ -11,9 +11,9 @@ use OneToMany\AI\Resource\Query\Query;
 use OneToMany\AI\Resource\Query\Response;
 
 /**
- * @extends AbstractResource<QueryProviderInterface>
+ * @extends resource<QueryProviderInterface>
  */
-final readonly class Queries extends AbstractResource implements QueriesInterface
+final readonly class Queries extends Resource implements QueriesInterface
 {
     /**
      * @see OneToMany\AI\Contract\Resource\QueriesInterface
