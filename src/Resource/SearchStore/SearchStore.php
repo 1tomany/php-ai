@@ -13,7 +13,7 @@ final readonly class SearchStore
         public string $id,
         public string $name,
         public ?string $description = null,
-        public Statistics $statistics = new Statistics(),
+        public FileCounts $fileCounts = new FileCounts(),
     ) {
     }
 
@@ -41,8 +41,8 @@ final readonly class SearchStore
         return $this->description;
     }
 
-    public function getStatistics(): Statistics
+    public function getStatistics(): FileCounts
     {
-        return $this->statistics;
+        return $this->fileCounts;
     }
 }
