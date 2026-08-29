@@ -49,10 +49,12 @@ final readonly class Schema
         }
 
         if (null === $name || '' === $name) {
-            $schemaTitle = $schema['title'];
+            if (isset($schema['title'])) {
+                $title = $schema['title'];
 
-            if (is_string($schemaTitle)) {
-                $name = trim($schemaTitle);
+                if (is_string($title)) {
+                    $name = trim($title);
+                }
             }
         }
 
