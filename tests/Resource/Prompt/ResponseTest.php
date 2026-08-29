@@ -3,7 +3,7 @@
 namespace OneToMany\AI\Tests\Resource\Prompt;
 
 use OneToMany\AI\Exception\RuntimeException;
-use OneToMany\AI\Resource\Query\Response;
+use OneToMany\AI\Resource\Prompt\Response;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 

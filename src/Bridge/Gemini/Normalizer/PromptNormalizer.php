@@ -5,8 +5,8 @@ namespace OneToMany\AI\Bridge\Gemini\Normalizer;
 use OneToMany\AI\Bridge\Gemini\Resource\Interaction\FileContent;
 use OneToMany\AI\Bridge\Gemini\Resource\Interaction\TextContent;
 use OneToMany\AI\Bridge\Gemini\Resource\Interaction\TextResponseFormat;
-use OneToMany\AI\Resource\Query\InputText;
-use OneToMany\AI\Resource\Query\Prompt;
+use OneToMany\AI\Resource\Prompt\InputText;
+use OneToMany\AI\Resource\Prompt\Prompt;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 use function array_replace;

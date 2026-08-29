@@ -1,6 +1,6 @@
 <?php
 
-namespace OneToMany\AI\Resource\Query;
+namespace OneToMany\AI\Resource\Prompt;
 
 use OneToMany\AI\Model;
 

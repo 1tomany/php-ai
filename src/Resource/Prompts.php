@@ -5,9 +5,9 @@ namespace OneToMany\AI\Resource;
 use OneToMany\AI\Contract\Bridge\PromptProviderInterface;
 use OneToMany\AI\Contract\Resource\PromptsInterface;
 use OneToMany\AI\Exception\DomainException;
-use OneToMany\AI\Resource\Query\Prompt;
-use OneToMany\AI\Resource\Query\Query;
-use OneToMany\AI\Resource\Query\Response;
+use OneToMany\AI\Resource\Prompt\Prompt;
+use OneToMany\AI\Resource\Prompt\Query;
+use OneToMany\AI\Resource\Prompt\Response;
 
 /**
  * @extends Resources<PromptProviderInterface>

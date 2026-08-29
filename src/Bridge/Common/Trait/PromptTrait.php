@@ -3,8 +3,8 @@
 namespace OneToMany\AI\Bridge\Common\Trait;
 
 use OneToMany\AI\Exception\RuntimeException;
-use OneToMany\AI\Resource\Query\Prompt;
-use OneToMany\AI\Resource\Query\Query;
+use OneToMany\AI\Resource\Prompt\Prompt;
+use OneToMany\AI\Resource\Prompt\Query;
 use Symfony\Component\Serializer\Exception\ExceptionInterface as SerializerExceptionInterface;
 
 trait PromptTrait

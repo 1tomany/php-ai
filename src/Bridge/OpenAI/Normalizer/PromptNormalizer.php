@@ -4,8 +4,8 @@ namespace OneToMany\AI\Bridge\OpenAI\Normalizer;
 
 use OneToMany\AI\Bridge\OpenAI\Resource\Response\EasyInputMessage;
 use OneToMany\AI\Bridge\OpenAI\Resource\Response\ResponseInput;
-use OneToMany\AI\Resource\Query\InputText;
-use OneToMany\AI\Resource\Query\Prompt;
+use OneToMany\AI\Resource\Prompt\InputText;
+use OneToMany\AI\Resource\Prompt\Prompt;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 use function array_replace;
