@@ -3,8 +3,8 @@
 namespace OneToMany\AI\Contract;
 
 use OneToMany\AI\Contract\Resource\FilesInterface;
-use OneToMany\AI\Contract\Resource\QueriesInterface;
 use OneToMany\AI\Contract\Resource\IndexesInterface;
+use OneToMany\AI\Contract\Resource\QueriesInterface;
 
 interface AiClientInterface
 {
