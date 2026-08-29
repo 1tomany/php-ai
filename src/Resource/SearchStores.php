@@ -9,7 +9,6 @@ use OneToMany\AI\Exception\DomainException;
 use OneToMany\AI\Resource\SearchStore\SearchStore;
 use OneToMany\AI\Vendor;
 
-use function is_null;
 use function trim;
 
 /**
