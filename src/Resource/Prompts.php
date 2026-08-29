@@ -2,7 +2,7 @@
 
 namespace OneToMany\AI\Resource;
 
-use OneToMany\AI\Contract\Bridge\QueryProviderInterface;
+use OneToMany\AI\Contract\Bridge\PromptProviderInterface;
 use OneToMany\AI\Contract\Resource\PromptsInterface;
 use OneToMany\AI\Exception\DomainException;
 use OneToMany\AI\Resource\Query\Prompt;
@@ -10,9 +10,9 @@ use OneToMany\AI\Resource\Query\Query;
 use OneToMany\AI\Resource\Query\Response;
 
 /**
- * @extends Resources<QueryProviderInterface>
+ * @extends Resources<PromptProviderInterface>
  */
-final readonly class Queries extends Resources implements PromptsInterface
+final readonly class Prompts extends Resources implements PromptsInterface
 {
     /**
      * @see OneToMany\AI\Contract\Resource\PromptsInterface
