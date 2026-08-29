@@ -33,7 +33,7 @@ A [Symfony bundle](https://github.com/1tomany/php-ai-bundle) is available if you
 | Attach file |   ✅   |   ✅   |
 | Read file   |   ✅   |   ✅   |
 | Delete file |   ✅   |   ✅   |
-| **Queries** |        |        |
+| **Prompts** |        |        |
 | Compile     |   ✅   |   ✅   |
 | Run         |   ✅   |   ✅   |
 
@@ -42,7 +42,7 @@ A [Symfony bundle](https://github.com/1tomany/php-ai-bundle) is available if you
 An "Index" is a repository of files that are available through a semantic search (or RAG) API.
 
 | Vendor    | Resource          |
-| --------- | :---------------- |
+| --------- | ----------------- |
 | Anthropic | N/A               |
 | OpenAI    | `VectorStore`     |
 | Gemini    | `FileSearchStore` |
@@ -52,7 +52,7 @@ An "Index" is a repository of files that are available through a semantic search
 A "Prompt" is a general term for data (text, files, schemas, etc) sent to a large language model for inference.
 
 | Vendor    | Resource      |
-| --------- | :------------ |
+| --------- | ------------- |
 | Anthropic | `Message`     |
 | OpenAI    | `Response`    |
 | Gemini    | `Interaction` |
