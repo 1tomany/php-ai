@@ -21,7 +21,7 @@ trait PromptTrait
             /** @var array<string, mixed> $payload */
             $payload = $this->serializer->normalize($prompt);
         } catch (SerializerExceptionInterface $e) {
-            throw new RuntimeException(sprintf('Compiling the prompt into a query for the model "%s" failed.', $prompt->getModel()->getId()), previous: $e);
+            throw new RuntimeException(sprintf('Compiling the prompt into a query for the model "%s" failed.', $prompt->getModel()->getName()), previous: $e);
         }
 
         return new Query($prompt->getModel(), $payload);

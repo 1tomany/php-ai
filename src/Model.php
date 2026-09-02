@@ -6,21 +6,15 @@ use OneToMany\AI\Exception\DomainException;
 
 use function explode;
 use function trim;
-use function vsprintf;
 
-final class Model implements \Stringable
+final readonly class Model implements \Stringable
 {
-    /**
-     * @var ?non-empty-string
-     */
-    private ?string $id = null;
-
-    public readonly ModelVendor $vendor;
+    private ModelVendor $vendor;
 
     /**
      * @var non-empty-string
      */
-    public readonly string $name;
+    private string $name;
 
     /**
      * @throws DomainException when the model name is empty
@@ -49,7 +43,7 @@ final class Model implements \Stringable
      */
     public function __toString(): string
     {
-        return $this->getId();
+        return $this->getName();
     }
 
     public static function create(string|self $model): self
@@ -77,20 +71,6 @@ final class Model implements \Stringable
         return new self(ModelVendor::OpenAI, $name);
     }
 
-    /**
-     * @return non-empty-string
-     */
-    public function getId(): string
-    {
-        if (null === $this->id) {
-            $this->id = vsprintf('%s:%s', [
-                $this->vendor->value, $this->name,
-            ]);
-        }
-
-        return $this->id;
-    }
-
     public function getVendor(): ModelVendor
     {
         return $this->vendor;
@@ -101,6 +81,6 @@ final class Model implements \Stringable
      */
     public function getName(): string
     {
-        return $this->name;
+        return sprintf('%s:%s', $this->vendor->value, $this->name);
     }
 }

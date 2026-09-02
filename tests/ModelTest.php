@@ -21,13 +21,22 @@ final class ModelTest extends TestCase
 
     public function testToStringReturnsFormattedName(): void
     {
-        $this->assertSame('openai:gpt-5.6-sol', new Model(ModelVendor::OpenAI, 'gpt-5.6-sol')->__toString());
+        $modelName = 'openai:gpt-5.6-sol';
+
+        $this->assertSame($modelName, Model::create($modelName)->__toString());
     }
 
     public function testCreateReturnsSelf(): void
     {
-        $model = new Model(ModelVendor::OpenAI, 'gpt-5.6-luna');
+        $model = Model::create('openai:gpt-5.6-luna');
 
         $this->assertSame($model, Model::create($model));
+    }
+
+    public function testGettingNameReturnsFormattedName(): void
+    {
+        $modelName = 'gemini:gemini-3.7-flash';
+
+        $this->assertSame($modelName, Model::create($modelName)->getName());
     }
 }
