@@ -13,6 +13,15 @@ use function array_map;
 #[Group('UnitTests')]
 final class ModelVendorTest extends TestCase
 {
+    public function testCreateTrimsAndLowercasesVendor(): void
+    {
+        $vendor = ' GEMINI ';
+        $this->assertNull(ModelVendor::tryFrom($vendor)); // @phpstan-ignore method.alreadyNarrowedType
+
+        $modelVendor = ModelVendor::Gemini;
+        $this->assertSame($modelVendor, ModelVendor::create($vendor));
+    }
+
     #[DataProvider('providerModelVendor')]
     public function testCreateReturnsSelf(ModelVendor $vendor): void
     {

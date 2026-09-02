@@ -20,6 +20,10 @@ enum ModelVendor: string
     public static function create(string|self $vendor): self
     {
         if (!$vendor instanceof self) {
+            if ($vendor = trim($vendor)) {
+                $vendor = \strtolower($vendor);
+            }
+
             try {
                 return self::from($vendor);
             } catch (\ValueError $e) {
