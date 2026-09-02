@@ -6,28 +6,22 @@ use OneToMany\AI\Exception\DomainException;
 
 use function explode;
 use function trim;
-use function vsprintf;
 
-final class Model implements \Stringable
+final readonly class Model implements \Stringable
 {
-    /**
-     * @var ?non-empty-string
-     */
-    private ?string $id = null;
-
-    public readonly ModelVendor $vendor;
+    private ModelVendor $vendor;
 
     /**
      * @var non-empty-string
      */
-    public readonly string $name;
+    private string $id;
 
     /**
-     * @throws DomainException when the model name is empty
+     * @throws DomainException when the model ID is empty
      */
     public function __construct(
         string|ModelVendor $vendor,
-        ?string $name,
+        ?string $id,
     ) {
         if (!$vendor instanceof ModelVendor) {
             $vendor = ModelVendor::create($vendor);
@@ -35,11 +29,11 @@ final class Model implements \Stringable
 
         $this->vendor = $vendor;
 
-        if ('' === $name = trim((string) $name)) {
-            throw new DomainException('The model name cannot be empty.');
+        if ('' === $id = trim((string) $id)) {
+            throw new DomainException('The model ID cannot be empty.');
         }
 
-        $this->name = $name;
+        $this->id = $id;
     }
 
     /**
@@ -49,7 +43,7 @@ final class Model implements \Stringable
      */
     public function __toString(): string
     {
-        return $this->getId();
+        return $this->getName();
     }
 
     public static function create(string|self $model): self
@@ -77,20 +71,6 @@ final class Model implements \Stringable
         return new self(ModelVendor::OpenAI, $name);
     }
 
-    /**
-     * @return non-empty-string
-     */
-    public function getId(): string
-    {
-        if (null === $this->id) {
-            $this->id = vsprintf('%s:%s', [
-                $this->vendor->value, $this->name,
-            ]);
-        }
-
-        return $this->id;
-    }
-
     public function getVendor(): ModelVendor
     {
         return $this->vendor;
@@ -99,8 +79,16 @@ final class Model implements \Stringable
     /**
      * @return non-empty-string
      */
+    public function getId(): string
+    {
+        return $this->id;
+    }
+
+    /**
+     * @return non-empty-string
+     */
     public function getName(): string
     {
-        return $this->name;
+        return sprintf('%s:%s', $this->vendor->value, $this->id);
     }
 }
