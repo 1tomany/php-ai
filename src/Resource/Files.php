@@ -5,9 +5,9 @@ namespace OneToMany\AI\Resource;
 use OneToMany\AI\Contract\Bridge\FileProviderInterface;
 use OneToMany\AI\Contract\Resource\FilesInterface;
 use OneToMany\AI\Exception\DomainException;
+use OneToMany\AI\ModelVendor;
 use OneToMany\AI\Resource\File\LocalFile;
 use OneToMany\AI\Resource\File\RemoteFile;
-use OneToMany\AI\ModelVendor;
 
 /**
  * @extends Resources<FileProviderInterface>

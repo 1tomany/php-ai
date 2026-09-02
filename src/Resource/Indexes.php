@@ -6,8 +6,8 @@ use OneToMany\AI\Contract\Bridge\IndexProviderInterface;
 use OneToMany\AI\Contract\Resource\IndexesInterface;
 use OneToMany\AI\Contract\Resource\IndexFilesInterface;
 use OneToMany\AI\Exception\DomainException;
-use OneToMany\AI\Resource\Index\Index;
 use OneToMany\AI\ModelVendor;
+use OneToMany\AI\Resource\Index\Index;
 
 use function trim;
 

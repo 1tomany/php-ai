@@ -15,7 +15,7 @@ enum ModelVendor: string
     case OpenAI = 'openai';
 
     /**
-     * @throws DomainException when the vendor is not valid
+     * @throws DomainException when the model vendor is not valid
      */
     public static function create(string|self $vendor): self
     {
@@ -23,7 +23,7 @@ enum ModelVendor: string
             try {
                 return self::from($vendor);
             } catch (\ValueError $e) {
-                throw new DomainException(sprintf('The vendor "%s" is not valid.', $vendor), previous: $e);
+                throw new DomainException(sprintf('The model vendor "%s" is not valid.', $vendor), previous: $e);
             }
         }
 

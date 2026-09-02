@@ -3,9 +3,9 @@
 namespace OneToMany\AI\Contract\Resource;
 
 use OneToMany\AI\Exception\DomainException;
+use OneToMany\AI\ModelVendor;
 use OneToMany\AI\Resource\File\LocalFile;
 use OneToMany\AI\Resource\File\RemoteFile;
-use OneToMany\AI\ModelVendor;
 
 interface FilesInterface
 {

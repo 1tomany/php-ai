@@ -11,18 +11,28 @@ use PHPUnit\Framework\TestCase;
 use function array_map;
 
 #[Group('UnitTests')]
-final class VendorTest extends TestCase
+final class ModelVendorTest extends TestCase
 {
-    #[DataProvider('providerVendor')]
+    #[DataProvider('providerModelVendor')]
     public function testCreateReturnsSelf(ModelVendor $vendor): void
     {
         $this->assertSame($vendor, ModelVendor::create($vendor));
     }
 
+    #[DataProvider('providerModelVendor')]
+    public function testCreateReturnsVendorFromValue(ModelVendor $vendor): void
+    {
+        $this->assertSame($vendor, ModelVendor::create($vendor->getValue()));
+    }
+
     /**
-     * @return non-empty-list<array{Vendor}>
+     * @return non-empty-list<
+     *   array{
+     *     0: ModelVendor,
+     *   },
+     * >
      */
-    public static function providerVendor(): array
+    public static function providerModelVendor(): array
     {
         return array_map(static fn (ModelVendor $v): array => [$v], ModelVendor::cases());
     }
@@ -32,7 +42,7 @@ final class VendorTest extends TestCase
         $vendor = 'invalid_vendor';
 
         $this->expectException(DomainException::class);
-        $this->expectExceptionMessageIs('The vendor "'.$vendor.'" is not valid.');
+        $this->expectExceptionMessageIs('The model vendor "'.$vendor.'" is not valid.');
 
         ModelVendor::create($vendor);
     }
@@ -46,13 +56,20 @@ final class VendorTest extends TestCase
     }
 
     #[DataProvider('providerModelAndVendor')]
-    public function testFromModel(string $model, ModelVendor $vendor): void
-    {
+    public function testFromModel(
+        string $model,
+        ModelVendor $vendor,
+    ): void {
         $this->assertSame($vendor, ModelVendor::fromModel($model));
     }
 
     /**
-     * @return non-empty-list<array{non-empty-string, Vendor}>
+     * @return non-empty-list<
+     *   array{
+     *     0: non-empty-string,
+     *     1: ModelVendor,
+     *   },
+     * >
      */
     public static function providerModelAndVendor(): array
     {

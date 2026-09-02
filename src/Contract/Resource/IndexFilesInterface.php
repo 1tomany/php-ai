@@ -3,8 +3,8 @@
 namespace OneToMany\AI\Contract\Resource;
 
 use OneToMany\AI\Exception\DomainException;
-use OneToMany\AI\Resource\Index\IndexFile;
 use OneToMany\AI\ModelVendor;
+use OneToMany\AI\Resource\Index\IndexFile;
 
 interface IndexFilesInterface
 {

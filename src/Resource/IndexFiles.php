@@ -5,9 +5,9 @@ namespace OneToMany\AI\Resource;
 use OneToMany\AI\Contract\Bridge\IndexProviderInterface;
 use OneToMany\AI\Contract\Resource\IndexFilesInterface;
 use OneToMany\AI\Exception\DomainException;
+use OneToMany\AI\ModelVendor;
 use OneToMany\AI\Resource\Index\IndexFile;
 use OneToMany\AI\Resource\Shared\Metadata;
-use OneToMany\AI\ModelVendor;
 
 /**
  * @extends Resources<IndexProviderInterface>
