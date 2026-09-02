@@ -7,6 +7,7 @@ use OneToMany\AI\Exception\DomainException;
 use function explode;
 use function sprintf;
 use function str_contains;
+use function strtolower;
 use function trim;
 
 enum ModelVendor: string
@@ -21,7 +22,7 @@ enum ModelVendor: string
     {
         if (!$vendor instanceof self) {
             if ($vendor = trim($vendor)) {
-                $vendor = \strtolower($vendor);
+                $vendor = strtolower($vendor);
             }
 
             try {
