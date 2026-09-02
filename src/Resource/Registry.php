@@ -4,7 +4,7 @@ namespace OneToMany\AI\Resource;
 
 use OneToMany\AI\Contract\Bridge\ProviderInterface;
 use OneToMany\AI\Exception\DomainException;
-use OneToMany\AI\Vendor;
+use OneToMany\AI\ModelVendor;
 
 use function sprintf;
 
@@ -43,7 +43,7 @@ final readonly class Registry
      *
      * @throws DomainException when a provider is not registered
      */
-    public function get(Vendor $provider): ProviderInterface
+    public function get(ModelVendor $provider): ProviderInterface
     {
         if (!isset($this->providers[$provider->getValue()])) {
             throw new DomainException(sprintf('The "%s" provider is not registered.', $provider->getValue()));

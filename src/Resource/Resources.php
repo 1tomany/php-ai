@@ -3,7 +3,7 @@
 namespace OneToMany\AI\Resource;
 
 use OneToMany\AI\Contract\Bridge\ProviderInterface;
-use OneToMany\AI\Vendor;
+use OneToMany\AI\ModelVendor;
 
 /**
  * @template TProvider of ProviderInterface
@@ -26,8 +26,8 @@ abstract readonly class Resources
     /**
      * @return TProvider
      */
-    protected function getProvider(string|Vendor $vendor): ProviderInterface
+    protected function getProvider(string|ModelVendor $vendor): ProviderInterface
     {
-        return $this->providers->get(Vendor::create($vendor));
+        return $this->providers->get(ModelVendor::create($vendor));
     }
 }

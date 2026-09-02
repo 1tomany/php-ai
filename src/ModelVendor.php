@@ -9,7 +9,7 @@ use function sprintf;
 use function str_contains;
 use function trim;
 
-enum Vendor: string
+enum ModelVendor: string
 {
     case Gemini = 'gemini';
     case OpenAI = 'openai';

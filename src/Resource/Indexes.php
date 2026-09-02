@@ -7,7 +7,7 @@ use OneToMany\AI\Contract\Resource\IndexesInterface;
 use OneToMany\AI\Contract\Resource\IndexFilesInterface;
 use OneToMany\AI\Exception\DomainException;
 use OneToMany\AI\Resource\Index\Index;
-use OneToMany\AI\Vendor;
+use OneToMany\AI\ModelVendor;
 
 use function trim;
 
@@ -31,7 +31,7 @@ final readonly class Indexes extends Resources implements IndexesInterface
      */
     #[\Override]
     public function create(
-        string|Vendor $vendor,
+        string|ModelVendor $vendor,
         string $name,
         bool $multimodal = false,
     ): Index {
@@ -47,7 +47,7 @@ final readonly class Indexes extends Resources implements IndexesInterface
      */
     #[\Override]
     public function read(
-        string|Vendor $vendor,
+        string|ModelVendor $vendor,
         ?string $indexId,
     ): Index {
         return $this->getProvider($vendor)->read(DomainException::validateId($indexId, 'index'));
@@ -58,7 +58,7 @@ final readonly class Indexes extends Resources implements IndexesInterface
      */
     #[\Override]
     public function delete(
-        string|Vendor $vendor,
+        string|ModelVendor $vendor,
         ?string $indexId,
     ): void {
         $this->getProvider($vendor)->delete(DomainException::validateId($indexId, 'index'));

@@ -4,7 +4,7 @@ namespace OneToMany\AI\Contract\Resource;
 
 use OneToMany\AI\Exception\DomainException;
 use OneToMany\AI\Resource\Index\IndexFile;
-use OneToMany\AI\Vendor;
+use OneToMany\AI\ModelVendor;
 
 interface IndexFilesInterface
 {
@@ -14,17 +14,17 @@ interface IndexFilesInterface
      * @throws DomainException when the index ID is empty
      * @throws DomainException when the file ID is empty
      */
-    public function attach(string|Vendor $vendor, ?string $indexId, ?string $fileId, ?array $metadata = null): IndexFile;
+    public function attach(string|ModelVendor $vendor, ?string $indexId, ?string $fileId, ?array $metadata = null): IndexFile;
 
     /**
      * @throws DomainException when the index ID is empty
      * @throws DomainException when the index file ID is empty
      */
-    public function read(string|Vendor $vendor, ?string $indexId, ?string $indexFileId): IndexFile;
+    public function read(string|ModelVendor $vendor, ?string $indexId, ?string $indexFileId): IndexFile;
 
     /**
      * @throws DomainException when the index ID is empty
      * @throws DomainException when the index file ID is empty
      */
-    public function delete(string|Vendor $vendor, ?string $indexId, ?string $indexFileId): void;
+    public function delete(string|ModelVendor $vendor, ?string $indexId, ?string $indexFileId): void;
 }
