@@ -3,7 +3,7 @@
 namespace OneToMany\AI\Tests;
 
 use OneToMany\AI\Exception\DomainException;
-use OneToMany\AI\Vendor;
+use OneToMany\AI\ModelVendor;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
@@ -14,9 +14,9 @@ use function array_map;
 final class VendorTest extends TestCase
 {
     #[DataProvider('providerVendor')]
-    public function testCreateReturnsSelf(Vendor $vendor): void
+    public function testCreateReturnsSelf(ModelVendor $vendor): void
     {
-        $this->assertSame($vendor, Vendor::create($vendor));
+        $this->assertSame($vendor, ModelVendor::create($vendor));
     }
 
     /**
@@ -24,7 +24,7 @@ final class VendorTest extends TestCase
      */
     public static function providerVendor(): array
     {
-        return array_map(static fn (Vendor $v): array => [$v], Vendor::cases());
+        return array_map(static fn (ModelVendor $v): array => [$v], ModelVendor::cases());
     }
 
     public function testCreateRequiresValidVendor(): void
@@ -34,7 +34,7 @@ final class VendorTest extends TestCase
         $this->expectException(DomainException::class);
         $this->expectExceptionMessageIs('The vendor "'.$vendor.'" is not valid.');
 
-        Vendor::create($vendor);
+        ModelVendor::create($vendor);
     }
 
     public function testFromModelRequiresValidFormat(): void
@@ -42,13 +42,13 @@ final class VendorTest extends TestCase
         $this->expectException(DomainException::class);
         $this->expectExceptionMessageIs('The model must use the "vendor:model" format.');
 
-        Vendor::fromModel('gemini');
+        ModelVendor::fromModel('gemini');
     }
 
     #[DataProvider('providerModelAndVendor')]
-    public function testFromModel(string $model, Vendor $vendor): void
+    public function testFromModel(string $model, ModelVendor $vendor): void
     {
-        $this->assertSame($vendor, Vendor::fromModel($model));
+        $this->assertSame($vendor, ModelVendor::fromModel($model));
     }
 
     /**
@@ -57,10 +57,10 @@ final class VendorTest extends TestCase
     public static function providerModelAndVendor(): array
     {
         $provider = [
-            ['gemini:', Vendor::Gemini],
-            ['openai:', Vendor::OpenAI],
-            ['gemini:gemini-flash', Vendor::Gemini],
-            ['openai:gpt-5.6-sol', Vendor::OpenAI],
+            ['gemini:', ModelVendor::Gemini],
+            ['openai:', ModelVendor::OpenAI],
+            ['gemini:gemini-flash', ModelVendor::Gemini],
+            ['openai:gpt-5.6-sol', ModelVendor::OpenAI],
         ];
 
         return $provider;
