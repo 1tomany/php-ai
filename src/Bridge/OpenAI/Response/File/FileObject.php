@@ -25,7 +25,18 @@ final readonly class FileObject
 
     public function getExpiresAt(): ?\DateTimeImmutable
     {
-        return null !== $this->expires_at ? \DateTimeImmutable::createFromTimestamp($this->expires_at) : null;
+        if (null === $this->expires_at) {
+            return $this->expires_at;
+        }
+
+        try {
+            return \DateTimeImmutable::createFromTimestamp(...[
+                'timestamp' => $this->expires_at,
+            ]);
+        } catch (\DateError) {
+        }
+
+        return null;
     }
 
     public function toResource(): RemoteFile
