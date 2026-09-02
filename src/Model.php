@@ -14,14 +14,14 @@ final readonly class Model implements \Stringable
     /**
      * @var non-empty-string
      */
-    private string $name;
+    private string $id;
 
     /**
-     * @throws DomainException when the model name is empty
+     * @throws DomainException when the model ID is empty
      */
     public function __construct(
         string|ModelVendor $vendor,
-        ?string $name,
+        ?string $id,
     ) {
         if (!$vendor instanceof ModelVendor) {
             $vendor = ModelVendor::create($vendor);
@@ -29,11 +29,11 @@ final readonly class Model implements \Stringable
 
         $this->vendor = $vendor;
 
-        if ('' === $name = trim((string) $name)) {
-            throw new DomainException('The model name cannot be empty.');
+        if ('' === $id = trim((string) $id)) {
+            throw new DomainException('The model ID cannot be empty.');
         }
 
-        $this->name = $name;
+        $this->id = $id;
     }
 
     /**
@@ -81,6 +81,6 @@ final readonly class Model implements \Stringable
      */
     public function getName(): string
     {
-        return sprintf('%s:%s', $this->vendor->value, $this->name);
+        return sprintf('%s:%s', $this->vendor->value, $this->id);
     }
 }
