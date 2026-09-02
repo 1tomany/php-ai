@@ -27,7 +27,7 @@ final readonly class PromptNormalizer implements NormalizerInterface
         array $context = [],
     ): array {
         $request = [
-            'model' => $prompt->getModel()->getId(),
+            'model' => $prompt->getModelId(),
         ];
 
         foreach ($prompt->getInputs() as $input) {
