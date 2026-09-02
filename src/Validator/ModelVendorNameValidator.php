@@ -29,16 +29,18 @@ final class ModelVendorNameValidator extends ConstraintValidator
             return;
         }
 
-        if (!$value instanceof ModelVendor) {
-            if (!is_string($value)) {
-                throw new UnexpectedValueException($value, 'string');
-            }
+        if ($value instanceof ModelVendor) {
+            return;
+        }
 
-            try {
-                ModelVendor::create($value);
-            } catch (ExceptionInterface $e) {
-                $this->context->buildViolation($e->getMessage())->addViolation();
-            }
+        if (!is_string($value)) {
+            throw new UnexpectedValueException($value, 'string');
+        }
+
+        try {
+            ModelVendor::create($value);
+        } catch (ExceptionInterface $e) {
+            $this->context->buildViolation($e->getMessage())->addViolation();
         }
     }
 }

@@ -29,16 +29,18 @@ final class ModelNameValidator extends ConstraintValidator
             return;
         }
 
-        if (!$value instanceof Model) {
-            if (!is_string($value)) {
-                throw new UnexpectedValueException($value, 'string');
-            }
+        if ($value instanceof Model) {
+            return;
+        }
 
-            try {
-                Model::create($value);
-            } catch (ExceptionInterface $e) {
-                $this->context->buildViolation($e->getMessage())->addViolation();
-            }
+        if (!is_string($value)) {
+            throw new UnexpectedValueException($value, 'string');
+        }
+
+        try {
+            Model::create($value);
+        } catch (ExceptionInterface $e) {
+            $this->context->buildViolation($e->getMessage())->addViolation();
         }
     }
 }
