@@ -4,6 +4,8 @@ namespace OneToMany\AI\Bridge\Gemini\Response\File;
 
 use OneToMany\AI\Resource\File\RemoteFile;
 
+use function date_create_immutable;
+
 final readonly class File
 {
     /**
@@ -12,8 +14,8 @@ final readonly class File
      * @param non-empty-string $mimeType
      * @param non-negative-int|numeric-string $sizeBytes
      * @param non-empty-string $createTime
-     * @param non-empty-string $sha256Hash
-     * @param non-empty-string $sha256Hash
+     * @param non-empty-string $updateTime
+     * @param non-empty-string $expirationTime
      * @param non-empty-string $uri
      * @param non-empty-string $state
      * @param non-empty-string $source
@@ -35,6 +37,6 @@ final readonly class File
 
     public function toResource(): RemoteFile
     {
-        return new RemoteFile($this->name, \date_create_immutable($this->expirationTime) ?: null, $this->uri);
+        return new RemoteFile($this->name, date_create_immutable($this->expirationTime) ?: null, $this->uri);
     }
 }
