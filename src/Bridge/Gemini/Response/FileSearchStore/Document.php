@@ -12,14 +12,16 @@ final readonly class Document
     /**
      * @param non-empty-string $name
      * @param non-empty-string $displayName
+     * @param non-empty-string $createTime
+     * @param non-empty-string $updateTime
      * @param non-negative-int|numeric-string $sizeBytes
      * @param non-empty-string $mimeType
      */
     public function __construct(
         public string $name,
         public string $displayName,
-        public \DateTimeImmutable $createTime,
-        public \DateTimeImmutable $updateTime,
+        public string $createTime,
+        public string $updateTime,
         public DocumentState $state,
         public int|string $sizeBytes,
         public string $mimeType,
