@@ -17,7 +17,7 @@ abstract readonly class AbstractProvider implements ProviderInterface
     public const string BASE_URL = 'https://generativelanguage.googleapis.com';
 
     /**
-     * @throws DomainException when the API key is empty
+     * @throws DomainException when the Gemini API key is empty
      */
     public function __construct(
         protected Transport $transport,
