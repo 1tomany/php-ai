@@ -26,35 +26,35 @@ final readonly class PromptNormalizer implements NormalizerInterface
         ?string $format = null,
         array $context = [],
     ): array {
-        $request = [
-            'model' => $prompt->getModel()->getName(),
+        $payload = [
+            'model' => $prompt->getModelId(),
         ];
 
         foreach ($prompt->getInputs() as $input) {
-            if (!isset($request['input'])) {
-                $request['input'] = [];
+            if (!isset($payload['input'])) {
+                $payload['input'] = [];
             }
 
             if ($input instanceof InputText) {
-                $request['input'][] = new TextContent(
+                $payload['input'][] = new TextContent(
                     text: $input->getText(),
                 );
             } else {
-                $request['input'][] = FileContent::create(
+                $payload['input'][] = FileContent::create(
                     $input->getId(), $input->getType(),
                 );
             }
         }
 
         if (null !== $instructions = $prompt->getInstructions()) {
-            $request['system_instruction'] = $instructions->getText();
+            $payload['system_instruction'] = $instructions->getText();
         }
 
         if (null !== $schema = $prompt->getSchema()?->getSchema()) {
-            $request['response_format'] = new TextResponseFormat($schema);
+            $payload['response_format'] = new TextResponseFormat($schema);
         }
 
-        return array_replace($prompt->getOptions(), $request);
+        return array_replace($prompt->getOptions(), $payload);
     }
 
     /**

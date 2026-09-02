@@ -26,7 +26,7 @@ final readonly class PromptNormalizer implements NormalizerInterface
         array $context = [],
     ): array {
         $payload = [
-            'model' => $prompt->getModel()->getName(),
+            'model' => $prompt->getModelId(),
         ];
 
         $easyInputMessage = new EasyInputMessage();

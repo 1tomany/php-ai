@@ -46,6 +46,14 @@ final class Prompt
         return $this->model;
     }
 
+    /**
+     * @return non-empty-string
+     */
+    public function getModelId(): string
+    {
+        return $this->getModel()->getId();
+    }
+
     public function addText(string|InputText $text): static
     {
         return $this->addInput($text);
