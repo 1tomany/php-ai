@@ -11,10 +11,10 @@ use PHPUnit\Framework\TestCase;
 #[Group('UnitTests')]
 final class ModelTest extends TestCase
 {
-    public function testConstructorRequiresNonEmptyName(): void
+    public function testConstructorRequiresNonEmptyId(): void
     {
         $this->expectException(DomainException::class);
-        $this->expectExceptionMessageIs('The model name cannot be empty.');
+        $this->expectExceptionMessageIs('The model ID cannot be empty.');
 
         new Model(ModelVendor::Gemini, '');
     }

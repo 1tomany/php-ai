@@ -79,6 +79,14 @@ final readonly class Model implements \Stringable
     /**
      * @return non-empty-string
      */
+    public function getId(): string
+    {
+        return $this->id;
+    }
+
+    /**
+     * @return non-empty-string
+     */
     public function getName(): string
     {
         return sprintf('%s:%s', $this->vendor->value, $this->id);
