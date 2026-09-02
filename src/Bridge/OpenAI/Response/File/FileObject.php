@@ -2,6 +2,8 @@
 
 namespace OneToMany\AI\Bridge\OpenAI\Response\File;
 
+use OneToMany\AI\Resource\File\RemoteFile;
+
 final readonly class FileObject
 {
     /**
@@ -23,6 +25,22 @@ final readonly class FileObject
 
     public function getExpiresAt(): ?\DateTimeImmutable
     {
-        return null !== $this->expires_at ? \DateTimeImmutable::createFromTimestamp($this->expires_at) : null;
+        if (null === $this->expires_at) {
+            return $this->expires_at;
+        }
+
+        try {
+            return \DateTimeImmutable::createFromTimestamp(...[
+                'timestamp' => $this->expires_at,
+            ]);
+        } catch (\DateError) {
+        }
+
+        return null;
+    }
+
+    public function toResource(): RemoteFile
+    {
+        return new RemoteFile($this->id, $this->getExpiresAt(), $this->id, $this->purpose);
     }
 }

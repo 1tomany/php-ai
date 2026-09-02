@@ -9,6 +9,8 @@ final readonly class FileSearchStore
 {
     /**
      * @param non-empty-string $name
+     * @param non-empty-string $createTime
+     * @param non-empty-string $updateTime
      * @param non-empty-string $embeddingModel
      * @param ?non-empty-string $displayName
      * @param non-negative-int|numeric-string $sizeBytes
@@ -18,8 +20,8 @@ final readonly class FileSearchStore
      */
     public function __construct(
         public string $name,
-        public \DateTimeImmutable $createTime,
-        public \DateTimeImmutable $updateTime,
+        public string $createTime,
+        public string $updateTime,
         public string $embeddingModel,
         public ?string $displayName = null,
         public int|string $sizeBytes = 0,
