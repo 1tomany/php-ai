@@ -3,6 +3,7 @@
 namespace OneToMany\AI\Validator;
 
 use OneToMany\AI\Contract\Exception\ExceptionInterface;
+use OneToMany\AI\Model;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
@@ -15,7 +16,7 @@ final class ModelNameValidator extends ConstraintValidator
     /**
      * @see Symfony\Component\Validator\ConstraintValidator
      *
-     * @throws UnexpectedTypeException when the constraint is not a {@see Model} object
+     * @throws UnexpectedTypeException when the constraint is not a {@see ModelName} object
      * @throws UnexpectedValueException when the value is not null or a string
      */
     public function validate(mixed $value, Constraint $constraint): void
@@ -28,14 +29,16 @@ final class ModelNameValidator extends ConstraintValidator
             return;
         }
 
-        if (!is_string($value)) {
-            throw new UnexpectedValueException($value, 'string');
-        }
+        if (!$value instanceof Model) {
+            if (!is_string($value)) {
+                throw new UnexpectedValueException($value, 'string');
+            }
 
-        try {
-            \OneToMany\AI\Model::create($value);
-        } catch (ExceptionInterface $e) {
-            $this->context->buildViolation($e->getMessage())->addViolation();
+            try {
+                Model::create($value);
+            } catch (ExceptionInterface $e) {
+                $this->context->buildViolation($e->getMessage())->addViolation();
+            }
         }
     }
 }
