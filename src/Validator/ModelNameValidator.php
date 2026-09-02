@@ -10,7 +10,7 @@ use Symfony\Component\Validator\Exception\UnexpectedValueException;
 
 use function is_string;
 
-final class ModelValidator extends ConstraintValidator
+final class ModelNameValidator extends ConstraintValidator
 {
     /**
      * @see Symfony\Component\Validator\ConstraintValidator
@@ -20,8 +20,8 @@ final class ModelValidator extends ConstraintValidator
      */
     public function validate(mixed $value, Constraint $constraint): void
     {
-        if (!$constraint instanceof Model) {
-            throw new UnexpectedTypeException($constraint, Model::class);
+        if (!$constraint instanceof ModelName) {
+            throw new UnexpectedTypeException($constraint, ModelName::class);
         }
 
         if (null === $value) {

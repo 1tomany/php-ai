@@ -2,8 +2,8 @@
 
 namespace OneToMany\AI\Tests\Validator;
 
-use OneToMany\AI\Validator\Model;
-use OneToMany\AI\Validator\ModelValidator;
+use OneToMany\AI\Validator\ModelName;
+use OneToMany\AI\Validator\ModelNameValidator;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -16,16 +16,16 @@ final class ModelValidatorTest extends TestCase
     public function testValidateRequiresModelConstraint(): void
     {
         $this->expectException(UnexpectedTypeException::class);
-        $this->expectExceptionMessageIs('Expected argument of type "'.Model::class.'", "'.Assert\Blank::class.'" given');
+        $this->expectExceptionMessageIs('Expected argument of type "'.ModelName::class.'", "'.Assert\Blank::class.'" given');
 
-        new ModelValidator()->validate('mock:model', new Assert\Blank());
+        new ModelNameValidator()->validate('mock:model', new Assert\Blank());
     }
 
     public function testValidateIgnoresNullValues(): void
     {
         $this->expectNotToPerformAssertions();
 
-        new ModelValidator()->validate(null, new Model());
+        new ModelNameValidator()->validate(null, new ModelName());
     }
 
     public function testValidateRequiresValueToBeString(): void
@@ -33,13 +33,13 @@ final class ModelValidatorTest extends TestCase
         $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessageIs('Expected argument of type "string", "array" given');
 
-        new ModelValidator()->validate(['mock:model'], new Model());
+        new ModelNameValidator()->validate(['mock:model'], new ModelName());
     }
 
     public function testValidatingValidModel(): void
     {
         $this->expectNotToPerformAssertions();
 
-        new ModelValidator()->validate('openai:gpt-5.6-sol', new Model());
+        new ModelNameValidator()->validate('openai:gpt-5.6-sol', new ModelName());
     }
 }
