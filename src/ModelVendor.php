@@ -7,23 +7,28 @@ use OneToMany\AI\Exception\DomainException;
 use function explode;
 use function sprintf;
 use function str_contains;
+use function strtolower;
 use function trim;
 
-enum Vendor: string
+enum ModelVendor: string
 {
     case Gemini = 'gemini';
     case OpenAI = 'openai';
 
     /**
-     * @throws DomainException when the vendor is not valid
+     * @throws DomainException when the model vendor is not valid
      */
     public static function create(string|self $vendor): self
     {
         if (!$vendor instanceof self) {
+            if ($vendor = trim($vendor)) {
+                $vendor = strtolower($vendor);
+            }
+
             try {
                 return self::from($vendor);
             } catch (\ValueError $e) {
-                throw new DomainException(sprintf('The vendor "%s" is not valid.', $vendor), previous: $e);
+                throw new DomainException(sprintf('The model vendor "%s" is not valid.', $vendor), previous: $e);
             }
         }
 

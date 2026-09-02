@@ -4,7 +4,7 @@ namespace OneToMany\AI\Tests;
 
 use OneToMany\AI\Exception\DomainException;
 use OneToMany\AI\Model;
-use OneToMany\AI\Vendor;
+use OneToMany\AI\ModelVendor;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 
@@ -16,17 +16,17 @@ final class ModelTest extends TestCase
         $this->expectException(DomainException::class);
         $this->expectExceptionMessageIs('The model name cannot be empty.');
 
-        new Model(Vendor::Gemini, '');
+        new Model(ModelVendor::Gemini, '');
     }
 
     public function testToStringReturnsFormattedName(): void
     {
-        $this->assertSame('openai:gpt-5.6-sol', new Model(Vendor::OpenAI, 'gpt-5.6-sol')->__toString());
+        $this->assertSame('openai:gpt-5.6-sol', new Model(ModelVendor::OpenAI, 'gpt-5.6-sol')->__toString());
     }
 
     public function testCreateReturnsSelf(): void
     {
-        $model = new Model(Vendor::OpenAI, 'gpt-5.6-luna');
+        $model = new Model(ModelVendor::OpenAI, 'gpt-5.6-luna');
 
         $this->assertSame($model, Model::create($model));
     }

@@ -5,7 +5,7 @@ namespace OneToMany\AI\Bridge\Gemini;
 use OneToMany\AI\Bridge\Transport;
 use OneToMany\AI\Contract\Bridge\ProviderInterface;
 use OneToMany\AI\Exception\DomainException;
-use OneToMany\AI\Vendor;
+use OneToMany\AI\ModelVendor;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Component\Serializer\SerializerInterface;
@@ -34,9 +34,9 @@ abstract readonly class AbstractProvider implements ProviderInterface
      * @see OneToMany\AI\Contract\Bridge\ProviderInterface
      */
     #[\Override]
-    public static function getVendor(): Vendor
+    public static function getVendor(): ModelVendor
     {
-        return Vendor::Gemini;
+        return ModelVendor::Gemini;
     }
 
     protected function url(string ...$parts): string

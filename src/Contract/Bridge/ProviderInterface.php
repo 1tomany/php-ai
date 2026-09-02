@@ -2,9 +2,9 @@
 
 namespace OneToMany\AI\Contract\Bridge;
 
-use OneToMany\AI\Vendor;
+use OneToMany\AI\ModelVendor;
 
 interface ProviderInterface
 {
-    public static function getVendor(): Vendor;
+    public static function getVendor(): ModelVendor;
 }

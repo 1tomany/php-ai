@@ -15,7 +15,7 @@ final class Model implements \Stringable
      */
     private ?string $id = null;
 
-    public readonly Vendor $vendor;
+    public readonly ModelVendor $vendor;
 
     /**
      * @var non-empty-string
@@ -26,11 +26,11 @@ final class Model implements \Stringable
      * @throws DomainException when the model name is empty
      */
     public function __construct(
-        string|Vendor $vendor,
+        string|ModelVendor $vendor,
         ?string $name,
     ) {
-        if (!$vendor instanceof Vendor) {
-            $vendor = Vendor::create($vendor);
+        if (!$vendor instanceof ModelVendor) {
+            $vendor = ModelVendor::create($vendor);
         }
 
         $this->vendor = $vendor;
@@ -64,17 +64,17 @@ final class Model implements \Stringable
             $bits[1] = null;
         }
 
-        return new self(Vendor::fromModel($model), $bits[1]);
+        return new self(ModelVendor::fromModel($model), $bits[1]);
     }
 
     public static function gemini(string $name): self
     {
-        return new self(Vendor::Gemini, $name);
+        return new self(ModelVendor::Gemini, $name);
     }
 
     public static function openai(string $name): self
     {
-        return new self(Vendor::OpenAI, $name);
+        return new self(ModelVendor::OpenAI, $name);
     }
 
     /**
@@ -91,7 +91,7 @@ final class Model implements \Stringable
         return $this->id;
     }
 
-    public function getVendor(): Vendor
+    public function getVendor(): ModelVendor
     {
         return $this->vendor;
     }

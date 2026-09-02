@@ -3,8 +3,8 @@
 namespace OneToMany\AI\Contract\Resource;
 
 use OneToMany\AI\Exception\DomainException;
+use OneToMany\AI\ModelVendor;
 use OneToMany\AI\Resource\Index\Index;
-use OneToMany\AI\Vendor;
 
 interface IndexesInterface
 {
@@ -13,15 +13,15 @@ interface IndexesInterface
     /**
      * @throws DomainException when the name is empty
      */
-    public function create(string|Vendor $vendor, string $name, bool $multimodal = false): Index;
+    public function create(string|ModelVendor $vendor, string $name, bool $multimodal = false): Index;
 
     /**
      * @throws DomainException when the index ID is empty
      */
-    public function read(string|Vendor $vendor, ?string $indexId): Index;
+    public function read(string|ModelVendor $vendor, ?string $indexId): Index;
 
     /**
      * @throws DomainException when the index ID is empty
      */
-    public function delete(string|Vendor $vendor, ?string $indexId): void;
+    public function delete(string|ModelVendor $vendor, ?string $indexId): void;
 }
