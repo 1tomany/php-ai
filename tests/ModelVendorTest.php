@@ -91,4 +91,14 @@ final class ModelVendorTest extends TestCase
 
         return $provider;
     }
+
+    public function testIsGemini(): void
+    {
+        $this->assertTrue(ModelVendor::Gemini->isGemini()); // @phpstan-ignore method.alreadyNarrowedType
+    }
+
+    public function testIsOpenAI(): void
+    {
+        $this->assertTrue(ModelVendor::OpenAI->isOpenAI()); // @phpstan-ignore method.alreadyNarrowedType
+    }
 }
