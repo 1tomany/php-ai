@@ -14,7 +14,10 @@ use function sprintf;
 
 abstract readonly class AbstractProvider implements ProviderInterface
 {
-    public const string BASE_URL = 'https://generativelanguage.googleapis.com';
+    /**
+     * @var non-empty-string
+     */
+    protected string $apiKey;
 
     /**
      * @throws DomainException when the Gemini API key is empty
@@ -22,12 +25,15 @@ abstract readonly class AbstractProvider implements ProviderInterface
     public function __construct(
         protected Transport $transport,
         protected SerializerInterface&DenormalizerInterface&NormalizerInterface $serializer,
-        #[\SensitiveParameter] protected string $apiKey,
+        #[\SensitiveParameter] string $apiKey,
+        protected string $baseUrl = 'https://generativelanguage.googleapis.com',
         protected string $apiVersion = 'v1beta',
     ) {
-        if ('' === $this->apiKey) {
+        if ('' === $apiKey = \trim($apiKey)) {
             throw new DomainException(sprintf('The %s API key cannot be empty.', $this->getVendor()->getName()));
         }
+
+        $this->apiKey = $apiKey;
     }
 
     /**
@@ -41,6 +47,6 @@ abstract readonly class AbstractProvider implements ProviderInterface
 
     protected function url(string ...$parts): string
     {
-        return $this->transport->url(self::BASE_URL, ...$parts);
+        return $this->transport->url($this->baseUrl, ...$parts);
     }
 }
