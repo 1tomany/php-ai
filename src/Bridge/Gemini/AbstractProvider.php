@@ -11,6 +11,7 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Component\Serializer\SerializerInterface;
 
 use function sprintf;
+use function trim;
 
 abstract readonly class AbstractProvider implements ProviderInterface
 {
@@ -20,20 +21,42 @@ abstract readonly class AbstractProvider implements ProviderInterface
     protected string $apiKey;
 
     /**
+     * @var non-empty-string
+     */
+    protected string $baseUrl;
+
+    /**
+     * @var non-empty-string
+     */
+    protected string $apiVersion;
+
+    /**
      * @throws DomainException when the Gemini API key is empty
      */
     public function __construct(
         protected Transport $transport,
         protected SerializerInterface&DenormalizerInterface&NormalizerInterface $serializer,
         #[\SensitiveParameter] string $apiKey,
-        protected string $baseUrl = 'https://generativelanguage.googleapis.com',
-        protected string $apiVersion = 'v1beta',
+        ?string $baseUrl = null,
+        ?string $apiVersion = null,
     ) {
-        if ('' === $apiKey = \trim($apiKey)) {
+        if ('' === $apiKey = trim($apiKey)) {
             throw new DomainException(sprintf('The %s API key cannot be empty.', $this->getVendor()->getName()));
         }
 
         $this->apiKey = $apiKey;
+
+        if ('' === $baseUrl = trim((string) $baseUrl)) {
+            $baseUrl = 'https://generativelanguage.googleapis.com';
+        }
+
+        $this->baseUrl = $baseUrl;
+
+        if ('' === $apiVersion = trim((string) $apiVersion)) {
+            $apiVersion = 'v1beta';
+        }
+
+        $this->apiVersion = $apiVersion;
     }
 
     /**
