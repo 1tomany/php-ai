@@ -84,8 +84,10 @@ final class ModelVendorTest extends TestCase
     {
         $provider = [
             ['gemini:', ModelVendor::Gemini],
+            ['meta:', ModelVendor::Meta],
             ['openai:', ModelVendor::OpenAI],
             ['gemini:gemini-flash', ModelVendor::Gemini],
+            ['meta:muse-spark-1.3', ModelVendor::Meta],
             ['openai:gpt-5.6-sol', ModelVendor::OpenAI],
         ];
 
@@ -95,6 +97,11 @@ final class ModelVendorTest extends TestCase
     public function testIsGemini(): void
     {
         $this->assertTrue(ModelVendor::Gemini->isGemini()); // @phpstan-ignore method.alreadyNarrowedType
+    }
+
+    public function testIsMeta(): void
+    {
+        $this->assertTrue(ModelVendor::Meta->isMeta()); // @phpstan-ignore method.alreadyNarrowedType
     }
 
     public function testIsOpenAI(): void

@@ -17,25 +17,26 @@ A [Symfony bundle](https://github.com/1tomany/php-ai-bundle) is available if you
 ## Supported platforms
 
 - Gemini
+- Meta
 - OpenAI
 
 ### Platform features
 
-| Feature     | Gemini | OpenAI |
-| ----------- | :----: | :----: |
-| **Files**   |        |        |
-| Upload      |   ✅   |   ✅   |
-| Delete      |   ✅   |   ✅   |
-| **Indexes** |        |        |
-| Create      |   ✅   |   ✅   |
-| Read        |   ✅   |   ✅   |
-| Delete      |   ✅   |   ✅   |
-| Attach file |   ✅   |   ✅   |
-| Read file   |   ✅   |   ✅   |
-| Delete file |   ✅   |   ✅   |
-| **Prompts** |        |        |
-| Compile     |   ✅   |   ✅   |
-| Send        |   ✅   |   ✅   |
+| Feature     | Gemini | Meta | OpenAI |
+| ----------- | :----: | :----: | :----: |
+| **Files**   |        |      |        |
+| Upload      |   ✅   |  ✅  |   ✅   |
+| Delete      |   ✅   |  ✅  |   ✅   |
+| **Indexes** |        |      |        |
+| Create      |   ✅   |      |   ✅   |
+| Read        |   ✅   |      |   ✅   |
+| Delete      |   ✅   |      |   ✅   |
+| Attach file |   ✅   |      |   ✅   |
+| Read file   |   ✅   |      |   ✅   |
+| Delete file |   ✅   |      |   ✅   |
+| **Prompts** |        |      |        |
+| Compile     |   ✅   |  ✅  |   ✅   |
+| Send        |   ✅   |  ✅  |   ✅   |
 
 #### Indexes
 
@@ -56,6 +57,7 @@ A "Prompt" is a general term for data (text, files, schemas, etc) sent to a larg
 | Anthropic | `Message`     |
 | OpenAI    | `Response`    |
 | Gemini    | `Interaction` |
+| Meta      | `Response`    |
 
 ## Credits
 

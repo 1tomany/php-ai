@@ -13,6 +13,7 @@ use function trim;
 enum ModelVendor: string
 {
     case Gemini = 'gemini';
+    case Meta = 'meta';
     case OpenAI = 'openai';
 
     /**
@@ -72,6 +73,14 @@ enum ModelVendor: string
     public function isGemini(): bool
     {
         return self::Gemini === $this;
+    }
+
+    /**
+     * @phpstan-assert-if-true self::Meta $this
+     */
+    public function isMeta(): bool
+    {
+        return self::Meta === $this;
     }
 
     /**

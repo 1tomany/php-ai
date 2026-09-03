@@ -66,6 +66,11 @@ final readonly class Model implements \Stringable
         return new self(ModelVendor::Gemini, $name);
     }
 
+    public static function meta(string $name): self
+    {
+        return new self(ModelVendor::Meta, $name);
+    }
+
     public static function openai(string $name): self
     {
         return new self(ModelVendor::OpenAI, $name);
