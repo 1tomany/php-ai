@@ -67,7 +67,9 @@ final readonly class PromptNormalizer implements NormalizerInterface
             if ($tool instanceof IndexSearch) {
                 $payload['tools'][] = [
                     'type' => 'file_search',
-                    'vector_store_ids' => $tool->getIndexIds(),
+                    'vector_store_ids' => [
+                        ...$tool->getIndexIds(),
+                    ],
                 ];
             }
         }
