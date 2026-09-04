@@ -4,6 +4,7 @@ namespace OneToMany\AI\Bridge\OpenAI\Normalizer;
 
 use OneToMany\AI\Bridge\OpenAI\Resource\Response\EasyInputMessage;
 use OneToMany\AI\Bridge\OpenAI\Resource\Response\ResponseInput;
+use OneToMany\AI\Resource\Prompt\IndexSearchTool;
 use OneToMany\AI\Resource\Prompt\InputText;
 use OneToMany\AI\Resource\Prompt\Prompt;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
@@ -60,6 +61,15 @@ final readonly class PromptNormalizer implements NormalizerInterface
                     'schema' => $schema->getSchema(),
                 ],
             ];
+        }
+
+        foreach ($prompt->getTools() as $tool) {
+            if ($tool instanceof IndexSearchTool) {
+                $payload['tools'][] = [
+                    'type' => 'file_search',
+                    'vector_store_ids' => $tool->getIndexIds(),
+                ];
+            }
         }
 
         return array_replace($prompt->getOptions(), $payload);

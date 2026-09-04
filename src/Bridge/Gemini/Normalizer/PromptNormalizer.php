@@ -5,6 +5,7 @@ namespace OneToMany\AI\Bridge\Gemini\Normalizer;
 use OneToMany\AI\Bridge\Gemini\Resource\Interaction\FileContent;
 use OneToMany\AI\Bridge\Gemini\Resource\Interaction\TextContent;
 use OneToMany\AI\Bridge\Gemini\Resource\Interaction\TextResponseFormat;
+use OneToMany\AI\Resource\Prompt\IndexSearchTool;
 use OneToMany\AI\Resource\Prompt\InputText;
 use OneToMany\AI\Resource\Prompt\Prompt;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
@@ -52,6 +53,15 @@ final readonly class PromptNormalizer implements NormalizerInterface
 
         if (null !== $schema = $prompt->getSchema()?->getSchema()) {
             $payload['response_format'] = new TextResponseFormat($schema);
+        }
+
+        foreach ($prompt->getTools() as $tool) {
+            if ($tool instanceof IndexSearchTool) {
+                $payload['tools'][] = [
+                    'type' => 'file_search',
+                    'file_search_store_names' => $tool->getIndexIds(),
+                ];
+            }
         }
 
         return array_replace($prompt->getOptions(), $payload);

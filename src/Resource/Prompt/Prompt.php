@@ -14,6 +14,11 @@ final class Prompt
      * @var list<InputFile|InputText>
      */
     private array $inputs = [];
+
+    /**
+     * @var list<AbstractTool>
+     */
+    private array $tools = [];
     private ?InputText $instructions = null;
     private ?Schema $schema = null;
 
@@ -30,12 +35,16 @@ final class Prompt
 
     public static function create(
         string|Model $model,
-        string|InputFile|InputText ...$inputs,
+        string|AbstractTool|InputFile|InputText ...$inputs,
     ): static {
         $prompt = new static($model);
 
         foreach ($inputs as $input) {
-            $prompt = $prompt->addInput($input);
+            if ($input instanceof AbstractTool) {
+                $prompt = $prompt->addTool($input);
+            } else {
+                $prompt = $prompt->addInput($input);
+            }
         }
 
         return $prompt;
@@ -70,6 +79,22 @@ final class Prompt
     public function getInputs(): array
     {
         return $this->inputs;
+    }
+
+    public function addTool(AbstractTool $tool): static
+    {
+        $prompt = clone $this;
+        $prompt->tools[] = $tool;
+
+        return $prompt;
+    }
+
+    /**
+     * @return list<AbstractTool>
+     */
+    public function getTools(): array
+    {
+        return $this->tools;
     }
 
     public function withInstructions(string|InputText $text): static
