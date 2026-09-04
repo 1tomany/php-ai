@@ -80,19 +80,19 @@ final class Prompt
     }
 
     /**
-     * @return array<string, mixed>
-     */
-    public function getOptions(): array
-    {
-        return $this->options ?? [];
-    }
-
-    /**
      * @return list<Tool>
      */
     public function getTools(): array
     {
         return $this->tools;
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    public function getOptions(): array
+    {
+        return $this->options ?? [];
     }
 
     public function addFile(InputFile $file): static
