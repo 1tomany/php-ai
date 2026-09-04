@@ -4,8 +4,6 @@ namespace OneToMany\AI\Resource\Prompt;
 
 use OneToMany\AI\Model;
 
-use function is_string;
-
 final class Prompt
 {
     private readonly Model $model;
@@ -169,7 +167,10 @@ final class Prompt
 
     private function addInput(string|InputFile|InputText $input): static
     {
-        if (true === is_string($input)) {
+        if (
+            !$input instanceof InputFile
+            && !$input instanceof InputText
+        ) {
             $input = new InputText($input);
         }
 
