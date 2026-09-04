@@ -9,7 +9,7 @@ use OneToMany\AI\Resource\Index\IndexFile;
 interface IndexFilesInterface
 {
     /**
-     * @param ?array<string, scalar> $metadata
+     * @param ?array<string, scalar|\DateTimeInterface|\Stringable|null> $metadata
      *
      * @throws DomainException when the index ID is empty
      * @throws DomainException when the file ID is empty

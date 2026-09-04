@@ -7,6 +7,7 @@ use OneToMany\AI\Bridge\Gemini\Resource\Interaction\TextContent;
 use OneToMany\AI\Bridge\Gemini\Resource\Interaction\TextResponseFormat;
 use OneToMany\AI\Resource\Prompt\InputText;
 use OneToMany\AI\Resource\Prompt\Prompt;
+use OneToMany\AI\Resource\Prompt\Tool\IndexSearch;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 use function array_replace;
@@ -52,6 +53,17 @@ final readonly class PromptNormalizer implements NormalizerInterface
 
         if (null !== $schema = $prompt->getSchema()?->getSchema()) {
             $payload['response_format'] = new TextResponseFormat($schema);
+        }
+
+        foreach ($prompt->getTools() as $tool) {
+            if ($tool instanceof IndexSearch) {
+                $payload['tools'][] = [
+                    'type' => 'file_search',
+                    'file_search_store_names' => [
+                        ...$tool->getIndexIds(),
+                    ],
+                ];
+            }
         }
 
         return array_replace($prompt->getOptions(), $payload);

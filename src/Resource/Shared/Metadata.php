@@ -34,6 +34,14 @@ final class Metadata implements \JsonSerializable
 
                 $key = trim($key);
 
+                if ($value instanceof \DateTimeInterface) {
+                    $value = $value->getTimestamp();
+                }
+
+                if ($value instanceof \Stringable) {
+                    $value = trim((string) $value);
+                }
+
                 if ('' !== $key && is_scalar($value)) {
                     $this->metadata[$key] = $value;
                 }

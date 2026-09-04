@@ -4,18 +4,21 @@ namespace OneToMany\AI\Resource\Prompt;
 
 use OneToMany\AI\Model;
 
-use function is_string;
-
 final class Prompt
 {
     private readonly Model $model;
+    private ?InputText $instructions = null;
+    private ?Schema $schema = null;
 
     /**
      * @var list<InputFile|InputText>
      */
     private array $inputs = [];
-    private ?InputText $instructions = null;
-    private ?Schema $schema = null;
+
+    /**
+     * @var list<Tool>
+     */
+    private array $tools = [];
 
     /**
      * @var ?array<string, mixed>
@@ -30,12 +33,16 @@ final class Prompt
 
     public static function create(
         string|Model $model,
-        string|InputFile|InputText ...$inputs,
+        string|InputFile|InputText|Tool ...$inputs,
     ): static {
         $prompt = new static($model);
 
         foreach ($inputs as $input) {
-            $prompt = $prompt->addInput($input);
+            if ($input instanceof Tool) {
+                $prompt = $prompt->addTool($input);
+            } else {
+                $prompt = $prompt->addInput($input);
+            }
         }
 
         return $prompt;
@@ -54,14 +61,14 @@ final class Prompt
         return $this->getModel()->getId();
     }
 
-    public function addText(string|InputText $text): static
+    public function getInstructions(): ?InputText
     {
-        return $this->addInput($text);
+        return $this->instructions;
     }
 
-    public function addFile(InputFile $file): static
+    public function getSchema(): ?Schema
     {
-        return $this->addInput($file);
+        return $this->schema;
     }
 
     /**
@@ -72,8 +79,43 @@ final class Prompt
         return $this->inputs;
     }
 
-    public function withInstructions(string|InputText $text): static
+    /**
+     * @return list<Tool>
+     */
+    public function getTools(): array
     {
+        return $this->tools;
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    public function getOptions(): array
+    {
+        return $this->options ?? [];
+    }
+
+    public function addFile(InputFile $file): static
+    {
+        return $this->addInput($file);
+    }
+
+    public function addText(string|InputText $text): static
+    {
+        return $this->addInput($text);
+    }
+
+    public function addTool(Tool $tool): static
+    {
+        $prompt = clone $this;
+        $prompt->tools[] = $tool;
+
+        return $prompt;
+    }
+
+    public function withInstructions(
+        string|InputText $text,
+    ): static {
         if (!$text instanceof InputText) {
             $text = new InputText($text);
         }
@@ -84,9 +126,9 @@ final class Prompt
         return $prompt;
     }
 
-    public function getInstructions(): ?InputText
+    public function withInstructionsFile(string $file): static
     {
-        return $this->instructions;
+        return $this->withInstructions(InputText::fromFile($file));
     }
 
     /**
@@ -100,14 +142,11 @@ final class Prompt
         return $this->addSchema(new Schema($schema, $name, $strict));
     }
 
-    public function withSchemaFile(string $file, ?string $name = null): static
-    {
+    public function withSchemaFile(
+        string $file,
+        ?string $name = null,
+    ): static {
         return $this->addSchema(Schema::fromFile($file, $name));
-    }
-
-    public function getSchema(): ?Schema
-    {
-        return $this->schema;
     }
 
     /**
@@ -121,14 +160,6 @@ final class Prompt
         return $prompt;
     }
 
-    /**
-     * @return array<string, mixed>
-     */
-    public function getOptions(): array
-    {
-        return $this->options ?? [];
-    }
-
     public function isEmpty(): bool
     {
         return [] === $this->inputs;
@@ -136,8 +167,15 @@ final class Prompt
 
     private function addInput(string|InputFile|InputText $input): static
     {
+        if (
+            !$input instanceof InputFile
+            && !$input instanceof InputText
+        ) {
+            $input = new InputText($input);
+        }
+
         $prompt = clone $this;
-        $prompt->inputs[] = is_string($input) ? new InputText($input) : $input;
+        $prompt->inputs[] = $input;
 
         return $prompt;
     }

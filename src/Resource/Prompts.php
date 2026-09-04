@@ -23,7 +23,7 @@ final readonly class Prompts extends Resources implements PromptsInterface
     public function compile(Prompt $prompt): Query
     {
         if ($prompt->isEmpty()) {
-            throw new DomainException('At least one text or file input is required to compile a prompt into a query.');
+            throw new DomainException('At least one input is required to compile a prompt into a query.');
         }
 
         return $this->getProvider($prompt->getModel()->getVendor())->compile($prompt);
