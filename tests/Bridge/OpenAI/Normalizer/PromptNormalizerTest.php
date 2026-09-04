@@ -37,6 +37,6 @@ final class PromptNormalizerTest extends TestCase
 
         $this->assertIsArray($payload['tools']);
         $this->assertCount(1, $payload['tools']);
-        $this->assertSame($tool, $payload['tools']);
+        $this->assertSame($tools, $payload['tools']);
     }
 }
