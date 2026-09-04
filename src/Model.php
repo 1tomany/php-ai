@@ -58,7 +58,7 @@ final readonly class Model implements \Stringable
             $bits[1] = null;
         }
 
-        return new self(ModelVendor::fromModel($model), $bits[1]);
+        return new self((string) $bits[0], $bits[1]);
     }
 
     public static function gemini(string $name): self
