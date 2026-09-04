@@ -16,7 +16,7 @@ final class Prompt
     private array $inputs = [];
 
     /**
-     * @var list<AbstractTool>
+     * @var list<Tool>
      */
     private array $tools = [];
     private ?InputText $instructions = null;
@@ -35,12 +35,12 @@ final class Prompt
 
     public static function create(
         string|Model $model,
-        string|AbstractTool|InputFile|InputText ...$inputs,
+        string|InputFile|InputText|Tool ...$inputs,
     ): static {
         $prompt = new static($model);
 
         foreach ($inputs as $input) {
-            if ($input instanceof AbstractTool) {
+            if ($input instanceof Tool) {
                 $prompt = $prompt->addTool($input);
             } else {
                 $prompt = $prompt->addInput($input);
@@ -63,6 +63,22 @@ final class Prompt
         return $this->getModel()->getId();
     }
 
+    /**
+     * @return list<InputText|InputFile>
+     */
+    public function getInputs(): array
+    {
+        return $this->inputs;
+    }
+
+    /**
+     * @return list<Tool>
+     */
+    public function getTools(): array
+    {
+        return $this->tools;
+    }
+
     public function addText(string|InputText $text): static
     {
         return $this->addInput($text);
@@ -73,28 +89,12 @@ final class Prompt
         return $this->addInput($file);
     }
 
-    /**
-     * @return list<InputText|InputFile>
-     */
-    public function getInputs(): array
-    {
-        return $this->inputs;
-    }
-
-    public function addTool(AbstractTool $tool): static
+    public function addTool(Tool $tool): static
     {
         $prompt = clone $this;
         $prompt->tools[] = $tool;
 
         return $prompt;
-    }
-
-    /**
-     * @return list<AbstractTool>
-     */
-    public function getTools(): array
-    {
-        return $this->tools;
     }
 
     public function withInstructions(string|InputText $text): static

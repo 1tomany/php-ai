@@ -1,10 +1,11 @@
 <?php
 
-namespace OneToMany\AI\Resource\Prompt;
+namespace OneToMany\AI\Resource\Prompt\Tool;
 
 use OneToMany\AI\Resource\Prompt\Enum\ToolType;
+use OneToMany\AI\Resource\Prompt\Tool;
 
-final readonly class IndexSearchTool extends AbstractTool
+final readonly class IndexSearch extends Tool
 {
     /**
      * @param list<non-empty-string> $indexIds

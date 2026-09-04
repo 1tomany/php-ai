@@ -3,8 +3,8 @@
 namespace OneToMany\AI\Tests\Bridge\Gemini\Normalizer;
 
 use OneToMany\AI\Bridge\Gemini\Normalizer\PromptNormalizer;
-use OneToMany\AI\Resource\Prompt\IndexSearchTool;
 use OneToMany\AI\Resource\Prompt\Prompt;
+use OneToMany\AI\Resource\Prompt\Tool\IndexSearch;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 
@@ -18,7 +18,7 @@ final class PromptNormalizerTest extends TestCase
         $prompt = Prompt::create(
             'gemini:gemini-3.7-flash',
             'Search the indexes.',
-            new IndexSearchTool(['index_123', 'index_456']),
+            new IndexSearch(['index_123', 'index_456']),
         );
 
         $payload = new PromptNormalizer()->normalize($prompt);
