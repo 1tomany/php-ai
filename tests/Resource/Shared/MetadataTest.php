@@ -44,6 +44,9 @@ final class MetadataTest extends TestCase
             'error' => $error,
         ]);
 
-        $this->assertSame(['error' => $error->__toString()], $metadata->toArray());
+        $string = $error->__toString();
+        $this->assertNotEmpty($string);
+
+        $this->assertSame(['error' => $string], $metadata->toArray());
     }
 }
