@@ -2,17 +2,20 @@
 
 namespace OneToMany\AI\Resource\Shared;
 
+use Exception;
+use Override;
+
 use function is_array;
 use function is_scalar;
 use function is_string;
 use function trim;
 
-final readonly class Metadata
+final class Metadata implements \JsonSerializable
 {
     /**
      * @var array<non-empty-string, scalar>
      */
-    public array $metadata;
+    private array $metadata = [];
 
     /**
      * @param ?array<mixed> $metadata
@@ -20,8 +23,6 @@ final readonly class Metadata
     public function __construct(
         ?array $metadata = null,
     ) {
-        $meta = [];
-
         if (is_array($metadata)) {
             foreach ($metadata as $key => $value) {
                 if (!is_string($key)) {
@@ -30,21 +31,26 @@ final readonly class Metadata
 
                 $key = trim($key);
 
-                if ('' === $key) {
-                    continue;
-                }
-
-                if (is_scalar($value)) {
-                    $meta[$key] = $value;
+                if ('' !== $key && is_scalar($value)) {
+                    $this->metadata[$key] = $value;
                 }
             }
         }
-
-        $this->metadata = $meta;
     }
 
     public function isEmpty(): bool
     {
         return [] === $this->metadata;
+    }
+
+    /**
+     * @see \JsonSerializable
+     *
+     * @return array<non-empty-string, scalar>
+     */
+    #[\Override]
+    public function jsonSerialize(): array
+    {
+        return $this->metadata;
     }
 }
