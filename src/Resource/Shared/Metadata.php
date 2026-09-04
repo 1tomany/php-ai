@@ -2,6 +2,7 @@
 
 namespace OneToMany\AI\Resource\Shared;
 
+use function count;
 use function is_array;
 use function is_scalar;
 use function is_string;
@@ -9,6 +10,11 @@ use function trim;
 
 final class Metadata implements \JsonSerializable
 {
+    /**
+     * @var non-negative-int
+     */
+    private int $count = 0;
+
     /**
      * @var array<non-empty-string, scalar>
      */
@@ -33,11 +39,29 @@ final class Metadata implements \JsonSerializable
                 }
             }
         }
+
+        $this->count = count($this->metadata);
+    }
+
+    /**
+     * @return non-negative-int
+     */
+    public function count(): int
+    {
+        return $this->count;
     }
 
     public function isEmpty(): bool
     {
-        return [] === $this->metadata;
+        return 0 === $this->count();
+    }
+
+    /**
+     * @return array<non-empty-string, scalar>
+     */
+    public function toArray(): array
+    {
+        return $this->metadata;
     }
 
     /**
@@ -48,6 +72,6 @@ final class Metadata implements \JsonSerializable
     #[\Override]
     public function jsonSerialize(): array
     {
-        return $this->metadata;
+        return $this->toArray();
     }
 }
