@@ -15,19 +15,28 @@ final class PromptNormalizerTest extends TestCase
 {
     public function testNormalizesIndexSearchTool(): void
     {
-        $prompt = Prompt::create(
-            'gemini:gemini-3.7-flash',
-            'Search the indexes.',
-            new IndexSearch(['index_123', 'index_456']),
-        );
+        $tool = new IndexSearch([
+            'index_123', 'index_456',
+        ]);
+
+        $prompt = Prompt::create('gemini:gemini-pro', $tool);
+
+        $this->assertCount(1, $prompt->getTools());
+        $this->assertSame($tool, $prompt->getTools()[0]);
+
+        $tools = [
+            [
+                'type' => 'file_search',
+                'file_search_store_names' => [
+                    'index_123', 'index_456',
+                ],
+            ],
+        ];
 
         $payload = new PromptNormalizer()->normalize($prompt);
 
-        $this->assertSame([
-            [
-                'type' => 'file_search',
-                'file_search_store_names' => ['index_123', 'index_456'],
-            ],
-        ], $payload['tools']);
+        $this->assertIsArray($payload['tools']);
+        $this->assertCount(1, $payload['tools']);
+        $this->assertSame($tools, $payload['tools']);
     }
 }

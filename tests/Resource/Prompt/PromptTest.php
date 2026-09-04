@@ -14,20 +14,27 @@ final class PromptTest extends TestCase
 {
     public function testCreateAcceptsTools(): void
     {
-        $tool = new IndexSearch(['index_123']);
-        $prompt = Prompt::create('openai:gpt-5.6', 'Search the index.', $tool);
+        $tool = new IndexSearch([
+            'index_123', 'index_456',
+        ]);
+
+        $prompt = Prompt::create('openai:gpt-5.6', $tool);
 
         $this->assertSame([$tool], $prompt->getTools());
     }
 
     public function testAddToolReturnsPromptWithTool(): void
     {
-        $tool = new IndexSearch(['index_123']);
-        $prompt = Prompt::create('openai:gpt-5.6', 'Search the index.');
-        $promptWithTool = $prompt->addTool($tool);
+        $tool = new IndexSearch([
+            'index_123', 'index_456',
+        ]);
 
-        $this->assertNotSame($prompt, $promptWithTool);
-        $this->assertSame([], $prompt->getTools());
-        $this->assertSame([$tool], $promptWithTool->getTools());
+        $prompt = Prompt::create('openai:gpt-5.6');
+        $this->assertCount(0, $prompt->getTools());
+
+        $prompt = $prompt->addTool($tool);
+
+        $this->assertCount(1, $prompt->getTools());
+        $this->assertSame([$tool], $prompt->getTools());
     }
 }
