@@ -9,6 +9,8 @@ use function is_string;
 final class Prompt
 {
     private readonly Model $model;
+    private ?InputText $instructions = null;
+    private ?Schema $schema = null;
 
     /**
      * @var list<InputFile|InputText>
@@ -19,8 +21,6 @@ final class Prompt
      * @var list<Tool>
      */
     private array $tools = [];
-    private ?InputText $instructions = null;
-    private ?Schema $schema = null;
 
     /**
      * @var ?array<string, mixed>
@@ -63,12 +63,30 @@ final class Prompt
         return $this->getModel()->getId();
     }
 
+    public function getInstructions(): ?InputText
+    {
+        return $this->instructions;
+    }
+
+    public function getSchema(): ?Schema
+    {
+        return $this->schema;
+    }
+
     /**
      * @return list<InputText|InputFile>
      */
     public function getInputs(): array
     {
         return $this->inputs;
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    public function getOptions(): array
+    {
+        return $this->options ?? [];
     }
 
     /**
@@ -79,14 +97,14 @@ final class Prompt
         return $this->tools;
     }
 
-    public function addText(string|InputText $text): static
-    {
-        return $this->addInput($text);
-    }
-
     public function addFile(InputFile $file): static
     {
         return $this->addInput($file);
+    }
+
+    public function addText(string|InputText $text): static
+    {
+        return $this->addInput($text);
     }
 
     public function addTool(Tool $tool): static
@@ -109,9 +127,12 @@ final class Prompt
         return $prompt;
     }
 
-    public function getInstructions(): ?InputText
+    public function withInstructionsFile(string $file): static
     {
-        return $this->instructions;
+        $prompt = clone $this;
+        $prompt->instructions = InputText::fromFile($file);
+
+        return $prompt;
     }
 
     /**
@@ -130,11 +151,6 @@ final class Prompt
         return $this->addSchema(Schema::fromFile($file, $name));
     }
 
-    public function getSchema(): ?Schema
-    {
-        return $this->schema;
-    }
-
     /**
      * @param ?array<string, mixed> $options
      */
@@ -146,14 +162,6 @@ final class Prompt
         return $prompt;
     }
 
-    /**
-     * @return array<string, mixed>
-     */
-    public function getOptions(): array
-    {
-        return $this->options ?? [];
-    }
-
     public function isEmpty(): bool
     {
         return [] === $this->inputs;
@@ -161,8 +169,12 @@ final class Prompt
 
     private function addInput(string|InputFile|InputText $input): static
     {
+        if (true === is_string($input)) {
+            $input = new InputText($input);
+        }
+
         $prompt = clone $this;
-        $prompt->inputs[] = is_string($input) ? new InputText($input) : $input;
+        $prompt->inputs[] = $input;
 
         return $prompt;
     }
