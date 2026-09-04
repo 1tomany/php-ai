@@ -115,8 +115,7 @@ final class Prompt
 
     public function withInstructions(
         string|InputText $text,
-    ): static
-    {
+    ): static {
         if (!$text instanceof InputText) {
             $text = new InputText($text);
         }
@@ -146,8 +145,7 @@ final class Prompt
     public function withSchemaFile(
         string $file,
         ?string $name = null,
-    ): static
-    {
+    ): static {
         return $this->addSchema(Schema::fromFile($file, $name));
     }
 
