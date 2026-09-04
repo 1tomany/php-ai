@@ -2,6 +2,8 @@
 
 namespace OneToMany\AI\Bridge\OpenAI\Response\Response;
 
+use function array_unique;
+use function array_values;
 use function trim;
 
 final class ResponseOutputItem
@@ -48,6 +50,22 @@ final class ResponseOutputItem
     public function isTypeMessage(): bool
     {
         return 'message' === $this->type;
+    }
+
+    /**
+     * @return list<non-empty-string>
+     */
+    public function getFileIds(): array
+    {
+        $fileIds = [];
+
+        if ($this->isTypeMessage()) {
+            foreach ($this->content as $content) {
+                array_push($fileIds, ...$content->getFileIds());
+            }
+        }
+
+        return array_values(array_unique($fileIds));
     }
 
     /**

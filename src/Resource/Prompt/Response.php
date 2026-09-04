@@ -17,6 +17,7 @@ final readonly class Response
      * @param ?non-empty-string $text
      * @param ?non-empty-string $refusal
      * @param ?non-empty-string $error
+     * @param list<non-empty-string> $fileIds
      */
     public function __construct(
         public string $id,
@@ -25,6 +26,7 @@ final readonly class Response
         public ?string $refusal = null,
         public ?string $error = null,
         public Usage $usage = new Usage(),
+        public array $fileIds = [],
     ) {
     }
 
@@ -68,6 +70,14 @@ final readonly class Response
     public function getUsage(): Usage
     {
         return $this->usage;
+    }
+
+    /**
+     * @return list<non-empty-string>
+     */
+    public function getFileIds(): array
+    {
+        return $this->fileIds;
     }
 
     /**

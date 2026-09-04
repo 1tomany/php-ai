@@ -5,28 +5,20 @@ namespace OneToMany\AI\Bridge\OpenAI\Response\Response;
 final readonly class ResponseOutputMessage
 {
     /**
-     * @param non-empty-string $type
+     * @param non-empty-string $id
+     * @param 'message' $type
+     * @param 'in_progress'|'completed'|'incomplete' $status
+     * @param list<ResponseOutputText|ResponseOutputRefusal> $content
+     * @param 'commentary'|'final_answer'|null $phase
+     * @param 'assistant' $role
      */
     public function __construct(
+        public string $id,
         public string $type,
-        public ?string $text = null,
-        public ?string $refusal = null,
+        public string $status,
+        public array $content,
+        public ?string $phase,
+        public string $role,
     ) {
-    }
-
-    /**
-     * @phpstan-assert-if-true 'output_text' $this->type
-     */
-    public function isTypeOutputText(): bool
-    {
-        return 'output_text' === $this->type;
-    }
-
-    /**
-     * @phpstan-assert-if-true 'refusal' $this->type
-     */
-    public function isTypeRefusal(): bool
-    {
-        return 'refusal' === $this->type;
     }
 }

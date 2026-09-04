@@ -2,70 +2,32 @@
 
 namespace OneToMany\AI\Bridge\OpenAI\Response\Response;
 
-final class Response
+use OneToMany\AI\Bridge\OpenAI\Response\Response\Enum\ResponseStatus;
+
+final readonly class Response
 {
     /**
      * @param non-empty-string $id
+     * @param 'response' $object
      * @param positive-int $created_at
-     * @param non-empty-string $status
+     * @param ?positive-int $completed_at
+     * @param ?non-negative-int $max_output_tokens
+     * @param ?non-negative-int $max_tool_calls
+     * @param non-empty-string $model
      * @param list<ResponseOutputItem> $output
      */
     public function __construct(
-        public readonly string $id,
-        public readonly int $created_at,
-        public readonly string $status,
-        public readonly array $output = [],
-        public readonly ?ResponseError $error = null,
+        public string $id,
+        public string $object,
+        public int $created_at,
+        public ResponseStatus $status,
+        public ?int $completed_at,
+        public ?ResponseError $error,
+        public ?IncompleteDetails $incomplete_details,
+        public ?int $max_output_tokens,
+        public ?int $max_tool_calls,
+        public string $model,
+        public array $output = [],
     ) {
-    }
-
-    public bool $completed {
-        get => 'completed' === $this->status;
-    }
-
-    /**
-     * @var ?non-empty-string
-     */
-    public ?string $text {
-        get => $this->compileText();
-    }
-
-    /**
-     * @var ?non-empty-string
-     */
-    public ?string $refusal {
-        get => $this->compileRefusal();
-    }
-
-    /**
-     * @return ?non-empty-string
-     */
-    private function compileText(): ?string
-    {
-        foreach ($this->output as $output) {
-            $outputText = $output->text;
-
-            if (null !== $outputText) {
-                return $outputText;
-            }
-        }
-
-        return null;
-    }
-
-    /**
-     * @return ?non-empty-string
-     */
-    private function compileRefusal(): ?string
-    {
-        foreach ($this->output as $output) {
-            $refusal = $output->refusal;
-
-            if (null !== $refusal) {
-                return $refusal;
-            }
-        }
-
-        return null;
     }
 }
