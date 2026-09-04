@@ -2,7 +2,7 @@
 
 namespace OneToMany\AI\Bridge\OpenAI\Response\Response;
 
-final readonly class URLCitation
+final readonly class URLCitation implements AnnotationInterface
 {
     /**
      * @param 'url_citation' $type

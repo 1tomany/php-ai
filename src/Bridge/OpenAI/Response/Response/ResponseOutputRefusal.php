@@ -2,7 +2,7 @@
 
 namespace OneToMany\AI\Bridge\OpenAI\Response\Response;
 
-final readonly class ResponseOutputRefusal
+final readonly class ResponseOutputRefusal implements ContentInterface
 {
     /**
      * @param 'refusal' $type

@@ -10,6 +10,8 @@ use OneToMany\AI\Resource\Prompt\Tool\IndexSearch;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 use function array_replace;
+use function in_array;
+use function is_array;
 
 final readonly class PromptNormalizer implements NormalizerInterface
 {
@@ -63,6 +65,8 @@ final readonly class PromptNormalizer implements NormalizerInterface
             ];
         }
 
+        $options = $prompt->getOptions();
+
         foreach ($prompt->getTools() as $tool) {
             if ($tool instanceof IndexSearch) {
                 $payload['tools'][] = [
@@ -71,10 +75,19 @@ final readonly class PromptNormalizer implements NormalizerInterface
                         ...$tool->getIndexIds(),
                     ],
                 ];
+
+                // Search matches are omitted by default, even when the answer cites files.
+                $include = $options['include'] ?? [];
+
+                if (is_array($include) && !in_array('file_search_call.results', $include, true)) {
+                    $include[] = 'file_search_call.results';
+                }
+
+                $options['include'] = $include;
             }
         }
 
-        return array_replace($prompt->getOptions(), $payload);
+        return array_replace($options, $payload);
     }
 
     /**

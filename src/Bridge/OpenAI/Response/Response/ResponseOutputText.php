@@ -2,11 +2,11 @@
 
 namespace OneToMany\AI\Bridge\OpenAI\Response\Response;
 
-final readonly class ResponseOutputText
+final readonly class ResponseOutputText implements ContentInterface
 {
     /**
      * @param 'output_text' $type
-     * @param list<FileCitation|FilePath|URLCitation> $annotations
+     * @param list<AnnotationInterface> $annotations
      */
     public function __construct(
         public string $type,

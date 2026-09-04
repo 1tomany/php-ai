@@ -2,7 +2,7 @@
 
 namespace OneToMany\AI\Bridge\OpenAI\Response\Response;
 
-final readonly class FilePath
+final readonly class FilePath implements AnnotationInterface
 {
     /**
      * @param 'file_path' $type

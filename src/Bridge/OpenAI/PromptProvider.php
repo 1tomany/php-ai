@@ -33,8 +33,6 @@ final readonly class PromptProvider extends AbstractProvider implements PromptPr
             unset($query);
         }
 
-        dump($record);
-
-        return new Response($record->id, true, 'Here are some results.'); // $record->refusal, $record->error?->message, fileIds: $record->fileIds);
+        return $record->toResource();
     }
 }

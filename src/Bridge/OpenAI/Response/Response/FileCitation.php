@@ -2,7 +2,9 @@
 
 namespace OneToMany\AI\Bridge\OpenAI\Response\Response;
 
-final readonly class FileCitation
+use OneToMany\AI\Resource\Prompt\FileCitation as FileCitationResource;
+
+final readonly class FileCitation implements AnnotationInterface
 {
     /**
      * @param 'file_citation' $type
@@ -16,5 +18,10 @@ final readonly class FileCitation
         public string $filename,
         public int $index = 0,
     ) {
+    }
+
+    public function toResource(): FileCitationResource
+    {
+        return new FileCitationResource($this->file_id, $this->filename);
     }
 }

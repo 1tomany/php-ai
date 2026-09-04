@@ -2,6 +2,8 @@
 
 namespace OneToMany\AI\Bridge\OpenAI\Response\Response;
 
+use OneToMany\AI\Resource\Prompt\ToolResult\IndexSearchResult;
+
 final readonly class FileSearchCall implements OutputInterface
 {
     /**
@@ -18,5 +20,20 @@ final readonly class FileSearchCall implements OutputInterface
         public array $queries = [],
         public ?array $results = null,
     ) {
+    }
+
+    public function toResource(): IndexSearchResult
+    {
+        $results = null;
+
+        if (null !== $this->results) {
+            $results = [];
+
+            foreach ($this->results as $result) {
+                $results[] = $result->toResource();
+            }
+        }
+
+        return new IndexSearchResult($this->id, $this->queries, $results, 'completed' === $this->status);
     }
 }
