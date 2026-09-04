@@ -4,6 +4,8 @@ namespace OneToMany\AI\Bridge\OpenAI\Response\Response;
 
 use OneToMany\AI\Bridge\OpenAI\Response\Response\Enum\ResponseStatus;
 
+use function array_key_exists;
+
 final readonly class Response
 {
     /**
@@ -14,7 +16,7 @@ final readonly class Response
      * @param ?non-negative-int $max_output_tokens
      * @param ?non-negative-int $max_tool_calls
      * @param non-empty-string $model
-     * @param list<ResponseOutputItem> $output
+     * @param list<OutputInterface> $output
      */
     public function __construct(
         public string $id,

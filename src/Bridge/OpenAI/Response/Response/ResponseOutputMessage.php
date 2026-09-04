@@ -2,7 +2,7 @@
 
 namespace OneToMany\AI\Bridge\OpenAI\Response\Response;
 
-final readonly class ResponseOutputMessage
+final readonly class ResponseOutputMessage implements OutputInterface
 {
     /**
      * @param non-empty-string $id

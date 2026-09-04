@@ -2,7 +2,7 @@
 
 namespace OneToMany\AI\Bridge\OpenAI\Response\Response;
 
-final readonly class FileSearchCall
+final readonly class FileSearchCall implements OutputInterface
 {
     /**
      * @param non-empty-string $id
