@@ -127,10 +127,7 @@ final class Prompt
 
     public function withInstructionsFile(string $file): static
     {
-        $prompt = clone $this;
-        $prompt->instructions = InputText::fromFile($file);
-
-        return $prompt;
+        return $this->withInstructions(InputText::fromFile($file));
     }
 
     /**
