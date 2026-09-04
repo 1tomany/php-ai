@@ -6,7 +6,6 @@ use OneToMany\AI\Exception\DomainException;
 
 use function explode;
 use function sprintf;
-use function str_contains;
 use function strtolower;
 use function trim;
 
@@ -16,19 +15,19 @@ enum ModelVendor: string
     case OpenAI = 'openai';
 
     /**
-     * @throws DomainException when the model vendor is not valid
+     * @throws DomainException when the vendor is not valid
      */
     public static function create(string|self $vendor): self
     {
         if (!$vendor instanceof self) {
-            if ($vendor = trim($vendor)) {
+            if ('' !== $vendor = trim($vendor)) {
                 $vendor = strtolower($vendor);
             }
 
             try {
                 return self::from($vendor);
             } catch (\ValueError $e) {
-                throw new DomainException(sprintf('The model vendor "%s" is not valid.', $vendor), previous: $e);
+                throw new DomainException(sprintf('The vendor "%s" is not valid.', $vendor), previous: $e);
             }
         }
 
@@ -37,17 +36,16 @@ enum ModelVendor: string
 
     /**
      * @throws DomainException when the model format is invalid
-     * @throws DomainException when the vendor is not found
      */
     public static function fromModel(string $model): self
     {
-        $model = trim($model);
+        $bits = explode(':', trim($model), 2);
 
-        if (!str_contains($model, ':')) {
+        if (!isset($bits[1])) {
             throw new DomainException('The model must use the "vendor:model" format.');
         }
 
-        return self::create(explode(':', $model)[0]);
+        return self::create($bits[0]);
     }
 
     /**

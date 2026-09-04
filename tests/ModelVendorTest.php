@@ -51,7 +51,7 @@ final class ModelVendorTest extends TestCase
         $vendor = 'invalid_vendor';
 
         $this->expectException(DomainException::class);
-        $this->expectExceptionMessageIs('The model vendor "'.$vendor.'" is not valid.');
+        $this->expectExceptionMessageIs('The vendor "'.$vendor.'" is not valid.');
 
         ModelVendor::create($vendor);
     }
