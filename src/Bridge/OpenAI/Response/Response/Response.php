@@ -4,8 +4,6 @@ namespace OneToMany\AI\Bridge\OpenAI\Response\Response;
 
 use OneToMany\AI\Bridge\OpenAI\Response\Response\Enum\ResponseStatus;
 
-use function array_key_exists;
-
 final readonly class Response
 {
     /**
