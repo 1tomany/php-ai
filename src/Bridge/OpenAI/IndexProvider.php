@@ -74,6 +74,7 @@ final readonly class IndexProvider extends AbstractProvider implements IndexProv
             'auth_bearer' => $this->apiKey,
             'json' => [
                 'file_id' => $fileId,
+                'attributes' => $metadata,
             ],
         ]);
 
